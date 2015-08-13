@@ -1,10 +1,11 @@
 
 package logicajogo.cartas.galaxia.planetas;
 
-import logicajogo.cubos.*;
-import logicajogo.cartas.*;
 import java.util.HashMap;
 import java.util.Map;
+
+import logicajogo.cartas.Carta;
+import logicajogo.cubos.Cubo;
 
 
 public abstract class PlanetaPirata extends Carta{

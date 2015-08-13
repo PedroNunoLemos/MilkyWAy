@@ -1,7 +1,7 @@
 
 package logicajogo.cartas.galaxia.planetas;
 
-import logicajogo.cubos.*;
+import logicajogo.cubos.Medicamento;
 
 
 public class Striterax extends PlanetaPirata{    
