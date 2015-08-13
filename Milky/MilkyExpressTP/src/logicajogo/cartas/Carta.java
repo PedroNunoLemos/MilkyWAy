@@ -1,5 +1,5 @@
 package logicajogo.cartas;
 
-public class Carta {
+public abstract class Carta {
 
 }
