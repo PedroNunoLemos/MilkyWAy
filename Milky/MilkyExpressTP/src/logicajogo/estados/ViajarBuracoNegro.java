@@ -6,24 +6,19 @@ public class ViajarBuracoNegro implements Estado {
 	
 	private Jogo _jogo;
 
+	public ViajarBuracoNegro (Jogo j){this._jogo=j;}
+
 	@Override
-	public Estado proximoEstado(Jogo j) {
-		
-		this._jogo=j;
-		
+	public Estado proximoEstado() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean processaAtaquePirata() {
+	public void processaInformacaoJogo() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
-
-	@Override
-	public boolean validaEstadoDeJogo() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
+	
 }

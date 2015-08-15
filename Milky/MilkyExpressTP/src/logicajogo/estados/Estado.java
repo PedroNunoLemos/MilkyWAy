@@ -5,11 +5,10 @@ import logicajogo.Jogo;
 public interface Estado {
 	
 	
-	Estado proximoEstado(Jogo j);
+	Estado proximoEstado();
 	
-	boolean processaAtaquePirata();
-	boolean validaEstadoDeJogo();
-	
+   void processaInformacaoJogo();
+   	
 	
 	
 }

@@ -7,24 +7,20 @@ public class Comprar implements Estado {
 	
 	private Jogo _jogo;
 
+	public Comprar (Jogo j){this._jogo=j;}
+	
 	@Override
-	public Estado proximoEstado(Jogo j) {
-		
-		this._jogo=j;
-		
-		return null;
+	public Estado proximoEstado() {
+		// TODO Auto-generated method stub
+		return new Movimentar(this._jogo);
 	}
 
 	@Override
-	public boolean processaAtaquePirata() {
+	public void processaInformacaoJogo() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
 
-	@Override
-	public boolean validaEstadoDeJogo() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

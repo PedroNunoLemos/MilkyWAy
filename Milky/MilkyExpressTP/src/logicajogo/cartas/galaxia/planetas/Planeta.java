@@ -11,8 +11,7 @@ import java.util.Map;
 
 
 public abstract class Planeta extends Carta{
-    String nome;
-    
+     
     Map<Cubo,Integer> precario =
     		new HashMap<>();
     
@@ -21,5 +20,6 @@ public abstract class Planeta extends Carta{
     Cubo verificaCubos(){
         return null;
     }
+
     
 }

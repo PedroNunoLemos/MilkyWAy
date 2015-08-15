@@ -5,25 +5,20 @@ import logicajogo.Jogo;
 public class Explorar implements Estado {
 
 	private Jogo _jogo;
+	
+	public Explorar (Jogo j){this._jogo=j;}
 
 	@Override
-	public Estado proximoEstado(Jogo j) {
-		
-		this._jogo=j;
-		
-		return null;
-	}
-
-	@Override
-	public boolean processaAtaquePirata() {
+	public Estado proximoEstado() {
 		// TODO Auto-generated method stub
-		return false;
+		return new AtualizarMercados(this._jogo) ;
 	}
 
 	@Override
-	public boolean validaEstadoDeJogo() {
+	public void processaInformacaoJogo() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
+
 
 }

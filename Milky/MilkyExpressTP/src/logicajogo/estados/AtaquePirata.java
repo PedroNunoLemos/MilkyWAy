@@ -2,28 +2,18 @@ package logicajogo.estados;
 
 import logicajogo.Jogo;
 
-public class AtaquePirata implements Estado {
+public  class AtaquePirata  {
 	
-	private Jogo _jogo;
-
-	@Override
-	public Estado proximoEstado(Jogo j) {
+	private Jogo jogo;
+	
+	public AtaquePirata(Jogo _jogo){
 		
-		this._jogo=j;
-		
-		return null;
+		this.jogo=_jogo;
+			
 	}
-
-	@Override
-	public boolean processaAtaquePirata() {
-		// TODO Auto-generated method stub
+	
+	private boolean processaAtaque() {
 		return false;
 	}
-
-	@Override
-	public boolean validaEstadoDeJogo() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	
 }
