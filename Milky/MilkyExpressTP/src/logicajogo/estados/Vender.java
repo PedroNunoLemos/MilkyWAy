@@ -3,24 +3,57 @@ package logicajogo.estados;
 import logicajogo.Jogo;
 
 public class Vender implements Estado {
+	
+	public Vender (Jogo j){}
 
 	
-	private Jogo _jogo;
-	
-	public Vender (Jogo j){this._jogo=j;}
-
 	@Override
-	public Estado proximoEstado() {
-		// TODO Auto-generated method stub
-		return new Comprar(this._jogo);
-	}
-
-	@Override
-	public void processaInformacaoJogo() {
-		// TODO Auto-generated method stub
+	public String toString(){
+		
+		return "Vender";
 		
 	}
 
 
+	@Override
+	public Estado iniciarJogo(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public Estado moverNave(Jogo j, int x, int y) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public Estado comprarBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public Estado venderBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return new Movimentar(j);
+	}
+
+
+	@Override
+	public Estado explorar(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
+	@Override
+	public Estado atualizaMercados(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
 
 }

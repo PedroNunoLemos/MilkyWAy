@@ -1,50 +1,55 @@
 package logicajogo.cartas.naves;
 
-public  class Nave {
+public class Nave {
 
+	private int forca = 0;
+	private int x, y = -1;
+	private boolean parada;
 
-	private int forca=0; 
-	private int posicao=-1;
-	private boolean jaMovimentou;
-
-
-	
-	public Nave(){
+	public Nave() {
 
 		atualizar();
-		this.jaMovimentou=false;
-		this.posicao=-1;
-		
-	}
-	
-	
-	public void mover(int pos){
-		
-		this.posicao=pos;
+		this.x = -1;
+		this.y = -1;
+
 	}
 
-	
-	
-	public boolean mudouPosicao() {
-		return jaMovimentou;
+	public void mover(int x, int y) {
+
+		this.x = x;
+		this.y = y;
+
+		this.parada = false;
+
 	}
-	
-	
+
 	public int getForca() {
 		return forca;
 	}
 
 	public void atualizar() {
-		
-		if (getForca()<3)
-		this.forca++;
-		
+
+		if (getForca() < 3)
+			this.forca++;
+
 	}
 
+	public int[] posicaoAtual() {
 
-	public int posicaoAtual() {
-		return posicao;
+		int cords[] = new int[2];
+
+		cords[0] = this.x;
+		cords[1] = this.y;
+
+		return cords;
 	}
 
+	public boolean estaParada() {
+		return parada;
+	}
+
+	public void paraNave(){
+		this.parada=true;
+	}
 	
 }

@@ -9,10 +9,9 @@ import logicajogo.cubos.*;
 
 
 public abstract class PlanetaPirata extends Carta{
-	
-	  String nome;
-	    
-	    Map<Cubo,Integer> precario =
+
+
+	Map<Cubo,Integer> precario =
 	    		new HashMap<>();
 	    
 	    Cubo [] mercado = new Cubo[3];

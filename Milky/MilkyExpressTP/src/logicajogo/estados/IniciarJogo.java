@@ -3,28 +3,62 @@ package logicajogo.estados;
 import logicajogo.Jogo;
 
 public class IniciarJogo implements Estado {
-	
-	private Jogo _jogo;
-	
-	public IniciarJogo (Jogo j){
-		this._jogo=j;
-		
-		
-		
+
+	public IniciarJogo(Jogo j) {
+
+		j.preparaJogo();
+
 	}
 
 	@Override
-	public Estado proximoEstado() {
-		// TODO Auto-generated method stub
-		return new Explorar(this._jogo);
+	public String toString() {
+
+		return "Iniciar Jogo";
+
 	}
 
 	@Override
-	public void processaInformacaoJogo() {
-		// TODO Auto-generated method stub
-		
+	public Estado iniciarJogo(Jogo j) {
+
+		if (!j.temJogadores()) {
+			j.defineErro("Sem Jogadores Criados");
+			return this;
+
+		} else
+			return new Explorar(j);
+
+
 	}
 
-	
+	@Override
+	public Estado moverNave(Jogo j, int x, int y) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado comprarBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado venderBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado explorar(Jogo j) {
+
+		return this;
+	}
+
+	@Override
+	public Estado atualizaMercados(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
 
 }

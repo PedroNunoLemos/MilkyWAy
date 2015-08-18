@@ -4,21 +4,63 @@ import logicajogo.Jogo;
 
 public class Explorar implements Estado {
 
-	private Jogo _jogo;
-	
-	public Explorar (Jogo j){this._jogo=j;}
+	public Explorar(Jogo j) {
 
-	@Override
-	public Estado proximoEstado() {
-		// TODO Auto-generated method stub
-		return new AtualizarMercados(this._jogo) ;
-	}
+		int cordx = j.consultaJogador().getNave().posicaoAtual()[0];
+		int cordy = j.consultaJogador().getNave().posicaoAtual()[1];
 
-	@Override
-	public void processaInformacaoJogo() {
-		// TODO Auto-generated method stub
+		j.devolveMapa().viraCartasAdjacentes(cordx, cordy);
+		j.consultaJogador().getNave().paraNave();		
 		
 	}
 
+	@Override
+	public String toString() {
+
+		return "Explorar";
+
+	}
+
+	@Override
+	public Estado iniciarJogo(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado moverNave(Jogo j, int x, int y) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado comprarBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado venderBens(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado explorar(Jogo j) {
+
+
+		return this;
+				
+	}
+
+	@Override
+	public Estado atualizaMercados(Jogo j) {
+		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub
+
+		return  new AtualizarMercados(j);
+
+
+	}
 
 }

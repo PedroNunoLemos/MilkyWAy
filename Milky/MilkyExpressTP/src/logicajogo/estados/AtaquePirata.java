@@ -16,4 +16,5 @@ public  class AtaquePirata  {
 		return false;
 	}
 	
+	
 }

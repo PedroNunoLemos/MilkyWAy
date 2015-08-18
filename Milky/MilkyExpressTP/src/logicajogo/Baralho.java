@@ -68,7 +68,7 @@ public class Baralho {
 
 	public Carta retiraCartaAleatoria() {
 
-		Random r = new Random();
+		Random rand = new Random();
 		int min = 1;
 		int max = 25;
 		int cr = 0;
@@ -78,7 +78,7 @@ public class Baralho {
 
 		while (card == null) {
 
-			cr = r.nextInt(max - min) + max;
+			cr = rand.nextInt((max - min) + 1) + min;
 
 			cnt = 0;
 

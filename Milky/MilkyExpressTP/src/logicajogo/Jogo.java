@@ -8,42 +8,84 @@ import logicajogo.estados.IniciarJogo;
 public class Jogo {
 
 	private Estado estado;
-	private Baralho baralhojogo;
-	private ArrayList<Jogador> jogadores;
+	private Jogador jogador;
 	private int banco = 30;
-	
+
+	private Tabuleiro tabuleiro;
+
 	private String ultimoErro;
 
 	public Jogo() {
 		this.estado = new IniciarJogo(this);
+		this.estado = this.estado.iniciarJogo(this);
+		this.explorar();
 	}
-	
 
-	public void mudarEstado() {
-		// System.out.println("Estado anterior: " + this.estado);
-		this.estado = this.estado.proximoEstado();
-		System.out.println("Estado atual: " + this.estado);
+	public void explorar() {
+		this.estado=this.estado.explorar(this);
 	}
-	
-	public  String devolveErro(){
-		
+
+	public void moverNave(int x, int y) {
+
+		this.estado=this.estado.moverNave(this, x, y);
+	}
+
+	public void comprarBens() {
+		this.estado=this.estado.comprarBens(this);
+	}
+
+	public void venderBens() {
+		this.estado=this.estado.venderBens(this);
+	}
+
+	public void atualizarMercados() {
+		this.estado=this.estado.atualizaMercados(this);
+		int x=0;
+		x=0;
+	}
+
+	public String devolveErro() {
+
 		return this.ultimoErro;
 	}
 
-	int preparaJogo(int njog) {
-
-		if (njog > 2 || njog < 1)
-			return -1;
-
-		baralhojogo = new Baralho();
-
-		int moedas = 10 / njog;
-		banco = 20;
-
-		for (int i = 0; i < njog; i++)
-			jogadores.add(new Jogador(moedas));
-
-		return 1;
+	public Tabuleiro devolveMapa() {
+		return this.tabuleiro;
 	}
 
+	public Estado devolveEstado() {
+
+		return this.estado;
+
+	}
+
+	public void preparaJogo() {
+
+		banco = 20;
+
+		jogador = new Jogador(10);
+
+		jogador.getNave().mover(0, 6);
+
+		tabuleiro = new Tabuleiro();
+		tabuleiro.geraGalaxia();
+
+	}
+
+	public void defineErro(String erro) {
+
+		this.ultimoErro = erro;
+	}
+
+	public boolean temJogadores() {
+
+		return this.jogador != null;
+
+	}
+
+	public Jogador consultaJogador() {
+
+		return this.jogador;
+
+	}
 }
