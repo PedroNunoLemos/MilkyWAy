@@ -1,11 +1,11 @@
 package ui.texto;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import logicajogo.Jogo;
 import logicajogo.Posicao;
-import logicajogo.Tabuleiro;
 import logicajogo.cartas.*;
 import logicajogo.cartas.galaxia.*;
 import logicajogo.cartas.galaxia.planetas.*;
@@ -18,10 +18,14 @@ public class Tui {
 
 	private int infox = 0, infoy = 0;
 	private boolean pedeinfo = false;
+	private int ecraativo = 1;
+
+	private ArrayList<String> menu;
 
 	public Tui() {
 
 		this.jogo = new Jogo();
+		this.menu = new ArrayList<String>();
 	}
 
 	private void limpaEcra() {
@@ -29,7 +33,7 @@ public class Tui {
 			System.out.println();
 	}
 
-	private void mostraMenu() {
+	private void mostraMenuPrincipal() {
 
 		System.out.println();
 		System.out.println("============================");
@@ -45,7 +49,7 @@ public class Tui {
 		System.out.print("Escolha: ");
 	}
 
-	int inputMenu() {
+	int trataMenuPrincipal() {
 
 		int res;
 
@@ -53,7 +57,7 @@ public class Tui {
 
 			while (!scanner.hasNextInt()) {
 				System.out.print("\nIsso e tudo menos um numero !! ");
-				mostraMenu();
+				mostraMenuPrincipal();
 				scanner.nextLine();
 			}
 
@@ -71,12 +75,12 @@ public class Tui {
 
 	public void mostraInterface() {
 
-		this.mostraMenu();
-		processaMenu(this.inputMenu());
+		this.mostraMenuPrincipal();
+		processaMenuPrincipal(this.trataMenuPrincipal());
 
 	}
 
-	void processaMenu(int opt) {
+	void processaMenuPrincipal(int opt) {
 
 		switch (opt) {
 
@@ -113,13 +117,14 @@ public class Tui {
 
 	}
 
-	private void desenhaMapa() {
+	private void desenhaAreaCentral() {
 
 		System.out.println();
 
 		for (int y = -1; y < 7; y++) {
 			for (int x = -1; x < 10; x++) {
 
+				//desenha mapa
 				if (x >= 0 && x < 9 && y >= 0 && y < 7) {
 
 					System.out.print("|");
@@ -146,6 +151,7 @@ public class Tui {
 
 				} else {
 
+					//desenha coordenadas
 					if (x < 9) {
 
 						if (x >= 0 || y >= 0)
@@ -163,21 +169,23 @@ public class Tui {
 							System.out.print("|");
 					}
 
+					
+					//Desenha area de Menu
+					
 					if (x == 9) {
 
-						if (y == 0)
-							System.out.print(" H -> Nave");
-						if (y == 1)
-							System.out.print(" @ -> Buraco Negro");
-						if (y == 2)
-							System.out.print(" . -> Espaço Profundo");
-						if (y == 3)
-							System.out.print(" # -> Espaço Não explorado");
-						if (y == 4)
-							System.out.print(" º -> Planeta Pirata");
-						if (y ==5)
-							System.out.print(" o -> Planeta");
+						for (int k = 0; k < menu.size() && k < 8; k++)
+							if (y == k - 1) {
 
+								String spc = " ";
+
+								int space = (25 - menu.get(k).length());
+
+								for (int p = 0; p < space; p++)
+									spc = spc + " ";
+
+								System.out.print("  |" + menu.get(k) + spc + "|");
+							}
 					}
 
 				}
@@ -188,38 +196,70 @@ public class Tui {
 
 	}
 
-	private void menuEstado() {
+	private void mostraMenuLegenda() {
 
-		String res = "";
+		this.menu.clear();
+
+		this.menu.add("H -> Nave");
+		this.menu.add("@ -> Buraco Negro");
+		this.menu.add(". -> Espaço Profundo");
+		this.menu.add("# -> Espaço Não explorado");
+		this.menu.add("º -> Planeta Pirata");
+		this.menu.add("o -> Planeta");
+		this.menu.add("-------------------------");
+		this.menu.add("0 -> Voltar ao Menu  ");
+
+	}
+
+	private void mostraMenuEstados() {
+
+		this.menu.clear();
+
+		this.menu.add("    " + this.jogo.devolveEstado().toString());
+		this.menu.add("1 -> Ver Info. Carta");
 
 		if (this.jogo.devolveEstado() instanceof Movimentar) {
-
-			res = "2. Movimentar";
 
 			int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
 			int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
 
 			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
+			this.menu.add("2 -> Mover Nave");
+
 			if (carta != null && carta instanceof BuracoNegro) {
-				res = "2. Movimentar | 3.Viajar Buraco Negro";
+				this.menu.add("3 -> Viajar Buraco Negro");
 			}
 
-			res = res + " | 4. Viajar Warp";
+			this.menu.add("4 -> Efetuar Viagem Warp");
 
 		}
 
 		if (this.jogo.devolveEstado() instanceof Comprar) {
-			res = "2. Comprar";
+			this.menu.add("2 -> Comprar Bens");
 		}
 
 		if (this.jogo.devolveEstado() instanceof Vender) {
-			res = "2. Vender";
+			this.menu.add("2 -> Vender Bens");
 		}
 
-		System.out.printf("%s -> | 1.Info. Carta | %s | 0. Avançar |", this.jogo.devolveEstado(), res);
-		System.out.println();
+		this.menu.add("9 -> Mostra Legenda");
+		this.menu.add("-------------------------");
+		this.menu.add("0 -> Continuar");
 
+	}
+
+	private void defineMenu(int men) {
+
+		switch (men) {
+		case 1:
+			this.mostraMenuEstados();
+			break;
+		case 2:
+			this.mostraMenuLegenda();
+			break;
+
+		}
 	}
 
 	void imprimeInfoCarta(int x, int y) {
@@ -279,7 +319,6 @@ public class Tui {
 	void processaEstado() {
 
 		System.out.println();
-		System.out.println();
 
 		char car1 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
 		char car2 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
@@ -308,12 +347,12 @@ public class Tui {
 
 		this.pedeinfo = false;
 
-		this.menuEstado();
+		this.defineMenu(this.ecraativo);
 
 		if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty())
 			System.out.println(this.jogo.devolveErro());
 
-		this.desenhaMapa();
+		this.desenhaAreaCentral();
 
 		System.out.flush();
 		System.out.print("Escolha:");
@@ -334,6 +373,17 @@ public class Tui {
 	}
 
 	private void executaMenu(int res) {
+
+		if (res == 9) {
+
+			this.mostraMenuLegenda();
+			this.ecraativo = 2;
+		}
+
+		if (res == 0 && ecraativo == 2) {
+			this.mostraMenuEstados();
+			this.ecraativo = 1;
+		}
 
 		if (res == 0) {
 
