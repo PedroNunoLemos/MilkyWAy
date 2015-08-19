@@ -16,6 +16,9 @@ public class Tui {
 	private Jogo jogo;
 	Scanner scanner = new Scanner(System.in);
 
+	private int infox = 0, infoy = 0;
+	private boolean pedeinfo = false;
+
 	public Tui() {
 
 		this.jogo = new Jogo();
@@ -98,13 +101,13 @@ public class Tui {
 	private char converteCartaParaChar(Carta carta) {
 
 		if (carta instanceof Vazio)
-			return 'x';
+			return '*';
 		if (carta instanceof BuracoNegro)
 			return '@';
 		if (carta instanceof PlanetaPirata)
-			return 'Ç';
+			return 'º';
 		if (carta instanceof Planeta)
-			return 'C';
+			return 'o';
 
 		return ' ';
 
@@ -115,7 +118,7 @@ public class Tui {
 		System.out.println();
 
 		for (int y = -1; y < 7; y++) {
-			for (int x = -1; x < 9; x++) {
+			for (int x = -1; x < 10; x++) {
 
 				if (x >= 0 && x < 9 && y >= 0 && y < 7) {
 
@@ -127,35 +130,55 @@ public class Tui {
 					if (this.jogo.consultaJogador().getNave().posicaoAtual()[0] == x
 							&& this.jogo.consultaJogador().getNave().posicaoAtual()[1] == y) {
 
-						System.out.print("L");
+						System.out.print("H");
 
 					} else {
-
 						if (pos.foiExplorada() && card != null)
 							System.out.print(converteCartaParaChar(card));
 						else if (!pos.foiExplorada() && card != null)
 							System.out.print("#");
 						else
 							System.out.print(".");
+
 					}
 
 					System.out.print("|");
 
 				} else {
 
-					if (x >= 0 || y >= 0)
-						System.out.print("|");
+					if (x < 9) {
 
-					if (y == -1 && x >= 0)
-						System.out.print(x);
-					if (x == -1 && y >= 0)
-						System.out.print(y);
+						if (x >= 0 || y >= 0)
+							System.out.print("|");
 
-					if (x == -1 && y == -1)
-						System.out.print("   ");
+						if (y == -1 && x >= 0)
+							System.out.print(x);
+						if (x == -1 && y >= 0)
+							System.out.print(y);
 
-					if (x >= 0 || y >= 0)
-						System.out.print("|");
+						if (x == -1 && y == -1)
+							System.out.print("   ");
+
+						if (x >= 0 || y >= 0)
+							System.out.print("|");
+					}
+
+					if (x == 9) {
+
+						if (y == 0)
+							System.out.print(" H -> Nave");
+						if (y == 1)
+							System.out.print(" @ -> Buraco Negro");
+						if (y == 2)
+							System.out.print(" . -> Espaço Profundo");
+						if (y == 3)
+							System.out.print(" # -> Espaço Não explorado");
+						if (y == 4)
+							System.out.print(" º -> Planeta Pirata");
+						if (y ==5)
+							System.out.print(" o -> Planeta");
+
+					}
 
 				}
 
@@ -170,25 +193,121 @@ public class Tui {
 		String res = "";
 
 		if (this.jogo.devolveEstado() instanceof Movimentar) {
-			res = "3. Movimentar Nave";
+
+			res = "2. Movimentar";
+
+			int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
+			int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+			if (carta != null && carta instanceof BuracoNegro) {
+				res = "2. Movimentar | 3.Viajar Buraco Negro";
+			}
+
+			res = res + " | 4. Viajar Warp";
+
 		}
 
 		if (this.jogo.devolveEstado() instanceof Comprar) {
-			res = "3. Comprar";
+			res = "2. Comprar";
 		}
 
 		if (this.jogo.devolveEstado() instanceof Vender) {
-			res = "3. Vender";
+			res = "2. Vender";
 		}
 
-		System.out.printf("%s -> 1. Info Nave 2. Info Carta  %s 0. Avançar", this.jogo.devolveEstado(), res);
+		System.out.printf("%s -> | 1.Info. Carta | %s | 0. Avançar |", this.jogo.devolveEstado(), res);
 		System.out.println();
 
+	}
+
+	void imprimeInfoCarta(int x, int y) {
+
+		String infocarta = "";
+
+		int medicamento = 0, agua = 0, comida = 0, ilegal = 0;
+
+		Posicao pos = this.jogo.devolveMapa().consultaPosicao(x, y);
+
+		Carta carta = pos.obterCarta();
+
+		if (carta != null && pos.foiExplorada()) {
+
+			if (carta instanceof PlanetaPirata)
+				infocarta = "Planeta Pirata";
+
+			if (carta instanceof Planeta)
+				infocarta = "Planeta";
+
+			if (carta instanceof Vazio)
+				infocarta = "Vazio";
+
+			if (carta instanceof BuracoNegro)
+				infocarta = "Buraco Negro";
+
+			if (carta instanceof Planeta) {
+				Planeta pl = (Planeta) carta;
+				agua = pl.obtemPreco("Agua");
+				comida = pl.obtemPreco("Comida");
+				medicamento = pl.obtemPreco("Medicamento");
+				ilegal = pl.obtemPreco("Ilegal");
+			}
+
+			if (carta instanceof PlanetaPirata) {
+				PlanetaPirata pl = (PlanetaPirata) carta;
+				agua = pl.obtemPreco("Agua");
+				comida = pl.obtemPreco("Comida");
+				medicamento = pl.obtemPreco("Medicamento");
+				ilegal = pl.obtemPreco("Ilegal");
+			}
+
+			if (carta instanceof Planeta || carta instanceof PlanetaPirata) {
+				System.out.printf("Carta : %s|Tipo: %s|Precario: [Comida:%d][Agua:%d][Medicamento:%d][Ilegal:%d]",
+						carta.getNome().toUpperCase(), infocarta, comida, agua, medicamento, ilegal);
+			} else {
+				System.out.printf("Carta : %s", carta.getNome().toUpperCase());
+			}
+
+		} else {
+			System.out.printf("Carta : Indisponivel ");
+		}
+
+		System.out.println();
 	}
 
 	void processaEstado() {
 
 		System.out.println();
+		System.out.println();
+
+		char car1 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		char car2 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		char car3 = 'x';
+
+		if (this.jogo.consultaJogador().getNave().naveCargaAtualizada())
+			car3 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+
+		System.out.printf("Jogador 1 [ %d Moedas ] [Nave  Força:%d Carga |%c|%c|%c|]",
+				this.jogo.consultaJogador().devolveMoedas(), this.jogo.consultaJogador().getNave().obterForca(), car1,
+				car2, car3);
+		System.out.println();
+
+		int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+
+		if ((infox != x || infoy != y) && pedeinfo) {
+			x = infox;
+			y = infoy;
+		}
+
+		this.imprimeInfoCarta(x, y);
+
+		infox = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
+		infoy = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+
+		this.pedeinfo = false;
+
 		this.menuEstado();
 
 		if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty())
@@ -211,13 +330,14 @@ public class Tui {
 
 		this.limpaEcra();
 
-
 		res = -1;
 	}
 
 	private void executaMenu(int res) {
 
 		if (res == 0) {
+
+			this.jogo.defineErro("");
 
 			if (this.jogo.devolveEstado().toString() == "Explorar") {
 				this.jogo.atualizarMercados();
@@ -243,13 +363,40 @@ public class Tui {
 
 				if (this.jogo.consultaJogador().getNave().estaParada())
 					this.jogo.defineErro("Nave Tem de se movimentar neste turno");
+				else
+					this.jogo.explorar();
 
 				return;
 			}
 
 		}
 
-		if (res == 3) {
+		if (res == 1) {
+
+			System.out.print("X:");
+
+			while (!scanner.hasNextInt()) {
+				scanner.nextLine();
+			}
+
+			int xi = scanner.nextInt();
+
+			System.out.print("Y:");
+
+			while (!scanner.hasNextInt()) {
+				scanner.nextLine();
+			}
+
+			int yi = scanner.nextInt();
+
+			infox = xi;
+			infoy = yi;
+
+			this.pedeinfo = true;
+
+		}
+
+		if (res == 2) {
 
 			if (this.jogo.devolveEstado() instanceof Movimentar) {
 
@@ -273,6 +420,56 @@ public class Tui {
 
 			}
 		}
-	}
 
+		if (res == 3) {
+
+			if (this.jogo.devolveEstado() instanceof Movimentar) {
+
+				System.out.print("X:");
+
+				while (!scanner.hasNextInt()) {
+					scanner.nextLine();
+				}
+
+				int xi = scanner.nextInt();
+
+				System.out.print("Y:");
+
+				while (!scanner.hasNextInt()) {
+					scanner.nextLine();
+				}
+
+				int yi = scanner.nextInt();
+
+				this.jogo.viajarBuracoNegro(xi, yi);
+
+			}
+		}
+		if (res == 4) {
+
+			if (this.jogo.devolveEstado() instanceof Movimentar) {
+
+				System.out.print("X:");
+
+				while (!scanner.hasNextInt()) {
+					scanner.nextLine();
+				}
+
+				int xi = scanner.nextInt();
+
+				System.out.print("Y:");
+
+				while (!scanner.hasNextInt()) {
+					scanner.nextLine();
+				}
+
+				int yi = scanner.nextInt();
+
+				this.jogo.viajarModoWarp(xi, yi);
+
+			}
+
+		}
+
+	}
 }

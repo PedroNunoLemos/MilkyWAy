@@ -104,15 +104,44 @@ public class Tabuleiro {
 		Posicao ppxpy = consultaPosicao(px, py);
 		Posicao ppxny = consultaPosicao(px, py);
 
-		if (nxp!=null && nxp.obterCarta()!=null && !nxp.foiExplorada())nxp.defExplorada(true);
-		if (nyp!=null && nyp.obterCarta()!=null && !nyp.foiExplorada())nyp.defExplorada(true);
-		if (pxp!=null && pxp.obterCarta()!=null && !pxp.foiExplorada())pxp.defExplorada(true);
-		if (pyp!=null && pyp.obterCarta()!=null && !pyp.foiExplorada())pyp.defExplorada(true);
+		if (nxp != null && nxp.obterCarta() != null && !nxp.foiExplorada())
+			nxp.defExplorada(true);
+		if (nyp != null && nyp.obterCarta() != null && !nyp.foiExplorada())
+			nyp.defExplorada(true);
+		if (pxp != null && pxp.obterCarta() != null && !pxp.foiExplorada())
+			pxp.defExplorada(true);
+		if (pyp != null && pyp.obterCarta() != null && !pyp.foiExplorada())
+			pyp.defExplorada(true);
 
-		if (pnxpy!=null && pnxpy.obterCarta()!=null && !pnxpy.foiExplorada())pnxpy.defExplorada(true);
-		if (pnxny!=null && pnxny.obterCarta()!=null && !pnxny.foiExplorada())pnxny.defExplorada(true);
-		if (ppxpy!=null && ppxpy.obterCarta()!=null && !ppxpy.foiExplorada())ppxpy.defExplorada(true);
-		if (ppxny!=null && ppxny.obterCarta()!=null && !ppxny.foiExplorada())ppxny.defExplorada(true);
+		if (pnxpy != null && pnxpy.obterCarta() != null && !pnxpy.foiExplorada())
+			pnxpy.defExplorada(true);
+		if (pnxny != null && pnxny.obterCarta() != null && !pnxny.foiExplorada())
+			pnxny.defExplorada(true);
+		if (ppxpy != null && ppxpy.obterCarta() != null && !ppxpy.foiExplorada())
+			ppxpy.defExplorada(true);
+		if (ppxny != null && ppxny.obterCarta() != null && !ppxny.foiExplorada())
+			ppxny.defExplorada(true);
+
+	}
+
+	public boolean validaMovimentoAdjacentes(int x, int y, int fx, int fy) {
+
+		Posicao atual = consultaPosicao(x, y);
+
+		int nx = atual.obterX() + 1;
+		int ny = atual.obterY() + 1;
+		int px = atual.obterX() - 1;
+		int py = atual.obterY() - 1;
+
+
+		for (int rowNum = px; rowNum <= nx; rowNum++) {
+			for (int colNum = py; colNum <= ny; colNum++) {
+				if (fx == rowNum && fy == colNum)
+					return true;
+			}
+		}
+
+		return false;
 
 	}
 

@@ -6,14 +6,13 @@ public class Jogador {
 
 	private final Nave nave;
 	private int moedas;
-	private int moedasbase;
 	private boolean ai;
 
 	public Jogador(int _moedas) {
 
 		nave = new Nave();
 		moedas = _moedas;
-		moedasbase = _moedas;
+
 
 	}
 
@@ -29,13 +28,14 @@ public class Jogador {
 		this.ai = true;
 	}
 
-	public void defineMoedas(int moedasadic) {
+	public void atualizaMoedas(int moedasadic) {
 
-		if (this.moedasbase + moedasadic <= 0)
+		if (this.moedas + moedasadic <= 0)
 			this.moedas = 0;
 
-		if (this.moedasbase + moedasadic > 0)
-			this.moedas = (this.moedasbase + moedasadic);
+		if (this.moedas + moedasadic > 0)
+			this.moedas = (this.moedas + moedasadic);
+
 
 	}
 
