@@ -17,6 +17,22 @@ public abstract class Planeta extends Carta {
 
 	public Planeta() {
 	}
+	
+	public int validaMercadoAberto() {
+
+		int cnt =0;
+		for (int i = 0; i < 1; i++) {
+
+			if (mercado[i] == null) {
+
+				 cnt++;
+
+			}
+		}
+
+		return cnt;
+	}
+
 
 	public void atualizaMercado(Cubo cubo) {
 

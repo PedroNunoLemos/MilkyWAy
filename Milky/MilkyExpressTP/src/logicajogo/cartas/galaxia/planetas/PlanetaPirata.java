@@ -17,6 +17,21 @@ public abstract class PlanetaPirata extends Carta {
 	public PlanetaPirata() {
 	}
 
+	public int validaMercadoAberto() {
+
+		int cnt =0;
+		for (int i = 0; i < 1; i++) {
+
+			if (mercado[i] == null) {
+
+				 cnt++;
+
+			}
+		}
+
+		return cnt;
+	}
+
 	public void atualizaMercado(Cubo cubo) {
 
 		for (int i = 0; i < 1; i++) {
@@ -55,15 +70,14 @@ public abstract class PlanetaPirata extends Carta {
 	public int obtemPreco(String cubo) {
 
 		for (Entry<Cubo, Integer> entrada : precario.entrySet()) {
-		    Cubo cubom = entrada.getKey();
-		    Integer preco = entrada.getValue();
-		    
-		    if (cubom.obtemNome()==cubo)
-		    	return preco;
+			Cubo cubom = entrada.getKey();
+			Integer preco = entrada.getValue();
+
+			if (cubom.obtemNome() == cubo)
+				return preco;
 		}
-		
+
 		return 0;
 	}
-
 
 }

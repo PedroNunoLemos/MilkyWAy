@@ -102,4 +102,11 @@ public class Comprar implements Estado {
 	}
 
 
+	@Override
+	public Estado combaterPiratas(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
 }

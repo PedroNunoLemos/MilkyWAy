@@ -22,7 +22,7 @@ public class DadoCor extends Dado {
 	}
 
 	@Override
-	void lancarDado() {
+	public void lancarDado() {
 		
 		int rnd =(int) Math.random() * (6) + 1;
 

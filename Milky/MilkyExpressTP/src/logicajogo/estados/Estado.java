@@ -13,6 +13,8 @@ public interface Estado {
 	Estado venderBens(Jogo j);
 
 	Estado explorar(Jogo j);
+	
+	Estado combaterPiratas(Jogo j);
 
 	Estado atualizaMercados(Jogo j);
 	

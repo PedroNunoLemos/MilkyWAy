@@ -1,6 +1,12 @@
 package logicajogo.estados;
 
+import java.awt.Color;
+
 import logicajogo.Jogo;
+import logicajogo.Posicao;
+import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
+import logicajogo.cubos.Ilegal;
+import logicajogo.dados.DadoCor;
 
 public class Explorar implements Estado {
 
@@ -62,7 +68,7 @@ public class Explorar implements Estado {
 
 
 	}
-
+	
 	@Override
 	public Estado viajarProximoBuracoNegro(Jogo j, int x, int y) {
 		// TODO Auto-generated method stub
@@ -95,6 +101,12 @@ public class Explorar implements Estado {
 
 	@Override
 	public Estado retomaMovimentoNormal(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado combaterPiratas(Jogo j) {
 		// TODO Auto-generated method stub
 		return this;
 	}

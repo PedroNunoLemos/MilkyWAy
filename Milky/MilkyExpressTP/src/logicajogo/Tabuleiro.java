@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import logicajogo.cartas.Carta;
+import logicajogo.cartas.galaxia.planetas.Planeta;
+import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 
 public class Tabuleiro {
 
@@ -31,6 +33,45 @@ public class Tabuleiro {
 		}
 
 		return null;
+	}
+
+	public ArrayList<Posicao> listaPlanetasPiratas(boolean explorado) {
+
+		ArrayList<Posicao> tmp = new ArrayList<Posicao>();
+
+		for (Posicao tmpg : galaxia) {
+
+			if (tmpg.foiExplorada() == explorado && tmpg.obterCarta() instanceof PlanetaPirata)
+				tmp.add(tmpg);
+
+		}
+
+		return tmp;
+	}
+
+	public ArrayList<Posicao> listaPlanetas(boolean explorado, boolean reverse) {
+
+		ArrayList<Posicao> tmp = new ArrayList<Posicao>();
+
+		if (!reverse)
+			for (Posicao tmpg : galaxia) {
+
+				if (tmpg.foiExplorada() == explorado && tmpg.obterCarta() instanceof Planeta)
+					tmp.add(tmpg);
+
+			}
+
+		if (reverse) {
+
+			for (int x = 8; x >= 0; x--)
+				for (int y = 0; y < 7; y++) {
+					tmp.add(consultaPosicao(x, y));
+
+				}
+
+		}
+
+		return tmp;
 	}
 
 	private void atualizaPosicao(int x, int y, boolean exp, Carta card) {
@@ -132,7 +173,6 @@ public class Tabuleiro {
 		int ny = atual.obterY() + 1;
 		int px = atual.obterX() - 1;
 		int py = atual.obterY() - 1;
-
 
 		for (int rowNum = px; rowNum <= nx; rowNum++) {
 			for (int colNum = py; colNum <= ny; colNum++) {

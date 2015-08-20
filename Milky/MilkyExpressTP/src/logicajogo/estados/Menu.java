@@ -103,5 +103,12 @@ public class Menu implements Estado {
 	}
 
 
+	@Override
+	public Estado combaterPiratas(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
 
 }

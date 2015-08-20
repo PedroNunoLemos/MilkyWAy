@@ -9,7 +9,7 @@ public class DadoNormal extends Dado {
 	}
 
 	@Override
-	void lancarDado() {
+	public void lancarDado() {
 
 		setResultado((int) Math.random() * (6) + 1);
 

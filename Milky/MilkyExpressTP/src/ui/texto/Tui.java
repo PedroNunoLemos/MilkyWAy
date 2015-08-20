@@ -124,7 +124,7 @@ public class Tui {
 		for (int y = -1; y < 7; y++) {
 			for (int x = -1; x < 10; x++) {
 
-				//desenha mapa
+				// desenha mapa
 				if (x >= 0 && x < 9 && y >= 0 && y < 7) {
 
 					System.out.print("|");
@@ -151,7 +151,7 @@ public class Tui {
 
 				} else {
 
-					//desenha coordenadas
+					// desenha coordenadas
 					if (x < 9) {
 
 						if (x >= 0 || y >= 0)
@@ -169,9 +169,8 @@ public class Tui {
 							System.out.print("|");
 					}
 
-					
-					//Desenha area de Menu
-					
+					// Desenha area de Menu
+
 					if (x == 9) {
 
 						for (int k = 0; k < menu.size() && k < 8; k++)
@@ -354,16 +353,12 @@ public class Tui {
 
 		this.desenhaAreaCentral();
 
-		System.out.flush();
 		System.out.print("Escolha:");
 		while (!scanner.hasNextInt()) {
 			scanner.nextLine();
 		}
 
 		int res = scanner.nextInt();
-
-		// if (res == 0)
-		// this.jogo.mudarEstado();
 
 		this.executaMenu(res);
 
@@ -475,24 +470,29 @@ public class Tui {
 
 			if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-				System.out.print("X:");
+				int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
+				int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
 
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
+				if (this.jogo.devolveMapa().consultaPosicao(x, y).obterCarta() instanceof BuracoNegro) {
+
+					System.out.print("X:");
+
+					while (!scanner.hasNextInt()) {
+						scanner.nextLine();
+					}
+
+					int xi = scanner.nextInt();
+
+					System.out.print("Y:");
+
+					while (!scanner.hasNextInt()) {
+						scanner.nextLine();
+					}
+
+					int yi = scanner.nextInt();
+					this.jogo.viajarBuracoNegro(xi, yi);
+
 				}
-
-				int xi = scanner.nextInt();
-
-				System.out.print("Y:");
-
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
-				}
-
-				int yi = scanner.nextInt();
-
-				this.jogo.viajarBuracoNegro(xi, yi);
-
 			}
 		}
 		if (res == 4) {
