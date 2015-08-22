@@ -132,8 +132,8 @@ public class Tui {
 					Carta card = this.jogo.devolveMapa().obtemCarta(x, y);
 					Posicao pos = this.jogo.devolveMapa().consultaPosicao(x, y);
 
-					if (this.jogo.consultaJogador().getNave().posicaoAtual()[0] == x
-							&& this.jogo.consultaJogador().getNave().posicaoAtual()[1] == y) {
+					if (this.jogo.consultaJogador().obterNave().posicaoAtual()[0] == x
+							&& this.jogo.consultaJogador().obterNave().posicaoAtual()[1] == y) {
 
 						System.out.print("H");
 
@@ -219,8 +219,8 @@ public class Tui {
 
 		if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-			int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
-			int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+			int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+			int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
 			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
@@ -234,12 +234,25 @@ public class Tui {
 
 		}
 
-		if (this.jogo.devolveEstado() instanceof Comprar) {
-			this.menu.add("2 -> Comprar Bens");
+		if (this.jogo.devolveEstado() instanceof Negociar) {
+
+			int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+			int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+				this.menu.add("2 -> Comprar Bens");
+				this.menu.add("3 -> Vender Bens");
+			}
+
+			this.menu.add("4 -> Atualizar Nave");
+
 		}
 
-		if (this.jogo.devolveEstado() instanceof Vender) {
-			this.menu.add("2 -> Vender Bens");
+		if (this.jogo.devolveEstado() instanceof AtaquePirata) {
+			this.menu.add("2 -> Combater");
+
 		}
 
 		this.menu.add("9 -> Mostra Legenda");
@@ -268,6 +281,9 @@ public class Tui {
 		int medicamento = 0, agua = 0, comida = 0, ilegal = 0;
 
 		Posicao pos = this.jogo.devolveMapa().consultaPosicao(x, y);
+
+		if (pos == null)
+			return;
 
 		Carta carta = pos.obterCarta();
 
@@ -302,8 +318,23 @@ public class Tui {
 			}
 
 			if (carta instanceof Planeta || carta instanceof PlanetaPirata) {
-				System.out.printf("Carta : %s|Tipo: %s|Precario: [Comida:%d][Agua:%d][Medicamento:%d][Ilegal:%d]",
-						carta.getNome().toUpperCase(), infocarta, comida, agua, medicamento, ilegal);
+				String stock = "";
+
+				if (carta instanceof Planeta) {
+					Planeta pl = (Planeta) carta;
+
+					stock = "Stock [" + pl.veMercado(0) + "]|[" + pl.veMercado(1) + "]";
+
+				}
+
+				if (carta instanceof PlanetaPirata) {
+					PlanetaPirata pl = (PlanetaPirata) carta;
+
+					stock = "Stock [" + pl.veMercado(0) + "]";
+				}
+
+				System.out.printf("Carta : %s|Tipo: %s|Precario: [Comida:%d][Agua:%d][Medicamento:%d][Ilegal:%d] %s",
+						carta.getNome().toUpperCase(), infocarta, comida, agua, medicamento, ilegal, stock);
 			} else {
 				System.out.printf("Carta : %s", carta.getNome().toUpperCase());
 			}
@@ -319,20 +350,20 @@ public class Tui {
 
 		System.out.println();
 
-		char car1 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
-		char car2 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		char car1 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
 		char car3 = 'x';
 
-		if (this.jogo.consultaJogador().getNave().naveCargaAtualizada())
-			car3 = this.jogo.consultaJogador().getNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		if (this.jogo.consultaJogador().obterNave().naveCargaAtualizada())
+			car3 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
 
 		System.out.printf("Jogador 1 [ %d Moedas ] [Nave  Força:%d Carga |%c|%c|%c|]",
-				this.jogo.consultaJogador().devolveMoedas(), this.jogo.consultaJogador().getNave().obterForca(), car1,
+				this.jogo.consultaJogador().devolveMoedas(), this.jogo.consultaJogador().obterNave().obterForca(), car1,
 				car2, car3);
 		System.out.println();
 
-		int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
-		int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
 		if ((infox != x || infoy != y) && pedeinfo) {
 			x = infox;
@@ -341,16 +372,15 @@ public class Tui {
 
 		this.imprimeInfoCarta(x, y);
 
-		infox = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
-		infoy = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+		if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty())
+			System.out.println(this.jogo.devolveErro());
+
+		infox = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		infoy = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
 		this.pedeinfo = false;
 
 		this.defineMenu(this.ecraativo);
-
-		if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty())
-			System.out.println(this.jogo.devolveErro());
-
 		this.desenhaAreaCentral();
 
 		System.out.print("Escolha:");
@@ -380,39 +410,10 @@ public class Tui {
 			this.ecraativo = 1;
 		}
 
-		if (res == 0) {
+		if (res == 0 && this.ecraativo == 1) {
 
 			this.jogo.defineErro("");
-
-			if (this.jogo.devolveEstado().toString() == "Explorar") {
-				this.jogo.atualizarMercados();
-				return;
-			}
-
-			if (this.jogo.devolveEstado().toString() == "Atualizar Mercados") {
-				this.jogo.comprarBens();
-				return;
-			}
-
-			if (this.jogo.devolveEstado().toString() == "Comprar") {
-				this.jogo.venderBens();
-				return;
-			}
-
-			if (this.jogo.devolveEstado().toString() == "Vender") {
-				this.jogo.venderBens();
-				return;
-			}
-
-			if (this.jogo.devolveEstado().toString() == "Movimentar") {
-
-				if (this.jogo.consultaJogador().getNave().estaParada())
-					this.jogo.defineErro("Nave Tem de se movimentar neste turno");
-				else
-					this.jogo.explorar();
-
-				return;
-			}
+			this.jogo.continuarJogo();
 
 		}
 
@@ -464,14 +465,18 @@ public class Tui {
 				this.jogo.moverNave(x, y);
 
 			}
+
+			if (this.jogo.devolveEstado() instanceof AtaquePirata) {
+				this.jogo.combaterPiratas();
+			}
 		}
 
 		if (res == 3) {
 
 			if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-				int x = this.jogo.consultaJogador().getNave().posicaoAtual()[0];
-				int y = this.jogo.consultaJogador().getNave().posicaoAtual()[1];
+				int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+				int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
 				if (this.jogo.devolveMapa().consultaPosicao(x, y).obterCarta() instanceof BuracoNegro) {
 
@@ -495,6 +500,7 @@ public class Tui {
 				}
 			}
 		}
+
 		if (res == 4) {
 
 			if (this.jogo.devolveEstado() instanceof Movimentar) {

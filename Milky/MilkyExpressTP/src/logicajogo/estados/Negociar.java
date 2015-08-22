@@ -2,15 +2,18 @@ package logicajogo.estados;
 
 import logicajogo.Jogo;
 
-public class Vender implements Estado {
-	
-	public Vender (Jogo j){}
+public class Negociar implements Estado {
 
 	
+
+
+	public Negociar (Jogo j){}
+
+
 	@Override
 	public String toString(){
 		
-		return "Vender";
+		return "Negociar";
 		
 	}
 
@@ -39,23 +42,8 @@ public class Vender implements Estado {
 	@Override
 	public Estado venderBens(Jogo j) {
 		// TODO Auto-generated method stub
-		return new Movimentar(j);
-	}
-
-
-	@Override
-	public Estado explorar(Jogo j) {
-		// TODO Auto-generated method stub
 		return this;
 	}
-
-
-	@Override
-	public Estado atualizaMercados(Jogo j) {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
 
 	@Override
 	public Estado viajarProximoBuracoNegro(Jogo j, int x, int y) {
@@ -93,9 +81,9 @@ public class Vender implements Estado {
 
 
 	@Override
-	public Estado retomaMovimentoNormal(Jogo j) {
+	public Estado continuarJogo(Jogo j) {
 		// TODO Auto-generated method stub
-		return this;
+		return new Movimentar(j);
 	}
 
 
@@ -104,5 +92,6 @@ public class Vender implements Estado {
 		// TODO Auto-generated method stub
 		return this;
 	}
+
 
 }

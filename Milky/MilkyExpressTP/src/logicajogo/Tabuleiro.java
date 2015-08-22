@@ -65,7 +65,11 @@ public class Tabuleiro {
 
 			for (int x = 8; x >= 0; x--)
 				for (int y = 0; y < 7; y++) {
-					tmp.add(consultaPosicao(x, y));
+					
+					Posicao tmpg = consultaPosicao(x, y);
+					
+					if (tmpg.foiExplorada() == explorado && tmpg.obterCarta() instanceof Planeta)
+						tmp.add(tmpg);
 
 				}
 

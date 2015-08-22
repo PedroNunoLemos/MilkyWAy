@@ -39,7 +39,7 @@ public class Jogador {
 
 	}
 
-	public Nave getNave() {
+	public Nave obterNave() {
 		return nave;
 	}
 

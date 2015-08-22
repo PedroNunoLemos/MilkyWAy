@@ -1,5 +1,6 @@
 package logicajogo;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import logicajogo.cubos.*;
@@ -9,6 +10,8 @@ import logicajogo.estados.IniciarJogo;
 public class Jogo {
 
 	private Estado estado;
+	private Estado estadoanterior;
+
 	private Jogador jogador;
 	private int banco = 30;
 
@@ -17,6 +20,8 @@ public class Jogo {
 	private Tabuleiro tabuleiro;
 
 	private String ultimoErro;
+
+	private int ataquesPiratas = 0;
 
 	public Jogo() {
 
@@ -36,11 +41,19 @@ public class Jogo {
 		for (int i = 0; i < 6; i++)
 			this.reserva.add(new Ilegal());
 
-		this.explorar();
+		// this.estado = this.estado.continuarJogo(this);
+
 	}
 
-	public void explorar() {
-		this.estado = this.estado.explorar(this);
+	public int temStockReserva(Color cor) {
+		int cnt = 0;
+		for (int i = 0; i < reserva.size(); i++) {
+
+			if (reserva.get(i).obtemCor() == cor)
+				cnt++;
+		}
+
+		return cnt;
 	}
 
 	public void moverNave(int x, int y) {
@@ -48,28 +61,57 @@ public class Jogo {
 		this.estado = this.estado.moverNave(this, x, y);
 	}
 
+	public void iniciarNegociacao() {
+
+		this.estado = this.estado.comprarBens(this);
+	}
+
 	public void comprarBens() {
+
 		this.estado = this.estado.comprarBens(this);
 	}
 
 	public void venderBens() {
+
 		this.estado = this.estado.venderBens(this);
 	}
 
-	public void atualizarMercados() {
-		this.estado = this.estado.atualizaMercados(this);
-
-	}
-
 	public void viajarBuracoNegro(int x, int y) {
+
 		this.estado = this.estado.viajarProximoBuracoNegro(this, x, y);
 	}
 
 	public void viajarModoWarp(int x, int y) {
+
 		this.estado = this.estado.viajarModoWarp(this, x, y);
 	}
 
-	
+	public void continuarJogo() {
+
+		this.estado = this.estado.continuarJogo(this);
+	}
+
+	public void combaterPiratas() {
+
+		if (this.qtdsAtaquesPirata() > 0)
+			this.estado = this.estado.combaterPiratas(this);
+	}
+
+	public void adicionaAtaquePirata() {
+
+		this.ataquesPiratas += 1;
+	}
+
+	public void limpaAtaquesPirata() {
+
+		this.ataquesPiratas = 0;
+	}
+
+	public int qtdsAtaquesPirata() {
+
+		return this.ataquesPiratas;
+	}
+
 	public String devolveErro() {
 
 		return this.ultimoErro;
@@ -82,6 +124,18 @@ public class Jogo {
 	public Estado devolveEstado() {
 
 		return this.estado;
+
+	}
+
+	public void salvaEstadoAnterior(Estado estado) {
+
+		this.estadoanterior = estado;
+
+	}
+
+	public Estado devolveEstadoAnterior() {
+
+		return this.estadoanterior;
 
 	}
 
@@ -102,7 +156,7 @@ public class Jogo {
 
 		jogador = new Jogador(10);
 
-		jogador.getNave().mover(0, 6);
+		jogador.obterNave().mover(0, 6);
 
 		tabuleiro = new Tabuleiro();
 		tabuleiro.geraGalaxia();

@@ -12,11 +12,11 @@ public class Explorar implements Estado {
 
 	public Explorar(Jogo j) {
 
-		int cordx = j.consultaJogador().getNave().posicaoAtual()[0];
-		int cordy = j.consultaJogador().getNave().posicaoAtual()[1];
+		int cordx = j.consultaJogador().obterNave().posicaoAtual()[0];
+		int cordy = j.consultaJogador().obterNave().posicaoAtual()[1];
 
 		j.devolveMapa().viraCartasAdjacentes(cordx, cordy);
-		j.consultaJogador().getNave().paraNave();		
+		j.consultaJogador().obterNave().paraNave();		
 		
 	}
 
@@ -50,24 +50,6 @@ public class Explorar implements Estado {
 		// TODO Auto-generated method stub
 		return this;
 	}
-
-	@Override
-	public Estado explorar(Jogo j) {
-
-
-		return this;
-				
-	}
-
-	@Override
-	public Estado atualizaMercados(Jogo j) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
-
-		return  new AtualizarMercados(j);
-
-
-	}
 	
 	@Override
 	public Estado viajarProximoBuracoNegro(Jogo j, int x, int y) {
@@ -100,9 +82,9 @@ public class Explorar implements Estado {
 	}
 
 	@Override
-	public Estado retomaMovimentoNormal(Jogo j) {
+	public Estado continuarJogo(Jogo j) {
 		// TODO Auto-generated method stub
-		return this;
+		return new AtualizarMercados(j);
 	}
 
 	@Override

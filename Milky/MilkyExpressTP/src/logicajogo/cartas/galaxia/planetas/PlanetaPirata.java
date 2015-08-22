@@ -17,6 +17,14 @@ public abstract class PlanetaPirata extends Carta {
 	public PlanetaPirata() {
 	}
 
+	public char veMercado(int idx) {
+
+		if (mercado[idx] != null)
+			return mercado[idx].obtemNome().charAt(0);
+		
+		return ' ';
+	}
+	
 	public int validaMercadoAberto() {
 
 		int cnt =0;
@@ -39,6 +47,7 @@ public abstract class PlanetaPirata extends Carta {
 			if (mercado[i] == null) {
 
 				mercado[i] = cubo;
+				break;
 
 			}
 		}

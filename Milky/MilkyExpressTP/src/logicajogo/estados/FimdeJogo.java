@@ -32,18 +32,6 @@ public class FimdeJogo implements Estado {
 	}
 
 	@Override
-	public Estado explorar(Jogo j) {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-	@Override
-	public Estado atualizaMercados(Jogo j) {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-	@Override
 	public Estado viajarProximoBuracoNegro(Jogo j, int x, int y) {
 		// TODO Auto-generated method stub
 		return this;
@@ -74,7 +62,7 @@ public class FimdeJogo implements Estado {
 	}
 
 	@Override
-	public Estado retomaMovimentoNormal(Jogo j) {
+	public Estado continuarJogo(Jogo j) {
 		// TODO Auto-generated method stub
 		return this;
 	}

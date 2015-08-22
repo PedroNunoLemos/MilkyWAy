@@ -1,11 +1,13 @@
 package logicajogo.estados;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import logicajogo.Jogo;
 import logicajogo.Posicao;
+import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
-import logicajogo.cubos.Ilegal;
+import logicajogo.cubos.*;
 import logicajogo.dados.DadoCor;
 
 public class AtualizarMercados implements Estado {
@@ -24,29 +26,42 @@ public class AtualizarMercados implements Estado {
 
 	private void reabestecePlanetaNormal(Jogo j) {
 
-		for (Posicao pos : j.devolveMapa().listaPlanetas(true, true)) {
+		ArrayList<Posicao> planetas = j.devolveMapa().listaPlanetas(true, true);
 
-			PlanetaPirata carta = (PlanetaPirata) pos.obterCarta();
+		for (Posicao pos : planetas) {
 
-			for (int i = 0; i < carta.validaMercadoAberto(); i++) {
+			Planeta carta = (Planeta) pos.obterCarta();
 
+			if (carta.validaMercadoAberto() > 0) {
 				DadoCor dado = new DadoCor();
 				dado.lancarDado();
 
 				Color cor = dado.getResultado();
 
 				if (cor == Color.white)
-					j.consultaJogador().getNave().retiraCarga("Ilegal");
+					j.consultaJogador().obterNave().retiraCarga("Ilegal");
 
-				if (cor == Color.black) {
+				if (cor == Color.black)
+					j.adicionaAtaquePirata();
 
-				}
+				if (cor == Color.yellow)
+					carta.atualizaMercado(new Comida());
+
+				if (cor == Color.red)
+					carta.atualizaMercado(new Medicamento());
+
+				if (cor == Color.blue)
+					carta.atualizaMercado(new Agua());
 
 			}
 		}
+
 	}
 
 	public AtualizarMercados(Jogo j) {
+
+		reabestecePirata(j);
+		reabestecePlanetaNormal(j);
 
 	}
 
@@ -72,27 +87,13 @@ public class AtualizarMercados implements Estado {
 	@Override
 	public Estado comprarBens(Jogo j) {
 		// TODO Auto-generated method stub
-		return new Comprar(j);
+		return this;
 
 	}
 
 	@Override
 	public Estado venderBens(Jogo j) {
 		// TODO Auto-generated method stub
-		return this;
-	}
-
-	@Override
-	public Estado explorar(Jogo j) {
-		// TODO Auto-generated method stub
-		return this;
-	}
-
-	@Override
-	public Estado atualizaMercados(Jogo j) {
-
-	
-
 		return this;
 	}
 
@@ -127,9 +128,15 @@ public class AtualizarMercados implements Estado {
 	}
 
 	@Override
-	public Estado retomaMovimentoNormal(Jogo j) {
-		// TODO Auto-generated method stub
-		return this;
+	public Estado continuarJogo(Jogo j) {
+
+		if (j.qtdsAtaquesPirata() > 0) {
+			j.defineErro("FOI ATACADO POR PIRATAS");
+			j.salvaEstadoAnterior(this);
+			
+			return new AtaquePirata(j);
+		} else
+			return new Negociar(j);
 	}
 
 	@Override

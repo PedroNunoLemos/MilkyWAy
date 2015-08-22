@@ -11,14 +11,10 @@ public interface Estado {
 	Estado comprarBens(Jogo j);
 
 	Estado venderBens(Jogo j);
-
-	Estado explorar(Jogo j);
 	
 	Estado combaterPiratas(Jogo j);
-
-	Estado atualizaMercados(Jogo j);
 	
-	Estado retomaMovimentoNormal(Jogo j);
+	Estado continuarJogo(Jogo j);
 
 	Estado viajarProximoBuracoNegro(Jogo j, int x, int y);
 	

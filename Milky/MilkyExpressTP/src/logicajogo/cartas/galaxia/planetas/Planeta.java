@@ -17,22 +17,29 @@ public abstract class Planeta extends Carta {
 
 	public Planeta() {
 	}
-	
+
+	public char veMercado(int idx) {
+
+		if (mercado[idx] != null)
+			return mercado[idx].obtemNome().charAt(0);
+		
+		return ' ';
+	}
+
 	public int validaMercadoAberto() {
 
-		int cnt =0;
-		for (int i = 0; i < 1; i++) {
+		int cnt = 0;
+		for (int i = 0; i < 2; i++) {
 
 			if (mercado[i] == null) {
 
-				 cnt++;
+				cnt++;
 
 			}
 		}
 
 		return cnt;
 	}
-
 
 	public void atualizaMercado(Cubo cubo) {
 
@@ -41,6 +48,7 @@ public abstract class Planeta extends Carta {
 			if (mercado[i] == null) {
 
 				mercado[i] = cubo;
+				break;
 
 			}
 		}
@@ -72,13 +80,13 @@ public abstract class Planeta extends Carta {
 	public int obtemPreco(String cubo) {
 
 		for (Entry<Cubo, Integer> entrada : precario.entrySet()) {
-		    Cubo cubom = entrada.getKey();
-		    Integer preco = entrada.getValue();
-		    
-		    if (cubom.obtemNome()==cubo)
-		    	return preco;
+			Cubo cubom = entrada.getKey();
+			Integer preco = entrada.getValue();
+
+			if (cubom.obtemNome() == cubo)
+				return preco;
 		}
-		
+
 		return 0;
 	}
 
