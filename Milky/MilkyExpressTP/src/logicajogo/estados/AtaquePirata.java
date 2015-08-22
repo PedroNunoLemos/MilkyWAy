@@ -44,18 +44,17 @@ public class AtaquePirata implements Estado {
 	public Estado continuarJogo(Jogo j) {
 		// TODO Auto-generated method stub
 
-		if(j.qtdsAtaquesPirata()>0)
-		{
+		if (j.qtdsAtaquesPirata() > 0) {
 			j.defineErro("Não pode saltar o combate");
 			return this;
 		}
-		
+
 		if (j.devolveEstadoAnterior() instanceof AtualizarMercados)
 			return new Negociar(j);
-		
+
 		if (j.devolveEstadoAnterior() instanceof Movimentar)
 			return new Explorar(j);
-		
+
 		return j.devolveEstadoAnterior();
 
 	}
@@ -98,22 +97,31 @@ public class AtaquePirata implements Estado {
 		int totpen = 0;
 
 		for (int i = 0; i < j.qtdsAtaquesPirata(); i++) {
+
 			DadoNormal dado = new DadoNormal();
 			dado.lancarDado();
+			dado.lancarDado();
 
-			int pen = (dado.getResultado() - atn);
+			int dres = 0;
 
-			if (atn < dado.getResultado()) {
+			dres = dado.getResultado();
+
+			int pen = (dres - atn);
+
+			if (atn < dres) {
+
 				j.atualizaBanco(-pen);
 				totpen += pen;
+				j.consultaJogador().atualizaMoedas(-pen);
 
 			} else
 				cntwin++;
 		}
 
-		j.limpaAtaquesPirata();
+		j.defineErro("Foi atacado " + j.qtdsAtaquesPirata() + " vez(es) e ganhou " + cntwin
+				+ " combate(s) e roubado em " + totpen + " moedas");
 
-		j.defineErro("Foi atacado e apos combate ganhou " + cntwin + " combates e perdeu " + totpen + " moedas");
+		j.limpaAtaquesPirata();
 
 		return this;
 	}

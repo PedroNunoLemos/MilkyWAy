@@ -250,7 +250,7 @@ public class Tui {
 
 		}
 
-		if (this.jogo.devolveEstado() instanceof AtaquePirata) {
+		if (this.jogo.devolveEstado() instanceof AtaquePirata && this.jogo.qtdsAtaquesPirata() > 0) {
 			this.menu.add("2 -> Combater");
 
 		}

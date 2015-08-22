@@ -1,17 +1,24 @@
 package logicajogo.dados;
 
+import java.util.Random;
+
 public class DadoNormal extends Dado {
 
 	private int resultado;
-	
-    public DadoNormal() {
+
+	public DadoNormal() {
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void lancarDado() {
 
-		setResultado((int) Math.random() * (6) + 1);
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+
+		int random_integer = rand.nextInt(6 - 1) + 1;
+
+		this.resultado = random_integer;
 
 	}
 

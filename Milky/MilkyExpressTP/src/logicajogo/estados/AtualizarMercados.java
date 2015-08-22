@@ -18,8 +18,8 @@ public class AtualizarMercados implements Estado {
 
 			PlanetaPirata carta = (PlanetaPirata) pos.obterCarta();
 
-			if (carta.validaMercadoAberto() > 0)
-				carta.atualizaMercado(new Ilegal());
+			if (carta.mercadoEspacosDisponiveis() > 0)
+				carta.mercadoReabastecer(new Ilegal());
 
 		}
 	}
@@ -32,7 +32,7 @@ public class AtualizarMercados implements Estado {
 
 			Planeta carta = (Planeta) pos.obterCarta();
 
-			if (carta.validaMercadoAberto() > 0) {
+			if (carta.mercadoEspacosDisponiveis() > 0) {
 				DadoCor dado = new DadoCor();
 				dado.lancarDado();
 
@@ -45,16 +45,41 @@ public class AtualizarMercados implements Estado {
 					j.adicionaAtaquePirata();
 
 				if (cor == Color.yellow)
-					carta.atualizaMercado(new Comida());
+					carta.mercadoReabastecer(new Comida());
 
 				if (cor == Color.red)
-					carta.atualizaMercado(new Medicamento());
+					carta.mercadoReabastecer(new Medicamento());
 
 				if (cor == Color.blue)
-					carta.atualizaMercado(new Agua());
+					carta.mercadoReabastecer(new Agua());
 
 			}
 		}
+
+	}
+
+	private void validaPosseBensIlegais(Jogo j) {
+
+		boolean il = false;
+
+		for (int k = 0; k < 2; k++)
+			if (j.consultaJogador().obterNave().consultaCuboCarga(k) == "Ilegal")
+				il = true;
+
+		if (il)
+			for (int i = 0; i < 2; i++) {
+				
+				DadoCor dado = new DadoCor();
+				dado.lancarDado();
+
+				Color cor = dado.getResultado();
+
+				if (cor == Color.white)
+					j.consultaJogador().obterNave().retiraCarga("Ilegal");
+
+				if (cor == Color.black)
+					j.adicionaAtaquePirata();
+			}
 
 	}
 
@@ -62,7 +87,8 @@ public class AtualizarMercados implements Estado {
 
 		reabestecePirata(j);
 		reabestecePlanetaNormal(j);
-
+		validaPosseBensIlegais(j);
+		
 	}
 
 	@Override
@@ -133,7 +159,7 @@ public class AtualizarMercados implements Estado {
 		if (j.qtdsAtaquesPirata() > 0) {
 			j.defineErro("FOI ATACADO POR PIRATAS");
 			j.salvaEstadoAnterior(this);
-			
+
 			return new AtaquePirata(j);
 		} else
 			return new Negociar(j);
