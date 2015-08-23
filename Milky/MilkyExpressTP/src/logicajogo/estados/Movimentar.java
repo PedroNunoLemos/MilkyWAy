@@ -9,7 +9,7 @@ import logicajogo.cartas.galaxia.BuracoNegro;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cubos.Cubo;
 
-public class Movimentar implements Estado,Serializable {
+public class Movimentar implements Estado, Serializable {
 
 	/**
 	 * 
@@ -38,6 +38,14 @@ public class Movimentar implements Estado,Serializable {
 
 		int oldx = j.consultaJogador().obterNave().posicaoAtual()[0];
 		int oldy = j.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = j.devolveMapa().obtemCarta(oldx, oldy);
+
+		if (carta != null)
+			if (!(carta instanceof BuracoNegro)) {
+				j.defineMensagem("Tem de se deslocar atraves de um buraco negro");
+				return this;
+			}
 
 		if (!j.devolveMapa().validaMovimentoAdjacentes(oldx, oldy, x, y)) {
 			j.defineMensagem("Tem de se deslocar para uma posicao adjacente.");

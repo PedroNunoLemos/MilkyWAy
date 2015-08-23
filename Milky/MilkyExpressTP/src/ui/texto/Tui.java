@@ -380,13 +380,15 @@ public class Tui {
 
 			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
-			this.menu.add("2 -> Mover Nave");
+			if (!(carta instanceof BuracoNegro))
+				this.menu.add("2 -> Mover Nave");
 
 			if (carta != null && carta instanceof BuracoNegro) {
 				this.menu.add("3 -> Viajar Buraco Negro");
 			}
 
-			this.menu.add("4 -> Efetuar Viagem Warp");
+			if (!(carta instanceof BuracoNegro))
+				this.menu.add("4 -> Efetuar Viagem Warp");
 
 		}
 
@@ -773,12 +775,21 @@ public class Tui {
 
 				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-					int crdsxy[] = this.pedeCoords();
+					int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+					int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-					int mvnx = crdsxy[0];
-					int mvny = crdsxy[1];
+					Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
-					this.jogo.moverNave(mvnx, mvny);
+					if (carta != null)
+						if (!(carta instanceof BuracoNegro)) {
+
+							int crdsxy[] = this.pedeCoords();
+
+							int mvnx = crdsxy[0];
+							int mvny = crdsxy[1];
+
+							this.jogo.moverNave(mvnx, mvny);
+						}
 
 				}
 
@@ -826,13 +837,21 @@ public class Tui {
 
 				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-					int crdsxy[] = this.pedeCoords();
+					int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+					int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-					int xi = crdsxy[0];
-					int yi = crdsxy[1];
+					Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
-					this.jogo.viajarModoWarp(xi, yi);
+					if (carta != null)
+						if (!(carta instanceof BuracoNegro)) {
 
+							int crdsxy[] = this.pedeCoords();
+
+							int xi = crdsxy[0];
+							int yi = crdsxy[1];
+
+							this.jogo.viajarModoWarp(xi, yi);
+						}
 				}
 
 				break;
