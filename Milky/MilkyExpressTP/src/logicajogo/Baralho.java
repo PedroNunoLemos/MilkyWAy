@@ -15,7 +15,12 @@ public class Baralho implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public class CartaBaralho {
+	public class CartaBaralho implements Serializable {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
 		private Carta carta;
 		private boolean retirada;
@@ -54,8 +59,6 @@ public class Baralho implements Serializable {
 		baralho.add(new CartaBaralho(new Asperta()));
 
 	}
-
-
 
 	public Carta retiraCartaTipo(String tipo) {
 

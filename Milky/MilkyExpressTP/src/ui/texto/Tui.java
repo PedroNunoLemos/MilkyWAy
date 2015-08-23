@@ -1,8 +1,10 @@
 package ui.texto;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import logicajogo.GestorFicheiros;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.*;
@@ -71,8 +73,6 @@ public class Tui {
 
 	public void mostraInterface() {
 
-		
-
 		int opt = 0;
 		while (opt != 3) {
 			this.mostraMenuPrincipal();
@@ -93,6 +93,28 @@ public class Tui {
 
 				this.processaEstado();
 				estado = this.jogo.devolveEstado().toString();
+			}
+
+			break;
+		case 2:
+
+			GestorFicheiros fichs = new GestorFicheiros();
+			try {
+
+				Jogo j = fichs.Carregar();
+
+				if (j == null)
+					System.out.println("Nao consegui carregar o jogo");
+
+				else {
+
+					this.jogo = j;
+					this.processaMenuPrincipal(1);
+
+				}
+
+			} catch (IOException e) {
+				this.jogo.defineMensagem(e.getMessage());
 			}
 
 			break;
@@ -530,9 +552,9 @@ public class Tui {
 	}
 
 	void processaEstado() {
-		
+
 		System.out.println("Menu Jogo | 99 -> Salva o Jogo Atual | 100 -> Carrega o ultimo Jogo |");
-	
+
 		char car1 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
 		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(1).toUpperCase().charAt(0);
 		char car3 = 'x';
@@ -834,6 +856,32 @@ public class Tui {
 
 			}
 
+		}
+
+		if (res == 99) {
+
+			GestorFicheiros fichs = new GestorFicheiros();
+			try {
+				fichs.Salvar(this.jogo);
+			} catch (IOException e) {
+				this.jogo.defineMensagem(e.getMessage());
+			}
+		}
+
+		if (res == 100) {
+
+			GestorFicheiros fichs = new GestorFicheiros();
+			try {
+				Jogo j = fichs.Carregar();
+
+				if (j == null)
+					this.jogo.defineMensagem("Nao consegui carregar o jogo");
+				else
+					this.jogo = j;
+
+			} catch (IOException e) {
+				this.jogo.defineMensagem(e.getMessage());
+			}
 		}
 
 	}
