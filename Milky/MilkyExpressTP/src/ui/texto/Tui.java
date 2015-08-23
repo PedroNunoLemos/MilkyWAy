@@ -44,8 +44,7 @@ public class Tui {
 		System.out.println("| Opcoes:                  |");
 		System.out.println("|        1. Iniciar Jogo   |");
 		System.out.println("|        2. Ler Jogo       |");
-		System.out.println("|        3. Salvar Jogo    |");
-		System.out.println("|        4. Sair           |");
+		System.out.println("|        3. Sair           |");
 		System.out.println("============================");
 
 		System.out.print("Escolha: ");
@@ -55,21 +54,17 @@ public class Tui {
 
 		int res;
 
-		do {
+		while (!scanner.hasNextInt()) {
+			System.out.print("\nIsso e tudo menos um numero !! ");
+			mostraMenuPrincipal();
+			scanner.nextLine();
+		}
 
-			while (!scanner.hasNextInt()) {
-				System.out.print("\nIsso e tudo menos um numero !! ");
-				mostraMenuPrincipal();
-				scanner.nextLine();
-			}
+		res = scanner.nextInt();
 
-			res = scanner.nextInt();
-
-			if (res > 3 || res < 0) {
-				System.out.print("\nA serio ? Aprende  a ler :)\n> ");
-			}
-
-		} while (res > 6 || res < 0);
+		if (res > 3 || res < 0) {
+			System.out.print("\nA serio ? Aprende  a ler :)\n> ");
+		}
 
 		return res;
 
@@ -77,30 +72,35 @@ public class Tui {
 
 	public void mostraInterface() {
 
-		this.mostraMenuPrincipal();
-		processaMenuPrincipal(this.trataMenuPrincipal());
+		
+
+		int opt = 0;
+		while (opt != 3) {
+			this.mostraMenuPrincipal();
+			opt = this.trataMenuPrincipal();
+			processaMenuPrincipal(opt);
+		}
 
 	}
 
-	void processaMenuPrincipal(int opt) {
+	int processaMenuPrincipal(int opt) {
 
 		switch (opt) {
 
 		case 1:
 
-			while (!(this.jogo.devolveEstado() instanceof FimdeJogo))
+			String estado = this.jogo.devolveEstado().toString();
+			while (estado != "Fim de Jogo") {
+
 				this.processaEstado();
-
-			if (this.jogo.devolveMensagem() != null && !this.jogo.devolveMensagem().isEmpty()) {
-
-				System.out.println(this.jogo.devolveMensagem());
-				return;
-
+				estado = this.jogo.devolveEstado().toString();
 			}
 
 			break;
 
 		}
+
+		return opt;
 
 	}
 
@@ -299,21 +299,49 @@ public class Tui {
 
 			if (nave.obterTotalCargaOcupada() > 0) {
 				if (carga[0] != null)
-					this.menu.add("1 -> Preservar " + carga[0].obtemNome());
+					this.menu.add("1 -> Guardar " + carga[0].obtemNome());
 
 				if (carga.length > 1)
 					if (carga[1] != null)
-						this.menu.add("2 -> Preservar " + carga[1].obtemNome());
+						this.menu.add("2 -> Guardar " + carga[1].obtemNome());
 
 				if (carga.length > 2)
 					if (carga[2] != null)
-						this.menu.add("3 -> Preservar " + carga[2].obtemNome());
+						this.menu.add("3 -> Guardar " + carga[2].obtemNome());
 			}
-			
+
 			this.menu.add("-------------------------");
 			this.menu.add("8 -> Voltar ao Menu  ");
 
 		}
+
+	}
+
+	private void mostramenuAtualizarNave() {
+
+		this.menu.clear();
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			this.menu.add("Planeta : " + carta.getNome());
+			this.menu.add("Nave : Atualizar ");
+
+			if (!nave.maxForca())
+				this.menu.add("1 -> Força (" + nave.obterProximoCustoUpgradeForca() + " Moedas)");
+
+			if (!nave.naveCargaMaxima())
+				this.menu.add("2 -> Carga (3 Moedas)");
+
+		}
+
+		this.menu.add("-------------------------");
+		this.menu.add("8 -> Voltar ao Menu  ");
 
 	}
 
@@ -354,9 +382,12 @@ public class Tui {
 
 				if (!this.jogo.consultaJogador().ativouSuborno())
 					this.menu.add("4 -> Subornar");
-			}
 
-			this.menu.add("5 -> Atualizar Nave");
+				if (!this.jogo.consultaJogador().obterNave().maxForca()
+						|| !this.jogo.consultaJogador().obterNave().naveCargaMaxima())
+					this.menu.add("5 -> Atualizar Nave");
+
+			}
 
 		}
 
@@ -392,6 +423,10 @@ public class Tui {
 
 		case 5:
 			this.mostramenuSuborno();
+			break;
+
+		case 6:
+			this.mostramenuAtualizarNave();
 			break;
 
 		}
@@ -496,9 +531,9 @@ public class Tui {
 	}
 
 	void processaEstado() {
-
-		System.out.println();
-
+		
+		System.out.println("Menu Jogo | 99 -> Salva o Jogo Atual | 100 -> Carrega o ultimo Jogo |");
+	
 		char car1 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
 		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(1).toUpperCase().charAt(0);
 		char car3 = 'x';
@@ -547,6 +582,30 @@ public class Tui {
 	}
 
 	private void executaMenu(int res) {
+
+		if (this.ecraativo == 6) {
+
+			Nave nave = this.jogo.consultaJogador().obterNave();
+
+			int x = nave.posicaoAtual()[0];
+			int y = nave.posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+			switch (res) {
+
+			case 8:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+
+				break;
+			}
+
+			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+				if (res >= 1 && res <= 2)
+					this.jogo.atualizarNave(res);
+			}
+		}
 
 		if (this.ecraativo == 5) {
 
@@ -752,6 +811,17 @@ public class Tui {
 					int yi = crdsxy[1];
 
 					this.jogo.viajarModoWarp(xi, yi);
+
+				}
+
+				break;
+
+			case 5:
+
+				if (this.jogo.devolveEstado() instanceof Negociar) {
+
+					this.ecraativo = 6;
+					this.mostramenuAtualizarNave();
 
 				}
 

@@ -179,13 +179,58 @@ public class Negociar implements Estado {
 
 	@Override
 	public Estado continuarJogo(Jogo j) {
-		// TODO Auto-generated method stub
-		return new Movimentar(j);
+
+		if (j.consultaJogador().devolveMoedas() == 0)
+			return new FimdeJogo();
+		else
+			return new Movimentar(j);
 	}
 
 	@Override
 	public Estado combaterPiratas(Jogo j) {
 		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado atualizarNave(Jogo j, int tipoatualizacao) {
+		// TODO Auto-generated method stub
+
+		Nave nave = j.consultaJogador().obterNave();
+
+		if (tipoatualizacao == 1) {
+			int val = nave.obterProximoCustoUpgradeForca();
+
+			if (val > j.consultaJogador().devolveMoedas()) {
+
+				j.defineMensagem("Nao tem dinheiro para atualizar a força");
+				return this;
+
+			}
+
+			j.consultaJogador().atualizaMoedas(-val);
+			j.atualizaBanco(val);
+			nave.atualizarForca();
+
+		}
+
+		if (tipoatualizacao == 2) {
+			int val = 3;
+
+			if (val > j.consultaJogador().devolveMoedas()) {
+
+				j.defineMensagem("Nao tem dinheiro para atualizar a carga");
+				return this;
+
+			}
+
+			j.consultaJogador().atualizaMoedas(-val);
+			j.atualizaBanco(val);
+			nave.ativaCargaMaxima();
+
+		}
+
+		j.defineMensagem("Nave atualizada");
 		return this;
 	}
 

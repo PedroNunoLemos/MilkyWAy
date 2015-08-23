@@ -96,5 +96,12 @@ public class Menu implements Estado {
 	}
 
 
+	@Override
+	public Estado atualizarNave(Jogo j, int tipoatualizacao) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+
 
 }

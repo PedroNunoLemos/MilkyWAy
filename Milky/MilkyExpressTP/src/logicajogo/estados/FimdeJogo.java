@@ -4,9 +4,15 @@ import logicajogo.Jogo;
 import logicajogo.cubos.Cubo;
 
 public class FimdeJogo implements Estado {
-	
-	
-	public FimdeJogo(){}
+
+	public FimdeJogo() {	}
+
+	@Override
+	public String toString() {
+
+		return "Fim de Jogo";
+
+	}
 
 	@Override
 	public Estado iniciarJogo(Jogo j) {
@@ -74,5 +80,10 @@ public class FimdeJogo implements Estado {
 		return this;
 	}
 
+	@Override
+	public Estado atualizarNave(Jogo j, int tipoatualizacao) {
+		// TODO Auto-generated method stub
+		return this;
+	}
 
 }

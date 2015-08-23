@@ -168,7 +168,7 @@ public class Movimentar implements Estado {
 				j.adicionaAtaquePirata();
 				j.adicionaAtaquePirata();
 				j.defineMensagem("FOI ATACADO POR PIRATAS");
-				
+
 				j.salvaEstadoAnterior(this);
 				return new AtaquePirata(j);
 			}
@@ -179,6 +179,12 @@ public class Movimentar implements Estado {
 
 	@Override
 	public Estado combaterPiratas(Jogo j) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
+	@Override
+	public Estado atualizarNave(Jogo j, int tipoatualizacao) {
 		// TODO Auto-generated method stub
 		return this;
 	}

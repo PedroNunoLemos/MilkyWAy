@@ -9,6 +9,12 @@ public class Jogador {
 	private boolean ai;
 	private boolean temsuborno;
 
+	public Jogador(int _moedas, boolean _ai) {
+
+		this(_moedas);
+		this.ai = _ai;
+	}
+
 	public Jogador(int _moedas) {
 
 		nave = new Nave();

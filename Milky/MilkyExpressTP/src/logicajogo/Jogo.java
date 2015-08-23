@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import logicajogo.cubos.*;
 import logicajogo.estados.Estado;
+import logicajogo.estados.FimdeJogo;
 import logicajogo.estados.IniciarJogo;
 
 public class Jogo {
@@ -13,6 +14,8 @@ public class Jogo {
 	private Estado estadoanterior;
 
 	private Jogador jogador;
+	private Jogador jogadorai;
+
 	private int banco = 30;
 
 	private ArrayList<Cubo> reserva;
@@ -59,6 +62,11 @@ public class Jogo {
 	public void moverNave(int x, int y) {
 
 		this.estado = this.estado.moverNave(this, x, y);
+	}
+
+	public void atualizarNave(int tipo) {
+
+		this.estado = this.estado.atualizarNave(this, tipo);
 	}
 
 	public void comprarBens(Cubo cubo) {

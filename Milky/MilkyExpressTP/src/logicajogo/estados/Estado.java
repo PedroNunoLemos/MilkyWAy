@@ -9,19 +9,21 @@ public interface Estado {
 
 	Estado moverNave(Jogo j, int x, int y);
 
+	Estado atualizarNave(Jogo j, int tipoatualizacao);
+
 	Estado comprarBens(Jogo j, Cubo cubo);
 
 	Estado venderBens(Jogo j, Cubo cubo);
-	
+
 	Estado combaterPiratas(Jogo j);
-	
+
 	Estado continuarJogo(Jogo j);
 
 	Estado viajarProximoBuracoNegro(Jogo j, int x, int y);
-	
+
 	Estado efetuaSuborno(Jogo j, Cubo cubo);
-	
-	Estado viajarModoWarp(Jogo j, int x,int y);
+
+	Estado viajarModoWarp(Jogo j, int x, int y);
 
 	Estado fimJogo(Jogo j);
 

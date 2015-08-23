@@ -127,4 +127,10 @@ public class AtaquePirata implements Estado {
 		return this;
 	}
 
+	@Override
+	public Estado atualizarNave(Jogo j, int tipoatualizacao) {
+		// TODO Auto-generated method stub
+		return this;
+	}
+
 }

@@ -25,7 +25,8 @@ public class Nave {
 
 		this.cargamaxcap = 2;
 
-		atualizar(0);
+		atualizarForca();
+
 		this.x = -1;
 		this.y = -1;
 
@@ -50,7 +51,7 @@ public class Nave {
 
 		}
 
-		return cnt;
+		return cnt + 2;
 
 	}
 
@@ -69,17 +70,35 @@ public class Nave {
 	}
 
 	public boolean maxForca() {
-		return (obterForca() == 3);
+		return (obterForca() == 5);
 	}
 
-	public void atualizar(int index) {
+	public boolean atualizarForca() {
 
 		for (int i = 0; i < 3; i++) {
-			if (forca[i] == null && i == index)
+			if (forca[i] == null) {
 				forca[i] = new Cinzento();
+				return true;
+			}
 
 		}
 
+		return false;
+
+	}
+
+	public int obterProximoCustoUpgradeForca() {
+
+		if (this.maxForca())
+			return 0;
+
+		if (forca[1] == null)
+			return 4;
+
+		if (forca[1] != null && forca[2] == null)
+			return 5;
+
+		return 3;
 	}
 
 	public int obterTotalCargaOcupada() {
