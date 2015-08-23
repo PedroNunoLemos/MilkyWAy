@@ -14,12 +14,16 @@ public class Nave {
 	private Cubo[] forca;
 	private Cubo[] carga;
 
+	private int cargamaxcap = 2;
+
 	public Nave() {
 
 		this.forca = new Cubo[3];
 		this.carga = new Cubo[3];
 
 		this.cargmax = false;
+
+		this.cargamaxcap = 2;
 
 		atualizar(0);
 		this.x = -1;
@@ -50,6 +54,20 @@ public class Nave {
 
 	}
 
+	public Cubo[] obterCarga() {
+
+		if (this.obterTotalCargaOcupada() > 0) {
+			Cubo[] cubos = new Cubo[this.obterTotalCargaOcupada()];
+
+			for (int i = 0; i < this.obterTotalCargaOcupada(); i++)
+				cubos[i] = carga[i];
+
+			return cubos;
+
+		} else
+			return null;
+	}
+
 	public boolean maxForca() {
 		return (obterForca() == 3);
 	}
@@ -68,7 +86,7 @@ public class Nave {
 
 		int cnt = 0;
 
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < cargamaxcap; i++) {
 			if (carga[i] != null)
 				cnt++;
 
@@ -78,24 +96,35 @@ public class Nave {
 
 	}
 
-	public void ativaCargaMaxima() {
+	public boolean podeLevarCarga() {
 
-		this.cargmax = true;
-
-	}
-
-	public int adicionaCarga(Cubo cargacap) {
-
-		if (!this.cargmax && obterTotalCargaOcupada() == 2)
-			return -1;
-
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < cargamaxcap; i++) {
 			if (carga[i] == null)
-				carga[i] = cargacap;
+				return true;
 
 		}
 
-		return 0;
+		return false;
+
+	}
+
+	public void ativaCargaMaxima() {
+
+		this.cargmax = true;
+		this.cargamaxcap = 3;
+
+	}
+
+	public boolean adicionaCarga(Cubo cargacap) {
+
+		for (int i = 0; i < cargamaxcap; i++) {
+			if (carga[i] == null) {
+				carga[i] = cargacap;
+				return true;
+			}
+		}
+
+		return false;
 
 	}
 
@@ -103,6 +132,18 @@ public class Nave {
 
 		for (int i = 0; i < 3; i++) {
 			if (carga[i] != null && carga[i].obtemNome() == nome) {
+				carga[i] = null;
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean retiraCarga(Cubo cubo) {
+
+		for (int i = 0; i < 3; i++) {
+			if (carga[i] != null && carga[i].equals(cubo)) {
 				carga[i] = null;
 				return true;
 			}
@@ -120,8 +161,8 @@ public class Nave {
 
 		return "-";
 	}
-	
-	public boolean naveCargaAtualizada(){
+
+	public boolean naveCargaMaxima() {
 		return this.cargmax;
 	}
 

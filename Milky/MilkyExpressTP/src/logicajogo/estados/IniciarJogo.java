@@ -22,7 +22,7 @@ public class IniciarJogo implements Estado {
 	public Estado iniciarJogo(Jogo j) {
 
 		if (!j.temJogadores()) {
-			j.defineErro("Sem Jogadores Criados");
+			j.defineMensagem("Sem Jogadores Criados");
 			return this;
 
 		} else
@@ -56,7 +56,7 @@ public class IniciarJogo implements Estado {
 	}
 
 	@Override
-	public Estado efetuaSuborno(Jogo j) {
+	public Estado efetuaSuborno(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}

@@ -68,7 +68,7 @@ public class AtualizarMercados implements Estado {
 
 		if (il)
 			for (int i = 0; i < 2; i++) {
-				
+
 				DadoCor dado = new DadoCor();
 				dado.lancarDado();
 
@@ -83,12 +83,28 @@ public class AtualizarMercados implements Estado {
 
 	}
 
+	private void validaSuborno(Jogo j) {
+
+		if (j.consultaJogador().ativouSuborno()) {
+
+			int moedas = j.consultaJogador().devolveMoedas();
+
+			moedas = (moedas / 2) > 2 ? (moedas / 2) : 2;
+
+			j.consultaJogador().atualizaMoedas(-moedas);
+			j.atualizaBanco(moedas);
+			j.defineMensagem("Pagou a protecao do suborno " + moedas + " moedas");
+
+		}
+
+	}
+
 	public AtualizarMercados(Jogo j) {
 
 		reabestecePirata(j);
 		reabestecePlanetaNormal(j);
 		validaPosseBensIlegais(j);
-		
+		validaSuborno(j);
 	}
 
 	@Override
@@ -130,7 +146,7 @@ public class AtualizarMercados implements Estado {
 	}
 
 	@Override
-	public Estado efetuaSuborno(Jogo j) {
+	public Estado efetuaSuborno(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -157,7 +173,7 @@ public class AtualizarMercados implements Estado {
 	public Estado continuarJogo(Jogo j) {
 
 		if (j.qtdsAtaquesPirata() > 0) {
-			j.defineErro("FOI ATACADO POR PIRATAS");
+			j.defineMensagem("FOI ATACADO POR PIRATAS");
 			j.salvaEstadoAnterior(this);
 
 			return new AtaquePirata(j);

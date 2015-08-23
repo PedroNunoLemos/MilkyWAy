@@ -33,24 +33,24 @@ public class Movimentar implements Estado {
 		int oldy = j.consultaJogador().obterNave().posicaoAtual()[1];
 
 		if (!j.devolveMapa().validaMovimentoAdjacentes(oldx, oldy, x, y)) {
-			j.defineErro("Tem de se deslocar para uma posicao adjacente.");
+			j.defineMensagem("Tem de se deslocar para uma posicao adjacente.");
 			return this;
 		}
 
 		if (!j.devolveMapa().consultaPosicao(x, y).foiExplorada()) {
-			j.defineErro("Posicao nao explorada");
+			j.defineMensagem("Posicao nao explorada");
 			return this;
 		} else {
 
 			if (x == oldx && y == oldy) {
-				j.defineErro("Tem de haver movimentacao");
+				j.defineMensagem("Tem de haver movimentacao");
 				return this;
 
 			}
 
 			j.consultaJogador().obterNave().mover(x, y);
 			j.consultaJogador().atualizaMoedas(-1);
-			j.defineErro(" ");
+			j.defineMensagem(" ");
 
 		}
 
@@ -78,12 +78,12 @@ public class Movimentar implements Estado {
 		Carta carta = j.devolveMapa().consultaPosicao(x, y).obterCarta();
 
 		if (carta == null) {
-			j.defineErro(msgbr);
+			j.defineMensagem(msgbr);
 			return this;
 		}
 
 		if (!j.devolveMapa().consultaPosicao(x, y).foiExplorada()) {
-			j.defineErro("Posicao Não Explorada");
+			j.defineMensagem("Posicao Não Explorada");
 			return this;
 		}
 
@@ -91,18 +91,18 @@ public class Movimentar implements Estado {
 
 			j.consultaJogador().obterNave().mover(x, y);
 			j.consultaJogador().atualizaMoedas(-1);
-			j.defineErro(" ");
+			j.defineMensagem(" ");
 
 			return this;
 
 		} else {
-			j.defineErro(msgbr);
+			j.defineMensagem(msgbr);
 			return this;
 		}
 	}
 
 	@Override
-	public Estado efetuaSuborno(Jogo j) {
+	public Estado efetuaSuborno(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -114,24 +114,24 @@ public class Movimentar implements Estado {
 		Posicao pos = j.devolveMapa().consultaPosicao(x, y);
 
 		if (pos == null) {
-			j.defineErro("Out Of Bounds :P");
+			j.defineMensagem("Out Of Bounds :P");
 			return this;
 		}
 
 		if (!j.consultaJogador().obterNave().estaParada()) {
-			j.defineErro("So pode ser usado sem movimentos");
+			j.defineMensagem("So pode ser usado sem movimentos");
 			return this;
 		}
 
 		if (pos.obterCarta() == null) {
-			j.defineErro("Out Of Bounds :P");
+			j.defineMensagem("Out Of Bounds :P");
 			return this;
 		}
 
 		pos.defExplorada(true);
 		j.consultaJogador().obterNave().mover(x, y);
 		j.consultaJogador().atualizaMoedas(-1);
-		j.defineErro(" ");
+		j.defineMensagem(" ");
 
 		return new Explorar(j);
 	}
@@ -152,7 +152,7 @@ public class Movimentar implements Estado {
 	public Estado continuarJogo(Jogo j) {
 
 		if (j.consultaJogador().obterNave().estaParada()) {
-			j.defineErro("Nave nao movimentada.");
+			j.defineMensagem("Nave nao movimentada.");
 			return this;
 		} else {
 
@@ -167,7 +167,7 @@ public class Movimentar implements Estado {
 			if (carta instanceof PlanetaPirata) {
 				j.adicionaAtaquePirata();
 				j.adicionaAtaquePirata();
-				j.defineErro("FOI ATACADO POR PIRATAS");
+				j.defineMensagem("FOI ATACADO POR PIRATAS");
 				
 				j.salvaEstadoAnterior(this);
 				return new AtaquePirata(j);

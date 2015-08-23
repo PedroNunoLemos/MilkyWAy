@@ -19,7 +19,7 @@ public class Jogo {
 
 	private Tabuleiro tabuleiro;
 
-	private String ultimoErro;
+	private String ultimaMsg;
 
 	private int ataquesPiratas = 0;
 
@@ -63,12 +63,17 @@ public class Jogo {
 
 	public void comprarBens(Cubo cubo) {
 
-		this.estado = this.estado.comprarBens(this,cubo);
+		this.estado = this.estado.comprarBens(this, cubo);
 	}
 
 	public void venderBens(Cubo cubo) {
 
-		this.estado = this.estado.venderBens(this,cubo);
+		this.estado = this.estado.venderBens(this, cubo);
+	}
+
+	public void ativarSuborno(Cubo cubo) {
+
+		this.estado = this.estado.efetuaSuborno(this, cubo);
 	}
 
 	public void viajarBuracoNegro(int x, int y) {
@@ -107,9 +112,9 @@ public class Jogo {
 		return this.ataquesPiratas;
 	}
 
-	public String devolveErro() {
+	public String devolveMensagem() {
 
-		return this.ultimoErro;
+		return this.ultimaMsg;
 	}
 
 	public Tabuleiro devolveMapa() {
@@ -158,9 +163,9 @@ public class Jogo {
 
 	}
 
-	public void defineErro(String erro) {
+	public void defineMensagem(String erro) {
 
-		this.ultimoErro = erro;
+		this.ultimaMsg = erro;
 	}
 
 	public boolean temJogadores() {

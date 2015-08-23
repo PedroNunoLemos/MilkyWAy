@@ -13,11 +13,13 @@ public abstract class PlanetaBase extends Carta {
 	Map<Cubo, Integer> precario = new HashMap<>();
 
 	private Cubo[] mercado;
+	private boolean comprador;
 
 	public PlanetaBase(int mercadoespaco) {
 		// TODO Auto-generated constructor stub
 		this.qtdespacosmercados = mercadoespaco;
 		mercado = new Cubo[mercadoespaco];
+		comprador = false;
 	}
 
 	public char veMercado(int idx) {
@@ -45,6 +47,8 @@ public abstract class PlanetaBase extends Carta {
 
 	public void mercadoReabastecer(Cubo cubo) {
 
+		this.comprador = false;
+
 		for (int i = 0; i < qtdespacosmercados; i++) {
 
 			if (mercado[i] == null) {
@@ -57,6 +61,10 @@ public abstract class PlanetaBase extends Carta {
 
 	}
 
+	public boolean mercadoComprador() {
+		return this.comprador;
+	}
+
 	public boolean mercadoRetirarCubo(Cubo cubo) {
 
 		for (int i = 0; i < qtdespacosmercados; i++) {
@@ -64,6 +72,7 @@ public abstract class PlanetaBase extends Carta {
 			if (mercado[i] != null) {
 				if (cubo.obtemNome() == mercado[i].obtemNome()) {
 					mercado[i] = null;
+					this.comprador = true;
 					return true;
 				}
 			}
@@ -80,12 +89,6 @@ public abstract class PlanetaBase extends Carta {
 		cubos = mercado;
 
 		return cubos;
-
-	}
-
-	public int obtemPreco(Cubo cubo) {
-
-		return precario.get(cubo).intValue();
 
 	}
 

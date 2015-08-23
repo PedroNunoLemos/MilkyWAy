@@ -46,7 +46,7 @@ public class AtaquePirata implements Estado {
 		// TODO Auto-generated method stub
 
 		if (j.qtdsAtaquesPirata() > 0) {
-			j.defineErro("Não pode saltar o combate");
+			j.defineMensagem("Não pode saltar o combate");
 			return this;
 		}
 
@@ -67,7 +67,7 @@ public class AtaquePirata implements Estado {
 	}
 
 	@Override
-	public Estado efetuaSuborno(Jogo j) {
+	public Estado efetuaSuborno(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}
@@ -119,7 +119,7 @@ public class AtaquePirata implements Estado {
 				cntwin++;
 		}
 
-		j.defineErro("Foi atacado " + j.qtdsAtaquesPirata() + " vez(es) e ganhou " + cntwin
+		j.defineMensagem("Foi atacado " + j.qtdsAtaquesPirata() + " vez(es) e ganhou " + cntwin
 				+ " combate(s) e roubado em " + totpen + " moedas");
 
 		j.limpaAtaquesPirata();

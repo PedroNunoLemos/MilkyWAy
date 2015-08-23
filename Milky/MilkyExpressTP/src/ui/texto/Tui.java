@@ -9,6 +9,7 @@ import logicajogo.Posicao;
 import logicajogo.cartas.*;
 import logicajogo.cartas.galaxia.*;
 import logicajogo.cartas.galaxia.planetas.*;
+import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.Cubo;
 import logicajogo.estados.*;
 
@@ -90,9 +91,9 @@ public class Tui {
 			while (!(this.jogo.devolveEstado() instanceof FimdeJogo))
 				this.processaEstado();
 
-			if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty()) {
+			if (this.jogo.devolveMensagem() != null && !this.jogo.devolveMensagem().isEmpty()) {
 
-				System.out.println(this.jogo.devolveErro());
+				System.out.println(this.jogo.devolveMensagem());
 				return;
 
 			}
@@ -207,7 +208,7 @@ public class Tui {
 		this.menu.add("º -> Planeta Pirata");
 		this.menu.add("o -> Planeta");
 		this.menu.add("-------------------------");
-		this.menu.add("0 -> Voltar ao Menu  ");
+		this.menu.add("8 -> Voltar ao Menu  ");
 
 	}
 
@@ -225,18 +226,92 @@ public class Tui {
 
 			Cubo[] stock = pl.obterStock();
 
-			this.menu.add("Planeta :" + carta.getNome());
-			this.menu.add("Mercado :");
+			this.menu.add("Planeta : " + carta.getNome());
+			this.menu.add("Mercado : ");
 
 			if (stock[0] != null)
 				this.menu.add("1 -> Comprar " + stock[0].obtemNome());
 
 			if (stock.length > 1)
 				if (stock[1] != null)
-					this.menu.add("2 -> Comprar" + stock[1].obtemNome());
+					this.menu.add("2 -> Comprar " + stock[1].obtemNome());
 
 			this.menu.add("-------------------------");
-			this.menu.add("0 -> Voltar ao Menu  ");
+			this.menu.add("8 -> Voltar ao Menu  ");
+
+		}
+
+	}
+
+	private void mostramenuVender() {
+
+		this.menu.clear();
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			Cubo[] carga = nave.obterCarga();
+
+			this.menu.add("Planeta : " + carta.getNome());
+			this.menu.add("Nave : ");
+
+			if (nave.obterTotalCargaOcupada() > 0) {
+				if (carga[0] != null)
+					this.menu.add("1 -> Vender " + carga[0].obtemNome());
+
+				if (carga.length > 1)
+					if (carga[1] != null)
+						this.menu.add("2 -> Vender " + carga[1].obtemNome());
+
+				if (carga.length > 2)
+					if (carga[2] != null)
+						this.menu.add("3 -> Vender " + carga[2].obtemNome());
+			}
+
+			this.menu.add("-------------------------");
+			this.menu.add("8 -> Voltar ao Menu  ");
+
+		}
+
+	}
+
+	private void mostramenuSuborno() {
+
+		this.menu.clear();
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			Cubo[] carga = nave.obterCarga();
+
+			this.menu.add("Planeta : " + carta.getNome());
+			this.menu.add("Nave (Subornar) : ");
+
+			if (nave.obterTotalCargaOcupada() > 0) {
+				if (carga[0] != null)
+					this.menu.add("1 -> Preservar " + carga[0].obtemNome());
+
+				if (carga.length > 1)
+					if (carga[1] != null)
+						this.menu.add("2 -> Preservar " + carga[1].obtemNome());
+
+				if (carga.length > 2)
+					if (carga[2] != null)
+						this.menu.add("3 -> Preservar " + carga[2].obtemNome());
+			}
+			
+			this.menu.add("-------------------------");
+			this.menu.add("8 -> Voltar ao Menu  ");
 
 		}
 
@@ -276,9 +351,12 @@ public class Tui {
 			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 				this.menu.add("2 -> Comprar Bens");
 				this.menu.add("3 -> Vender Bens");
+
+				if (!this.jogo.consultaJogador().ativouSuborno())
+					this.menu.add("4 -> Subornar");
 			}
 
-			this.menu.add("4 -> Atualizar Nave");
+			this.menu.add("5 -> Atualizar Nave");
 
 		}
 
@@ -288,7 +366,9 @@ public class Tui {
 		}
 
 		this.menu.add("9 -> Mostra Legenda");
-		this.menu.add("-------------------------");
+
+		// this.menu.add("-------------------------");
+
 		this.menu.add("0 -> Continuar");
 
 	}
@@ -304,6 +384,14 @@ public class Tui {
 			break;
 		case 3:
 			this.mostramenuComprar();
+			break;
+
+		case 4:
+			this.mostramenuVender();
+			break;
+
+		case 5:
+			this.mostramenuSuborno();
 			break;
 
 		}
@@ -412,11 +500,11 @@ public class Tui {
 		System.out.println();
 
 		char car1 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
-		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(1).toUpperCase().charAt(0);
 		char car3 = 'x';
 
-		if (this.jogo.consultaJogador().obterNave().naveCargaAtualizada())
-			car3 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		if (this.jogo.consultaJogador().obterNave().naveCargaMaxima())
+			car3 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(3).toUpperCase().charAt(0);
 
 		System.out.printf("Jogador 1 [ %d Moedas ] [Nave  Força:%d Carga |%c|%c|%c|]",
 				this.jogo.consultaJogador().devolveMoedas(), this.jogo.consultaJogador().obterNave().obterForca(), car1,
@@ -433,8 +521,8 @@ public class Tui {
 
 		this.imprimeInfoCarta(x, y);
 
-		if (this.jogo.devolveErro() != null && !this.jogo.devolveErro().isEmpty())
-			System.out.println(this.jogo.devolveErro());
+		if (this.jogo.devolveMensagem() != null && !this.jogo.devolveMensagem().isEmpty())
+			System.out.println(this.jogo.devolveMensagem());
 
 		infox = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		infoy = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
@@ -460,18 +548,126 @@ public class Tui {
 
 	private void executaMenu(int res) {
 
-		executaMenuEstados(res);
-		executaMenuLegenda(res);
-	}
+		if (this.ecraativo == 5) {
 
-	private void executaMenuEstados(int res) {
+			Nave nave = this.jogo.consultaJogador().obterNave();
+
+			int x = nave.posicaoAtual()[0];
+			int y = nave.posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+			switch (res) {
+
+			case 8:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+
+				break;
+			}
+
+			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+				Cubo[] carga = nave.obterCarga();
+
+				if (res >= 1 && res <= 3)
+					if (carga[res - 1] != null) {
+						this.jogo.ativarSuborno((carga[res - 1]));
+					}
+			}
+		}
+
+		if (this.ecraativo == 4) {
+
+			Nave nave = this.jogo.consultaJogador().obterNave();
+
+			int x = nave.posicaoAtual()[0];
+			int y = nave.posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+			switch (res) {
+
+			case 8:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+
+				break;
+			}
+
+			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+				Cubo[] carga = nave.obterCarga();
+
+				if (res >= 1 && res <= 3)
+					if (carga[res - 1] != null) {
+						this.jogo.venderBens(carga[res - 1]);
+					}
+			}
+
+		}
+
+		if (this.ecraativo == 3) {
+
+			int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+			int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+			Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+			PlanetaBase pl = (PlanetaBase) carta;
+
+			switch (res) {
+
+			case 8:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+
+				break;
+
+			case 1:
+
+				if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+					Cubo[] stock = pl.obterStock();
+
+					if (stock[0] != null) {
+						this.jogo.comprarBens(stock[0]);
+					}
+				}
+
+				break;
+
+			case 2:
+				if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+					Cubo[] stock = pl.obterStock();
+
+					if (stock[1] != null) {
+						this.jogo.comprarBens(stock[1]);
+
+					}
+				}
+				break;
+
+			}
+
+		}
+
+		if (ecraativo == 2) {
+
+			switch (res) {
+			case 8:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+				break;
+			}
+
+		}
 
 		if (this.ecraativo == 1) {
 
 			switch (res) {
 
 			case 0:
-				this.jogo.defineErro("");
+				this.jogo.defineMensagem("");
 				this.jogo.continuarJogo();
 				break;
 
@@ -489,6 +685,9 @@ public class Tui {
 			case 2:
 
 				if (this.jogo.devolveEstado() instanceof Negociar) {
+
+					this.ecraativo = 3;
+					this.mostramenuComprar();
 
 				}
 
@@ -511,6 +710,13 @@ public class Tui {
 
 			case 3:
 
+				if (this.jogo.devolveEstado() instanceof Negociar) {
+
+					this.ecraativo = 4;
+					this.mostramenuVender();
+
+				}
+
 				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
 					int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
@@ -532,6 +738,12 @@ public class Tui {
 
 			case 4:
 
+				if (this.jogo.devolveEstado() instanceof Negociar) {
+
+					this.ecraativo = 5;
+					this.mostramenuSuborno();
+				}
+
 				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
 					int crdsxy[] = this.pedeCoords();
@@ -551,21 +763,6 @@ public class Tui {
 
 				break;
 
-			}
-
-		}
-
-	}
-
-	private void executaMenuLegenda(int res) {
-
-		if (ecraativo == 2) {
-
-			switch (res) {
-			case 0:
-				this.mostraMenuEstados();
-				this.ecraativo = 1;
-				break;
 			}
 
 		}

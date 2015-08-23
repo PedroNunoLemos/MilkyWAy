@@ -39,7 +39,7 @@ public class FimdeJogo implements Estado {
 	}
 
 	@Override
-	public Estado efetuaSuborno(Jogo j) {
+	public Estado efetuaSuborno(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}

@@ -19,7 +19,7 @@ public interface Estado {
 
 	Estado viajarProximoBuracoNegro(Jogo j, int x, int y);
 	
-	Estado efetuaSuborno(Jogo j);
+	Estado efetuaSuborno(Jogo j, Cubo cubo);
 	
 	Estado viajarModoWarp(Jogo j, int x,int y);
 
