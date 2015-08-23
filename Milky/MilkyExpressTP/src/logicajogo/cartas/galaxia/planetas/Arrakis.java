@@ -3,15 +3,18 @@ package logicajogo.cartas.galaxia.planetas;
 
 
 import logicajogo.cubos.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class Arrakis extends Planeta{
+import java.io.Serializable;
+
+public class Arrakis extends Planeta implements Serializable{
     
     
-        public Arrakis(){
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+		public Arrakis(){
         	
         	
         nome = "Arrakis";

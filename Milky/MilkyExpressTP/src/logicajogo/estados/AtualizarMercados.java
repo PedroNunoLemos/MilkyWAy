@@ -1,6 +1,7 @@
 package logicajogo.estados;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import logicajogo.Jogo;
@@ -10,7 +11,12 @@ import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cubos.*;
 import logicajogo.dados.DadoCor;
 
-public class AtualizarMercados implements Estado {
+public class AtualizarMercados implements Estado,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	private void reabestecePirata(Jogo j) {
 

@@ -2,12 +2,17 @@
 package logicajogo.cartas.galaxia.planetas;
 
 import logicajogo.cubos.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Reverie extends Planeta{
+import java.io.Serializable;
+
+public class Reverie extends Planeta implements Serializable{
 	
-    public Reverie(){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Reverie(){
     	
         nome = "Reverie";
         precario.put(new Agua(), 1);

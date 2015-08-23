@@ -2,12 +2,17 @@
 package logicajogo.cartas.galaxia.planetas;
 
 import logicajogo.cubos.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Kiber extends Planeta{
+import java.io.Serializable;
+
+public class Kiber extends Planeta implements Serializable{
 	
-    public Kiber(){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Kiber(){
     
     	nome = "Kiber";
         precario.put(new Agua(), 3);

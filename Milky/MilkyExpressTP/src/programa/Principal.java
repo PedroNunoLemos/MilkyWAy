@@ -1,7 +1,5 @@
 package programa;
 
-import logicajogo.Jogo;
-import logicajogo.estados.IniciarJogo;
 import ui.texto.Tui;
 
 public class Principal {

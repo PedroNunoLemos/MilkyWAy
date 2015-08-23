@@ -1,15 +1,18 @@
 
 package logicajogo.cartas.galaxia.planetas;
 
-import logicajogo.cubos.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
 
-public class Asperta extends PlanetaPirata{    
+import logicajogo.cubos.*;
+
+public class Asperta extends PlanetaPirata implements Serializable{    
     
-        public Asperta(){
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7944742211804793124L;
+
+		public Asperta(){
         	
         nome = "Asperta";
         precario.put(new Agua(), 3);

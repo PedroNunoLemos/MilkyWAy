@@ -1,5 +1,7 @@
 package logicajogo.estados;
 
+import java.io.Serializable;
+
 import logicajogo.Jogo;
 import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.planetas.PlanetaBase;
@@ -7,7 +9,12 @@ import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.Cubo;
 
-public class Negociar implements Estado {
+public class Negociar implements Estado,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Negociar(Jogo j) {
 	}
@@ -133,12 +140,6 @@ public class Negociar implements Estado {
 			return this;
 
 		Nave nave = j.consultaJogador().obterNave();
-
-		int x = nave.posicaoAtual()[0];
-		int y = nave.posicaoAtual()[1];
-
-		Carta carta = j.devolveMapa().obtemCarta(x, y);
-		PlanetaBase pl = (PlanetaBase) carta;
 
 		if (j.consultaJogador().ativouSuborno()) {
 			j.defineMensagem("Suborno previamente ativado");

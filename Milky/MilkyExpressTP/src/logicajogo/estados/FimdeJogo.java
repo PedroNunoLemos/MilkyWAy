@@ -1,9 +1,16 @@
 package logicajogo.estados;
 
+import java.io.Serializable;
+
 import logicajogo.Jogo;
 import logicajogo.cubos.Cubo;
 
-public class FimdeJogo implements Estado {
+public class FimdeJogo implements Estado,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public FimdeJogo() {	}
 

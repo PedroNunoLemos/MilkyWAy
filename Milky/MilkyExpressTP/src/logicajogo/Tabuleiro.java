@@ -1,14 +1,18 @@
 package logicajogo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 
-public class Tabuleiro {
+public class Tabuleiro implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Baralho baralhojogo;
 	private ArrayList<Posicao> galaxia;
 

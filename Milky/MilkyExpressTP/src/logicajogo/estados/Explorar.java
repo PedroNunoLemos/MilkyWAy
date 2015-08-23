@@ -1,15 +1,16 @@
 package logicajogo.estados;
 
-import java.awt.Color;
+import java.io.Serializable;
 
 import logicajogo.Jogo;
-import logicajogo.Posicao;
-import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cubos.Cubo;
-import logicajogo.cubos.Ilegal;
-import logicajogo.dados.DadoCor;
 
-public class Explorar implements Estado {
+public class Explorar implements Estado,Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Explorar(Jogo j) {
 

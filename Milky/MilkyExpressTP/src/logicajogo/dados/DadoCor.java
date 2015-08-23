@@ -1,13 +1,18 @@
 package logicajogo.dados;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Random;
 
-public class DadoCor extends Dado {
+public class DadoCor extends Dado implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Color resultado;
 	private ArrayList<Color> cores;
 

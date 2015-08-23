@@ -2,10 +2,15 @@
 package logicajogo.cartas.galaxia.planetas;
 
 import logicajogo.cubos.*;
-import java.util.HashMap;
-import java.util.Map;
 
-public class Tiamat extends Planeta{
+import java.io.Serializable;
+
+public class Tiamat extends Planeta implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public Tiamat(){
     

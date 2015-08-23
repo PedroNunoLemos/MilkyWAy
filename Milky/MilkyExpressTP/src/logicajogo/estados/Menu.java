@@ -1,10 +1,18 @@
 package logicajogo.estados;
 
+import java.io.Serializable;
+
 import logicajogo.Jogo;
 import logicajogo.cubos.Cubo;
 
-public class Menu implements Estado {
+public class Menu implements Estado,Serializable {
 
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 
 	public Menu(Jogo j) {

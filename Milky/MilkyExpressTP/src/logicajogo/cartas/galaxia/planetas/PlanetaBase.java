@@ -1,5 +1,6 @@
 package logicajogo.cartas.galaxia.planetas;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -7,8 +8,13 @@ import java.util.Map.Entry;
 import logicajogo.cartas.Carta;
 import logicajogo.cubos.Cubo;
 
-public abstract class PlanetaBase extends Carta {
+public abstract class PlanetaBase extends Carta implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int qtdespacosmercados;
 	Map<Cubo, Integer> precario = new HashMap<>();
 

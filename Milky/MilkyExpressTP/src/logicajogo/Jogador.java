@@ -1,9 +1,16 @@
 package logicajogo;
 
+import java.io.Serializable;
+
 import logicajogo.cartas.naves.*;
 
-public class Jogador {
+public class Jogador implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private final Nave nave;
 	private int moedas;
 	private boolean ai;

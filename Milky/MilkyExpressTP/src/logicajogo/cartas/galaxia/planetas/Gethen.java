@@ -3,14 +3,17 @@ package logicajogo.cartas.galaxia.planetas;
 
 
 import logicajogo.cubos.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class Gethen extends Planeta{    
+import java.io.Serializable;
+
+public class Gethen extends Planeta implements Serializable{    
     
-        public Gethen(){
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+		public Gethen(){
         	
         nome = "Gethen";
         precario.put(new Agua(), 1);

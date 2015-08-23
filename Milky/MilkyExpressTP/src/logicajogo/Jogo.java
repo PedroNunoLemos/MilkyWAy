@@ -1,20 +1,25 @@
 package logicajogo;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import logicajogo.cubos.*;
 import logicajogo.estados.Estado;
-import logicajogo.estados.FimdeJogo;
 import logicajogo.estados.IniciarJogo;
 
-public class Jogo {
+public class Jogo implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private Estado estado;
 	private Estado estadoanterior;
 
 	private Jogador jogador;
-	private Jogador jogadorai;
+	//private Jogador jogadorai;
 
 	private int banco = 30;
 

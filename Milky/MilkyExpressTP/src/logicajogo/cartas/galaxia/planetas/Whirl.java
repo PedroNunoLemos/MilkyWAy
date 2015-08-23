@@ -3,15 +3,18 @@ package logicajogo.cartas.galaxia.planetas;
 
 
 import logicajogo.cubos.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-public class Whirl extends PlanetaPirata{
+import java.io.Serializable;
+
+public class Whirl extends PlanetaPirata implements Serializable{
     
     
-        public Whirl(){
+        /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+		public Whirl(){
         	
         	
         nome = "Arrakis";

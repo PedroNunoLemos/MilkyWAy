@@ -1,12 +1,17 @@
 package logicajogo.cartas.naves;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 import logicajogo.cubos.Cinzento;
 import logicajogo.cubos.Cubo;
 
-public class Nave {
+public class Nave implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	private int x, y = -1;
 	private boolean parada;
 	private boolean cargmax;

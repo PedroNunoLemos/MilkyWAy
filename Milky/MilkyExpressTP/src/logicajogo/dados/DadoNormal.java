@@ -1,9 +1,14 @@
 package logicajogo.dados;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class DadoNormal extends Dado {
+public class DadoNormal extends Dado implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int resultado;
 
 	public DadoNormal() {
@@ -24,10 +29,6 @@ public class DadoNormal extends Dado {
 
 	public int getResultado() {
 		return resultado;
-	}
-
-	private void setResultado(int resultado) {
-		this.resultado = resultado;
 	}
 
 }

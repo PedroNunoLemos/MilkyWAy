@@ -2,8 +2,14 @@
 package logicajogo.cubos;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public abstract class Cubo{
+public abstract class Cubo implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String nome;
 	private Color cor; 

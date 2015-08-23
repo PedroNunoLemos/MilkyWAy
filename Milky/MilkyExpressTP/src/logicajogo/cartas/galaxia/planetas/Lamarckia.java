@@ -1,14 +1,19 @@
 
 package logicajogo.cartas.galaxia.planetas;
 
+import java.io.Serializable;
+
 import  logicajogo.cubos.*;
-import java.util.HashMap;
-import java.util.Map;
 
 
-public class Lamarckia extends Planeta{
+public class Lamarckia extends Planeta implements Serializable{
     
-    public Lamarckia(){
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public Lamarckia(){
         nome = "Lamarckia";
         precario.put(new Agua(), 1);
         precario.put(new Comida(), 2);

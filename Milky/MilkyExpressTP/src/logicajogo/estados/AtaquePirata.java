@@ -1,10 +1,17 @@
 package logicajogo.estados;
 
+import java.io.Serializable;
+
 import logicajogo.Jogo;
 import logicajogo.cubos.Cubo;
 import logicajogo.dados.DadoNormal;
 
-public class AtaquePirata implements Estado {
+public class AtaquePirata implements Estado, Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public AtaquePirata(Jogo j) {
 		// TODO Auto-generated constructor stub

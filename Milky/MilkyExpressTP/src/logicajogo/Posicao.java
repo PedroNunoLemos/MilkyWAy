@@ -1,9 +1,15 @@
 package logicajogo;
 
+import java.io.Serializable;
+
 import logicajogo.cartas.Carta;
 
-public class Posicao {
+public class Posicao implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
 
