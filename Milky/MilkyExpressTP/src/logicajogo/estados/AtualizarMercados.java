@@ -111,14 +111,14 @@ public class AtualizarMercados implements Estado {
 	}
 
 	@Override
-	public Estado comprarBens(Jogo j) {
+	public Estado comprarBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 
 	}
 
 	@Override
-	public Estado venderBens(Jogo j) {
+	public Estado venderBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}

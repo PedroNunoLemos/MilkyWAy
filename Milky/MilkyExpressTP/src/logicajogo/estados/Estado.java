@@ -1,6 +1,7 @@
 package logicajogo.estados;
 
 import logicajogo.Jogo;
+import logicajogo.cubos.Cubo;
 
 public interface Estado {
 
@@ -8,9 +9,9 @@ public interface Estado {
 
 	Estado moverNave(Jogo j, int x, int y);
 
-	Estado comprarBens(Jogo j);
+	Estado comprarBens(Jogo j, Cubo cubo);
 
-	Estado venderBens(Jogo j);
+	Estado venderBens(Jogo j, Cubo cubo);
 	
 	Estado combaterPiratas(Jogo j);
 	

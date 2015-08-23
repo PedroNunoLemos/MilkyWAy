@@ -9,6 +9,7 @@ import logicajogo.Posicao;
 import logicajogo.cartas.*;
 import logicajogo.cartas.galaxia.*;
 import logicajogo.cartas.galaxia.planetas.*;
+import logicajogo.cubos.Cubo;
 import logicajogo.estados.*;
 
 public class Tui {
@@ -210,6 +211,37 @@ public class Tui {
 
 	}
 
+	private void mostramenuComprar() {
+
+		this.menu.clear();
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+		PlanetaBase pl = (PlanetaBase) carta;
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			Cubo[] stock = pl.obterStock();
+
+			this.menu.add("Planeta :" + carta.getNome());
+			this.menu.add("Mercado :");
+
+			if (stock[0] != null)
+				this.menu.add("1 -> Comprar " + stock[0].obtemNome());
+
+			if (stock.length > 1)
+				if (stock[1] != null)
+					this.menu.add("2 -> Comprar" + stock[1].obtemNome());
+
+			this.menu.add("-------------------------");
+			this.menu.add("0 -> Voltar ao Menu  ");
+
+		}
+
+	}
+
 	private void mostraMenuEstados() {
 
 		this.menu.clear();
@@ -269,6 +301,9 @@ public class Tui {
 			break;
 		case 2:
 			this.mostraMenuLegenda();
+			break;
+		case 3:
+			this.mostramenuComprar();
 			break;
 
 		}
@@ -346,6 +381,32 @@ public class Tui {
 		System.out.println();
 	}
 
+	private int[] pedeCoords() {
+
+		int[] crds = new int[2];
+
+		System.out.print("X:");
+
+		while (!scanner.hasNextInt()) {
+			scanner.nextLine();
+		}
+
+		int xi = scanner.nextInt();
+
+		System.out.print("Y:");
+
+		while (!scanner.hasNextInt()) {
+			scanner.nextLine();
+		}
+
+		int yi = scanner.nextInt();
+
+		crds[0] = xi;
+		crds[1] = yi;
+
+		return crds;
+	}
+
 	void processaEstado() {
 
 		System.out.println();
@@ -399,133 +460,116 @@ public class Tui {
 
 	private void executaMenu(int res) {
 
-		if (res == 9) {
+		executaMenuEstados(res);
+		executaMenuLegenda(res);
+	}
 
-			this.mostraMenuLegenda();
-			this.ecraativo = 2;
-		}
+	private void executaMenuEstados(int res) {
 
-		if (res == 0 && ecraativo == 2) {
-			this.mostraMenuEstados();
-			this.ecraativo = 1;
-		}
+		if (this.ecraativo == 1) {
 
-		if (res == 0 && this.ecraativo == 1) {
+			switch (res) {
 
-			this.jogo.defineErro("");
-			this.jogo.continuarJogo();
+			case 0:
+				this.jogo.defineErro("");
+				this.jogo.continuarJogo();
+				break;
 
-		}
+			case 1:
 
-		if (res == 1) {
+				int crds[] = this.pedeCoords();
 
-			System.out.print("X:");
+				infox = crds[0];
+				infoy = crds[1];
 
-			while (!scanner.hasNextInt()) {
-				scanner.nextLine();
-			}
+				this.pedeinfo = true;
 
-			int xi = scanner.nextInt();
+				break;
 
-			System.out.print("Y:");
+			case 2:
 
-			while (!scanner.hasNextInt()) {
-				scanner.nextLine();
-			}
+				if (this.jogo.devolveEstado() instanceof Negociar) {
 
-			int yi = scanner.nextInt();
-
-			infox = xi;
-			infoy = yi;
-
-			this.pedeinfo = true;
-
-		}
-
-		if (res == 2) {
-
-			if (this.jogo.devolveEstado() instanceof Movimentar) {
-
-				System.out.print("X:");
-
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
 				}
 
-				int x = scanner.nextInt();
+				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-				System.out.print("Y:");
+					int crdsxy[] = this.pedeCoords();
 
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
+					int mvnx = crdsxy[0];
+					int mvny = crdsxy[1];
+
+					this.jogo.moverNave(mvnx, mvny);
+
 				}
 
-				int y = scanner.nextInt();
+				if (this.jogo.devolveEstado() instanceof AtaquePirata) {
+					this.jogo.combaterPiratas();
+				}
 
-				this.jogo.moverNave(x, y);
+				break;
 
-			}
+			case 3:
 
-			if (this.jogo.devolveEstado() instanceof AtaquePirata) {
-				this.jogo.combaterPiratas();
-			}
-		}
+				if (this.jogo.devolveEstado() instanceof Movimentar) {
 
-		if (res == 3) {
+					int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+					int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-			if (this.jogo.devolveEstado() instanceof Movimentar) {
+					if (this.jogo.devolveMapa().consultaPosicao(x, y).obterCarta() instanceof BuracoNegro) {
 
-				int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
-				int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+						int crdsxy[] = this.pedeCoords();
 
-				if (this.jogo.devolveMapa().consultaPosicao(x, y).obterCarta() instanceof BuracoNegro) {
+						int xi = crdsxy[0];
+						int yi = crdsxy[1];
 
-					System.out.print("X:");
+						this.jogo.viajarBuracoNegro(xi, yi);
 
-					while (!scanner.hasNextInt()) {
-						scanner.nextLine();
 					}
-
-					int xi = scanner.nextInt();
-
-					System.out.print("Y:");
-
-					while (!scanner.hasNextInt()) {
-						scanner.nextLine();
-					}
-
-					int yi = scanner.nextInt();
-					this.jogo.viajarBuracoNegro(xi, yi);
-
-				}
-			}
-		}
-
-		if (res == 4) {
-
-			if (this.jogo.devolveEstado() instanceof Movimentar) {
-
-				System.out.print("X:");
-
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
 				}
 
-				int xi = scanner.nextInt();
+				break;
 
-				System.out.print("Y:");
+			case 4:
 
-				while (!scanner.hasNextInt()) {
-					scanner.nextLine();
+				if (this.jogo.devolveEstado() instanceof Movimentar) {
+
+					int crdsxy[] = this.pedeCoords();
+
+					int xi = crdsxy[0];
+					int yi = crdsxy[1];
+
+					this.jogo.viajarModoWarp(xi, yi);
+
 				}
 
-				int yi = scanner.nextInt();
+				break;
+			case 9:
 
-				this.jogo.viajarModoWarp(xi, yi);
+				this.mostraMenuLegenda();
+				this.ecraativo = 2;
+
+				break;
 
 			}
 
 		}
 
 	}
+
+	private void executaMenuLegenda(int res) {
+
+		if (ecraativo == 2) {
+
+			switch (res) {
+			case 0:
+				this.mostraMenuEstados();
+				this.ecraativo = 1;
+				break;
+			}
+
+		}
+
+	}
+
 }

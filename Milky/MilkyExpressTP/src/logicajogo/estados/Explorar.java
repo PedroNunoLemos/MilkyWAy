@@ -5,6 +5,7 @@ import java.awt.Color;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
+import logicajogo.cubos.Cubo;
 import logicajogo.cubos.Ilegal;
 import logicajogo.dados.DadoCor;
 
@@ -40,13 +41,13 @@ public class Explorar implements Estado {
 	}
 
 	@Override
-	public Estado comprarBens(Jogo j) {
+	public Estado comprarBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
-	public Estado venderBens(Jogo j) {
+	public Estado venderBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}

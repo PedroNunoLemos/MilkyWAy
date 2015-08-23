@@ -5,6 +5,7 @@ import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.BuracoNegro;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
+import logicajogo.cubos.Cubo;
 
 public class Movimentar implements Estado {
 
@@ -58,13 +59,13 @@ public class Movimentar implements Estado {
 	}
 
 	@Override
-	public Estado comprarBens(Jogo j) {
+	public Estado comprarBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}
 
 	@Override
-	public Estado venderBens(Jogo j) {
+	public Estado venderBens(Jogo j, Cubo cubo) {
 		// TODO Auto-generated method stub
 		return this;
 	}

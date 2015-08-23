@@ -73,6 +73,16 @@ public abstract class PlanetaBase extends Carta {
 
 	}
 
+	public Cubo[] obterStock() {
+
+		Cubo[] cubos = new Cubo[qtdespacosmercados];
+
+		cubos = mercado;
+
+		return cubos;
+
+	}
+
 	public int obtemPreco(Cubo cubo) {
 
 		return precario.get(cubo).intValue();

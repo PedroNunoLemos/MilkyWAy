@@ -61,19 +61,14 @@ public class Jogo {
 		this.estado = this.estado.moverNave(this, x, y);
 	}
 
-	public void iniciarNegociacao() {
+	public void comprarBens(Cubo cubo) {
 
-		this.estado = this.estado.comprarBens(this);
+		this.estado = this.estado.comprarBens(this,cubo);
 	}
 
-	public void comprarBens() {
+	public void venderBens(Cubo cubo) {
 
-		this.estado = this.estado.comprarBens(this);
-	}
-
-	public void venderBens() {
-
-		this.estado = this.estado.venderBens(this);
+		this.estado = this.estado.venderBens(this,cubo);
 	}
 
 	public void viajarBuracoNegro(int x, int y) {
