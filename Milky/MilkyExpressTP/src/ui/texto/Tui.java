@@ -163,7 +163,19 @@ public class Tui {
 					int jx = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 					int jy = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-					if (pos.obterX() == x && pos.obterY() == y) {
+					if (aix == x && aiy == y) {
+						posc = '«';
+					}
+
+					if (jx == x && jy == y) {
+						posc = '»';
+					}
+
+					if (jx == aix && aiy == jy && jx == x && jy == y) {
+						posc = 'ª';
+					}
+
+					if (posc == '.') {
 
 						if (pos.foiExplorada() && card != null)
 							posc = converteCartaParaChar(card);
@@ -171,19 +183,6 @@ public class Tui {
 						if (!pos.foiExplorada() && card != null)
 							posc = '#';
 
-					}
-
-					if (aix == x && aiy == y && aix != jx && aiy != jy) {
-						posc = '«';
-					}
-
-					if ((jx == x && jy == y && aix != jx && aiy != jy)) {
-						posc = '»';
-
-					}
-
-					if (jx == x && jy == y && aix == x && aiy == y && aix == jx && aiy == jy) {
-						posc = 'ª';
 					}
 
 					System.out.print(posc);
