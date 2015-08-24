@@ -2,6 +2,9 @@ package logicajogo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+
 import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
@@ -12,7 +15,7 @@ public class Tabuleiro implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Baralho baralhojogo;
 	private ArrayList<Posicao> galaxia;
 
@@ -69,9 +72,9 @@ public class Tabuleiro implements Serializable {
 
 			for (int x = 8; x >= 0; x--)
 				for (int y = 0; y < 7; y++) {
-					
+
 					Posicao tmpg = consultaPosicao(x, y);
-					
+
 					if (tmpg.foiExplorada() == explorado && tmpg.obterCarta() instanceof Planeta)
 						tmp.add(tmpg);
 
@@ -170,6 +173,38 @@ public class Tabuleiro implements Serializable {
 			ppxpy.defExplorada(true);
 		if (ppxny != null && ppxny.obterCarta() != null && !ppxny.foiExplorada())
 			ppxny.defExplorada(true);
+
+	}
+
+	public Posicao escolheAdjacentAleatorio(int x, int y) {
+
+		ArrayList<Posicao> posicoes = new ArrayList<Posicao>();
+
+		Posicao atual = consultaPosicao(x, y);
+
+		int nx = atual.obterX() + 1;
+		int ny = atual.obterY() + 1;
+		int px = atual.obterX() - 1;
+		int py = atual.obterY() - 1;
+
+		posicoes.add(consultaPosicao(nx, y));
+		posicoes.add(consultaPosicao(x, ny));
+		posicoes.add(consultaPosicao(px, y));
+		posicoes.add(consultaPosicao(x, py));
+
+		posicoes.add(consultaPosicao(nx, py));
+		posicoes.add(consultaPosicao(nx, ny));
+		posicoes.add(consultaPosicao(px, py));
+		posicoes.add(consultaPosicao(px, py));
+
+		Collections.shuffle(posicoes);
+
+		Random rand = new Random();
+		rand.setSeed(System.currentTimeMillis());
+
+		int ranint = rand.nextInt(8 - 1) + 1;
+
+		return posicoes.get(ranint);
 
 	}
 

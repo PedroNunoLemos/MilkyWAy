@@ -39,14 +39,6 @@ public class Movimentar implements Estado, Serializable {
 		int oldx = j.consultaJogador().obterNave().posicaoAtual()[0];
 		int oldy = j.consultaJogador().obterNave().posicaoAtual()[1];
 
-		Carta carta = j.devolveMapa().obtemCarta(oldx, oldy);
-
-		if (carta != null)
-			if (!(carta instanceof BuracoNegro)) {
-				j.defineMensagem("Tem de se deslocar atraves de um buraco negro");
-				return this;
-			}
-
 		if (!j.devolveMapa().validaMovimentoAdjacentes(oldx, oldy, x, y)) {
 			j.defineMensagem("Tem de se deslocar para uma posicao adjacente.");
 			return this;
@@ -63,8 +55,19 @@ public class Movimentar implements Estado, Serializable {
 
 			}
 
+			int val = -1;
+
+			if (j.obterIAJogo().noRadar(j, x, y))
+				val = val * 2;
+
 			j.consultaJogador().obterNave().mover(x, y);
-			j.consultaJogador().atualizaMoedas(-1);
+
+			Carta carta = j.devolveMapa().consultaPosicao(x, y).obterCarta();
+
+			if (carta instanceof BuracoNegro)
+				j.consultaJogador().obterNave().viagemBuracoNegro(true);
+
+			j.consultaJogador().atualizaMoedas(val);
 			j.defineMensagem(" ");
 
 		}
@@ -105,6 +108,7 @@ public class Movimentar implements Estado, Serializable {
 		if (carta instanceof BuracoNegro) {
 
 			j.consultaJogador().obterNave().mover(x, y);
+			j.consultaJogador().obterNave().viagemBuracoNegro(false);
 			j.consultaJogador().atualizaMoedas(-1);
 			j.defineMensagem(" ");
 
@@ -178,6 +182,11 @@ public class Movimentar implements Estado, Serializable {
 
 			if (carta == null)
 				return this;
+
+			if ((carta instanceof BuracoNegro && j.consultaJogador().obterNave().viajandoBuracoNegro())) {
+				j.defineMensagem("Tem de acabar o movimento buraco negro.");
+				return this;
+			}
 
 			if (carta instanceof PlanetaPirata) {
 				j.adicionaAtaquePirata();

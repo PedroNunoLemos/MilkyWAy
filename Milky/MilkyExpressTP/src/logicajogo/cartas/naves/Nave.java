@@ -11,10 +11,11 @@ public class Nave implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private int x, y = -1;
 	private boolean parada;
 	private boolean cargmax;
+	private boolean viagemBuracoNegro;
 
 	private Cubo[] forca;
 	private Cubo[] carga;
@@ -206,6 +207,14 @@ public class Nave implements Serializable {
 
 	public void paraNave() {
 		this.parada = true;
+	}
+
+	public boolean viajandoBuracoNegro() {
+		return viagemBuracoNegro;
+	}
+
+	public void viagemBuracoNegro(boolean viajouBuracoNegro) {
+		this.viagemBuracoNegro = viajouBuracoNegro;
 	}
 
 }

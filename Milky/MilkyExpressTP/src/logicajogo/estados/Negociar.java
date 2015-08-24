@@ -9,7 +9,7 @@ import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.Cubo;
 
-public class Negociar implements Estado,Serializable {
+public class Negociar implements Estado, Serializable {
 
 	/**
 	 * 
@@ -70,6 +70,9 @@ public class Negociar implements Estado,Serializable {
 			return this;
 		}
 
+		if (j.obterIAJogo().noRadar(j, x, y))
+			preco += 1;
+
 		j.consultaJogador().atualizaMoedas(-preco);
 		j.atualizaBanco(preco);
 		pl.mercadoRetirarCubo(cubo);
@@ -117,6 +120,9 @@ public class Negociar implements Estado,Serializable {
 
 		if (j.consultaJogador().ativouSuborno())
 			preco = preco * 2;
+
+		if (j.obterIAJogo().noRadar(j, x, y))
+			preco += 1;
 
 		j.consultaJogador().atualizaMoedas(preco);
 		j.atualizaBanco(-preco);

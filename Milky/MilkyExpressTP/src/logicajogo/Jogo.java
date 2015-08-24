@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import ai.MotorIA;
 import logicajogo.cubos.*;
 import logicajogo.estados.Estado;
 import logicajogo.estados.IniciarJogo;
@@ -14,13 +15,12 @@ public class Jogo implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private Estado estado;
 	private Estado estadoanterior;
 
 	private Jogador jogador;
-	//private Jogador jogadorai;
-
+	private MotorIA iajogo;
 	private int banco = 30;
 
 	private ArrayList<Cubo> reserva;
@@ -36,6 +36,7 @@ public class Jogo implements Serializable {
 		this.estado = new IniciarJogo(this);
 		this.estado = this.estado.iniciarJogo(this);
 		this.reserva = new ArrayList<Cubo>();
+		this.iajogo = new MotorIA(this);
 
 		for (int i = 0; i < 10; i++)
 			this.reserva.add(new Comida());
@@ -62,6 +63,10 @@ public class Jogo implements Serializable {
 		}
 
 		return cnt;
+	}
+
+	public MotorIA obterIAJogo() {
+		return this.iajogo;
 	}
 
 	public void moverNave(int x, int y) {

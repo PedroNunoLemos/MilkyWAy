@@ -11,7 +11,7 @@ import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cubos.*;
 import logicajogo.dados.DadoCor;
 
-public class AtualizarMercados implements Estado,Serializable {
+public class AtualizarMercados implements Estado, Serializable {
 
 	/**
 	 * 
@@ -105,12 +105,19 @@ public class AtualizarMercados implements Estado,Serializable {
 
 	}
 
+	private void processaAI(Jogo j) {
+
+		j.obterIAJogo().MoverNave(j);
+
+	}
+
 	public AtualizarMercados(Jogo j) {
 
 		reabestecePirata(j);
 		reabestecePlanetaNormal(j);
 		validaPosseBensIlegais(j);
 		validaSuborno(j);
+		processaAI(j);
 	}
 
 	@Override
