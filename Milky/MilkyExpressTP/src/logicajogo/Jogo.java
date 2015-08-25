@@ -3,13 +3,14 @@ package logicajogo;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Observable;
 
 import ai.MotorIA;
 import logicajogo.cubos.*;
 import logicajogo.estados.Estado;
 import logicajogo.estados.IniciarJogo;
 
-public class Jogo implements Serializable {
+public class Jogo extends Observable implements Serializable {
 
 	/**
 	 * 
@@ -52,6 +53,9 @@ public class Jogo implements Serializable {
 
 		// this.estado = this.estado.continuarJogo(this);
 
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public int temStockReserva(Color cor) {
@@ -72,47 +76,80 @@ public class Jogo implements Serializable {
 	public void moverNave(int x, int y) {
 
 		this.estado = this.estado.moverNave(this, x, y);
+
+		setChanged();
+		notifyObservers();
 	}
 
 	public void atualizarNave(int tipo) {
 
 		this.estado = this.estado.atualizarNave(this, tipo);
+
+		setChanged();
+		notifyObservers();
 	}
 
 	public void comprarBens(Cubo cubo) {
 
 		this.estado = this.estado.comprarBens(this, cubo);
+
+		setChanged();
+		notifyObservers();
 	}
 
 	public void venderBens(Cubo cubo) {
 
 		this.estado = this.estado.venderBens(this, cubo);
+
+		setChanged();
+		notifyObservers();
 	}
 
 	public void ativarSuborno(Cubo cubo) {
 
 		this.estado = this.estado.efetuaSuborno(this, cubo);
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void viajarBuracoNegro(int x, int y) {
 
 		this.estado = this.estado.viajarProximoBuracoNegro(this, x, y);
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void viajarModoWarp(int x, int y) {
 
 		this.estado = this.estado.viajarModoWarp(this, x, y);
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void continuarJogo() {
 
 		this.estado = this.estado.continuarJogo(this);
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void combaterPiratas() {
 
-		if (this.qtdsAtaquesPirata() > 0)
+		if (this.qtdsAtaquesPirata() > 0) {
 			this.estado = this.estado.combaterPiratas(this);
+
+			setChanged();
+			notifyObservers();
+
+		}
 	}
 
 	public void adicionaAtaquePirata() {
@@ -166,6 +203,11 @@ public class Jogo implements Serializable {
 
 		if (this.banco >= 30)
 			this.banco = 30;
+		
+        
+        setChanged();
+        notifyObservers(); 
+        
 	}
 
 	public void preparaJogo() {
@@ -179,11 +221,20 @@ public class Jogo implements Serializable {
 		tabuleiro = new Tabuleiro();
 		tabuleiro.geraGalaxia();
 
+        
+        setChanged();
+        notifyObservers(); 
+		
 	}
 
 	public void defineMensagem(String erro) {
 
 		this.ultimaMsg = erro;
+		
+        
+        setChanged();
+        notifyObservers(); 
+        
 	}
 
 	public boolean temJogadores() {
