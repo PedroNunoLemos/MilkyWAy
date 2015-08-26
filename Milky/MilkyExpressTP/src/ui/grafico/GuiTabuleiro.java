@@ -25,8 +25,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	public GuiTabuleiro() {
 
 		try {
-			// image =
-			// ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.png"));
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.png"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
@@ -34,7 +33,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 		}
 
-		setOpaque(false);
+		setOpaque(true);
 		setVisible(true);
 
 	}
@@ -63,7 +62,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	private Posicao[] geraMapaSeq(Jogo j) {
 
 		Posicao[] poslst = new Posicao[63];
-		
+
 		for (int y = 0; y < 7; y++) {
 			for (int x = 0; x < 9; x++) {
 
@@ -78,10 +77,9 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 	public void geraTabuleiro(Jogo j) {
 
-		// GuiCarta guiCarta = new GuiCarta(new Vazio());
-		// this.add(guiCarta);
-
+		this.removeAll();
 		setLayout(new GridLayout(7, 9));
+
 		Posicao[] posics = this.geraMapaSeq(j);
 
 		for (int i = 0; i < 63; i++) {
@@ -103,46 +101,37 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 			int jy = j.consultaJogador().obterNave().posicaoAtual()[1];
 
 			if (card == null) {
-				JButton jb = new JButton("E" + " " + x + "/" + y);
-				jb.setBackground(Color.darkGray);
-				jb.setForeground(Color.black);
 
-				this.add(jb);
+				GuiCarta guiCarta = new GuiCarta(new Vazio());
+				this.add(guiCarta);
 			}
 
 			if (!pos.foiExplorada() && card != null) {
 
-				JButton jb = new JButton(card.getNome().charAt(0) + " " + x + "/" + y);
-				jb.setBackground(Color.darkGray);
-				jb.setForeground(Color.magenta);
-
-				this.add(jb);
+				GuiCarta guiCarta = new GuiCarta(new Gethen());
+				this.add(guiCarta);
 			}
 
 			if (pos.foiExplorada() && card != null) {
 
-				JButton jb = new JButton(card.getNome().charAt(0) + " " + x + "/" + y);
+				GuiCarta guiCarta = new GuiCarta(card);
 
 				if (card instanceof BuracoNegro) {
-					jb.setBackground(Color.darkGray);
-					jb.setForeground(Color.cyan);
 
 				} else if (card instanceof PlanetaPirata) {
-					jb.setBackground(Color.darkGray);
-					jb.setForeground(Color.yellow);
 
 				} else if (card instanceof Planeta) {
-					jb.setBackground(Color.darkGray);
-					jb.setForeground(Color.green);
+
 				} else {
-					jb.setBackground(Color.darkGray);
-					jb.setForeground(Color.blue);
 
 				}
 
-				this.add(jb);
+				this.add(guiCarta);
 
 			}
+
+			repaint();
+			revalidate();
 		}
 
 	}

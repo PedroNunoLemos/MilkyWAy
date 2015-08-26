@@ -18,29 +18,35 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
+	private int sx = 60, sy = 90;
+
 	public GuiCarta(Carta carta) {
 
 		try {
+
 			image = ImageIO
-					.read(getClass().getClassLoader().getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
+					.read(getClass()
+							.getClassLoader()
+							.getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
 			JOptionPane.showMessageDialog(null, e.getMessage());
 
 		}
-		
-		//setPreferredSize(new Dimension(180/4, 263/4));
-		//setMaximumSize(new Dimension(180/4, 263/4));
+
+		setPreferredSize(new Dimension(sx, sy));
+		setMaximumSize(new Dimension(sx, sy));
 		setOpaque(false);
 		setVisible(true);
+
 	}
 
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (image != null)
-			g.drawImage(image, 0, 0, 60, 95, this);
+			g.drawImage(image, 0, 0, sx, sy, this);
 	}
 
 	@Override
