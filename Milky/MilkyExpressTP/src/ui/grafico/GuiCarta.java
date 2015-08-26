@@ -40,7 +40,7 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (image != null)
-			g.drawImage(image, 0, 0, 180, 263, this);
+			g.drawImage(image, 0, 0, 60, 95, this);
 	}
 
 	@Override

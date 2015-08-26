@@ -12,7 +12,6 @@ import java.util.Observer;
 import javax.swing.JPanel;
 
 import logicajogo.Jogo;
-import logicajogo.cartas.galaxia.planetas.*;
 
 public class VistaJogo extends JPanel implements Observer, MouseListener, MouseMotionListener, Serializable {
 
@@ -45,7 +44,9 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		areamapa.setLayout(new GridLayout(3, 1));
 		areamapa.setPreferredSize(new Dimension(650, 500));
-		areamapa.setMaximumSize(new Dimension(423, 500));
+		areamapa.setMaximumSize(new Dimension(650, 500));
+
+		areamapa.geraTabuleiro(j);
 
 		areaopcoes.setLayout(new GridLayout(3, 1));
 		areaopcoes.setPreferredSize(new Dimension(125, 500));
@@ -54,9 +55,6 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		this.add(areainfo);
 		this.add(areamapa);
 		this.add(areaopcoes);
-
-		GuiCarta guiCarta = new GuiCarta(new Arrakis());
-		areamapa.add(guiCarta);
 
 		setVisible(true);
 
