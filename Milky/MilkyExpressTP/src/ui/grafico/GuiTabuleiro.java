@@ -1,6 +1,5 @@
 package ui.grafico;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -26,7 +25,8 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	public GuiTabuleiro() {
 
 		try {
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.png"));
+			// image =
+			// ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.png"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
@@ -60,113 +60,87 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 	}
 
-	public void geraTabuleiro(Jogo j) {
+	private Posicao[] geraMapaSeq(Jogo j) {
 
-		boolean ncrt = true;
-
-		GuiCarta guiCarta = new GuiCarta(new Vazio());
-		this.add(guiCarta);
-
-		setLayout(new GridLayout(8, 11));
-
+		Posicao[] poslst = new Posicao[63];
+		
 		for (int y = 0; y < 7; y++) {
-
 			for (int x = 0; x < 9; x++) {
 
-				// desenha mapa
-				if (x >= 0 && x < 9 && y >= 0 && y < 7) {
+				Posicao pos = j.devolveMapa().consultaPosicao(x, y);
+				poslst[y * 9 + x] = pos;
+			}
+		}
 
-					ncrt = false;
+		return poslst;
 
-					Carta card = j.devolveMapa().obtemCarta(x, y);
-					Posicao pos = j.devolveMapa().consultaPosicao(x, y);
+	}
 
-					int aix = j.obterIAJogo().obterNave().posicaoAtual()[0];
-					int aiy = j.obterIAJogo().obterNave().posicaoAtual()[1];
+	public void geraTabuleiro(Jogo j) {
 
-					int jx = j.consultaJogador().obterNave().posicaoAtual()[0];
-					int jy = j.consultaJogador().obterNave().posicaoAtual()[1];
+		// GuiCarta guiCarta = new GuiCarta(new Vazio());
+		// this.add(guiCarta);
 
-					if (aix == x && aiy == y) {
-						// ncrt = true;
-						// nave inimiga
-					}
+		setLayout(new GridLayout(7, 9));
+		Posicao[] posics = this.geraMapaSeq(j);
 
-					if (jx == x && jy == y) {
-						// nave jog
-						// ncrt = true;
-					}
+		for (int i = 0; i < 63; i++) {
 
-					if (jx == aix && aiy == jy && jx == x && jy == y) {
-						// as duas
-						// ncrt = true;
-					}
+			// desenha mapa
 
-					if (!ncrt) {
+			Posicao pos = posics[i];
+			Carta card = pos.obterCarta();
 
-						if (card == null) {
-							JButton jb = new JButton("espaço");
-							jb.setBackground(Color.black);
+			int x = 0, y = 0;
 
-							this.add(jb);
-						}
+			x = pos.obterX();
+			y = pos.obterY();
 
-						if (pos.foiExplorada() && card != null) {
-							JButton jb = new JButton(card.getNome());
-							
-							
-							if (card instanceof BuracoNegro)
-								jb.setBackground(Color.lightGray);
-							else if (card instanceof PlanetaPirata)
-								jb.setBackground(Color.orange);
-							else if (card instanceof Planeta)
-								jb.setBackground(Color.cyan);
-							else
-								jb.setBackground(Color.magenta);
-							
-							this.add(jb);
-							
-							
-						}
+			int aix = j.obterIAJogo().obterNave().posicaoAtual()[0];
+			int aiy = j.obterIAJogo().obterNave().posicaoAtual()[1];
 
-						if (!pos.foiExplorada() && card != null) {
+			int jx = j.consultaJogador().obterNave().posicaoAtual()[0];
+			int jy = j.consultaJogador().obterNave().posicaoAtual()[1];
 
-							JButton jb = new JButton(card.getNome());
-				
-							
-							if (card instanceof BuracoNegro)
-								jb.setBackground(Color.lightGray);
-							else if (card instanceof PlanetaPirata)
-								jb.setBackground(Color.orange);
-							else if (card instanceof Planeta)
-								jb.setBackground(Color.cyan);
-							else
-								jb.setBackground(Color.magenta);
-						}
+			if (card == null) {
+				JButton jb = new JButton("E" + " " + x + "/" + y);
+				jb.setBackground(Color.darkGray);
+				jb.setForeground(Color.black);
 
-					}
+				this.add(jb);
+			}
 
+			if (!pos.foiExplorada() && card != null) {
+
+				JButton jb = new JButton(card.getNome().charAt(0) + " " + x + "/" + y);
+				jb.setBackground(Color.darkGray);
+				jb.setForeground(Color.magenta);
+
+				this.add(jb);
+			}
+
+			if (pos.foiExplorada() && card != null) {
+
+				JButton jb = new JButton(card.getNome().charAt(0) + " " + x + "/" + y);
+
+				if (card instanceof BuracoNegro) {
+					jb.setBackground(Color.darkGray);
+					jb.setForeground(Color.cyan);
+
+				} else if (card instanceof PlanetaPirata) {
+					jb.setBackground(Color.darkGray);
+					jb.setForeground(Color.yellow);
+
+				} else if (card instanceof Planeta) {
+					jb.setBackground(Color.darkGray);
+					jb.setForeground(Color.green);
 				} else {
-
-					// desenha coordenadas
-					if (x < 9) {
-
-						// if (x >= 0 || y >= 0)
-						// System.out.print("|");
-						//
-						// if (y == -1 && x >= 0)
-						// System.out.print(x);
-						// if (x == -1 && y >= 0)
-						// System.out.print(y);
-						//
-						// if (x == -1 && y == -1)
-						// System.out.print(" ");
-						//
-						// if (x >= 0 || y >= 0)
-						// System.out.print("|");
-					}
+					jb.setBackground(Color.darkGray);
+					jb.setForeground(Color.blue);
 
 				}
+
+				this.add(jb);
 
 			}
 		}
