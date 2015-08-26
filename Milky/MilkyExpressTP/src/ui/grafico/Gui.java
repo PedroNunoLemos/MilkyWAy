@@ -1,16 +1,24 @@
 package ui.grafico;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import logicajogo.Jogo;
 
@@ -22,9 +30,26 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 	private static final long serialVersionUID = 1L;
 
 	private Jogo jogo;
+	private BufferedImage image;
+	
 
 	public Gui() {
+		try {
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/planets.jpg"));
+
+			JLabel background=new JLabel(new ImageIcon(image));
+			add(background);
+			background.setLayout(new FlowLayout());
+			
+		} catch (Exception e) {
+			/* handled in paintComponent() */
+			JOptionPane.showMessageDialog(null, e.getMessage());
+
+		}
 	}
+
+
+
 
 	public void mostrarInterface() {
 
@@ -72,7 +97,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 		setJMenuBar(barraMenu);
 
-		setSize(700, 600);
+		setSize(900, 600);
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
