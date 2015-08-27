@@ -25,7 +25,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	public GuiTabuleiro() {
 
 		try {
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.png"));
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.jpg"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
@@ -114,7 +114,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 			if (pos.foiExplorada() && card != null) {
 
-				GuiCarta guiCarta = new GuiCarta(card);
+				GuiCarta guiCarta = new GuiCarta(new Gethen());
 
 				if (card instanceof BuracoNegro) {
 
