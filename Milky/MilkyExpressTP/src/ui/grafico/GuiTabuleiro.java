@@ -78,7 +78,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	public void geraTabuleiro(Jogo j) {
 
 		this.removeAll();
-		setLayout(new GridLayout(7, 9));
+		setLayout(new GridLayout(7, 9,0,0));
 
 		Posicao[] posics = this.geraMapaSeq(j);
 
@@ -102,19 +102,19 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 			if (card == null) {
 
-				GuiCarta guiCarta = new GuiCarta(new Vazio());
+				GuiCarta guiCarta = new GuiCarta(card, 0);
 				this.add(guiCarta);
 			}
 
 			if (!pos.foiExplorada() && card != null) {
 
-				GuiCarta guiCarta = new GuiCarta(new Gethen());
+				GuiCarta guiCarta = new GuiCarta(card, 1);
 				this.add(guiCarta);
 			}
 
 			if (pos.foiExplorada() && card != null) {
 
-				GuiCarta guiCarta = new GuiCarta(new Gethen());
+				GuiCarta guiCarta = new GuiCarta(card, 3);
 
 				if (card instanceof BuracoNegro) {
 
