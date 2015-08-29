@@ -14,34 +14,23 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.OverlayLayout;
 
 import logicajogo.cartas.Carta;
 
-public class GuiCarta extends JPanel implements MouseMotionListener, Serializable {
+public class GuiNaveOverlay extends JPanel implements MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-	private int sx = 60, sy = 55;
+	private int sx = 30, sy = 26;
 
-	public GuiCarta(Carta carta, int inx) {
+	public GuiNaveOverlay() {
 
 		try {
 
-			if (inx == 0) {
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nv.png"));
 
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/outer.png"));
-			}
-
-			else if (inx == 1) {
-
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/vazioinex.png"));
-
-			} else {
-
-				image = ImageIO
-						.read(getClass().getClassLoader().getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
-			}
 		} catch (Exception e) {
 			/* handled in paintComponent() */
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -50,26 +39,10 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 
 		setPreferredSize(new Dimension(sx, sy));
 		setMaximumSize(new Dimension(sx, sy));
+		setLocation(-5, 0);
 		setOpaque(false);
 		setVisible(true);
 
-	}
-
-	public void naveNaArea(boolean nave) {
-
-		BufferedImage img;
-		try {
-			img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nv.png"));
-
-			
-
-			if (nave)
-				add(new GuiNaveOverlay());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	@Override

@@ -24,25 +24,9 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 	public GuiTabuleiro() {
 
-		try {
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.jpg"));
-
-		} catch (Exception e) {
-			/* handled in paintComponent() */
-			JOptionPane.showMessageDialog(null, e.getMessage());
-
-		}
-
-		setOpaque(true);
+		setOpaque(false);
 		setVisible(true);
 
-	}
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		if (image != null)
-			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), this);
 	}
 
 	@Override
@@ -78,7 +62,10 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 	public void geraTabuleiro(Jogo j) {
 
 		this.removeAll();
-		setLayout(new GridLayout(7, 9,0,0));
+
+		GridLayout grelha = new GridLayout(7, 9, 0, 0);
+
+		setLayout(grelha);
 
 		Posicao[] posics = this.geraMapaSeq(j);
 
@@ -102,13 +89,19 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 			if (card == null) {
 
-				GuiCarta guiCarta = new GuiCarta(card, 0);
+				GuiCarta guiCarta = new GuiCarta(card, 0);				
+				
 				this.add(guiCarta);
+				
 			}
 
 			if (!pos.foiExplorada() && card != null) {
 
 				GuiCarta guiCarta = new GuiCarta(card, 1);
+				
+				if (jx == pos.obterX() && jy == pos.obterY())
+					guiCarta.naveNaArea(true);
+				
 				this.add(guiCarta);
 			}
 
@@ -126,13 +119,16 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 				}
 
+				if (jx == pos.obterX() && jy == pos.obterY())
+					guiCarta.naveNaArea(true);
+
 				this.add(guiCarta);
 
 			}
 
 			repaint();
 			revalidate();
-		}
+		} // fim for
 
 	}
 
