@@ -17,7 +17,7 @@ public class Whirl extends PlanetaPirata implements Serializable{
 		public Whirl(){
         	
         	
-        nome = "Arrakis";
+        nome = "Whirl";
         precario.put(new Comida(),3);
         
         

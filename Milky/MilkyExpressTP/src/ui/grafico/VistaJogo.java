@@ -33,17 +33,16 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	GuiTabuleiro areamapa = new GuiTabuleiro();
 	JPanel areaopcoes = new JPanel();
 
-	private void addFundo(){
+	private void addFundo() {
 		try {
-			image = ImageIO.read(getClass().getClassLoader().
-					getResourceAsStream("Imagens/stars.jpg"));
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.jpg"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
 			JOptionPane.showMessageDialog(null, e.getMessage());
 
 		}
-		
+
 	}
 
 	public VistaJogo(Jogo j) {
@@ -53,26 +52,21 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		j.addObserver(this);
 
 		// listeners
-		// addMouseListener(this);
-		// addMouseMotionListener(this);
+
 		registaListeners();
 
-		// janela
-
 		addFundo();
-		
+
 		areainfo.setOpaque(false);
 		areaopcoes.setOpaque(false);
-		
+
 		areainfo.setLayout(new GridLayout(3, 1));
 		areainfo.setPreferredSize(new Dimension(125, 500));
 		areainfo.setMaximumSize(new Dimension(125, 500));
 
 		areamapa.setLayout(new GridLayout(3, 1));
-		areamapa.setPreferredSize(new Dimension(650, 500));
-		areamapa.setMaximumSize(new Dimension(650, 500));
-
-		areamapa.geraTabuleiro(j);
+		areamapa.setPreferredSize(new Dimension(750, 500));
+		areamapa.setMaximumSize(new Dimension(750, 500));
 
 		areaopcoes.setLayout(new GridLayout(3, 1));
 		areaopcoes.setPreferredSize(new Dimension(125, 500));
@@ -84,7 +78,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Jogo jog = new Jogo();
-				areamapa.geraTabuleiro(jog);
+				areamapa.atualizaMapa(jog);
 
 			}
 		});
@@ -133,7 +127,6 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -163,6 +156,12 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
+
+		Jogo j = (Jogo) arg0;
+		areamapa.atualizaMapa(j);
+		
+
+		//JOptionPane.showMessageDialog(null, "mvc rules");
 
 	}
 

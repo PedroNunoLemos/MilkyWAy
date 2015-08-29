@@ -97,7 +97,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 		setJMenuBar(barraMenu);
 
-		setSize(900, 600);
+		setSize(1000, 700);
 		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

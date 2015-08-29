@@ -22,7 +22,7 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-	private int sx = 60, sy = 55;
+	private int sx = 75, sy = 65;
 
 	public GuiCarta(Carta carta, int inx) {
 
