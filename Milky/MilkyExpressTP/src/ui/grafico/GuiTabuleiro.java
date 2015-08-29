@@ -118,7 +118,7 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 				} else if (card instanceof Planeta) {
 
-					guiCarta = new GuiCarta(new Striterax(), 3);
+					guiCarta = new GuiCarta(card, 3);
 
 				} else {
 
