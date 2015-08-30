@@ -1,10 +1,10 @@
 package ui.grafico;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -14,10 +14,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
+import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-
 import logicajogo.Jogo;
 
 public class VistaJogo extends JPanel implements Observer, MouseListener, MouseMotionListener, Serializable {
@@ -55,41 +54,34 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		registaListeners();
 
+		this.setLayout(new BorderLayout());
+
 		addFundo();
 
 		areainfo.setOpaque(false);
 		areaopcoes.setOpaque(false);
+		
+		//1000-700
 
 		areainfo.setLayout(new GridLayout(3, 1));
-		areainfo.setPreferredSize(new Dimension(125, 500));
-		areainfo.setMaximumSize(new Dimension(125, 500));
+		areainfo.setPreferredSize(new Dimension(250, 600));
+		areainfo.setMaximumSize(new Dimension(250, 600));
 
 		areamapa.setLayout(new GridLayout(3, 1));
-		areamapa.setPreferredSize(new Dimension(750, 500));
-		areamapa.setMaximumSize(new Dimension(750, 500));
+		areamapa.setPreferredSize(new Dimension(750, 600));
+		areamapa.setMaximumSize(new Dimension(750, 600));
 
-		areaopcoes.setLayout(new GridLayout(3, 1));
-		areaopcoes.setPreferredSize(new Dimension(125, 500));
-		areaopcoes.setMaximumSize(new Dimension(125, 500));
+		areaopcoes.setLayout(new GridLayout(1, 3));
+		areaopcoes.setPreferredSize(new Dimension(1000, 150));
+		areaopcoes.setMaximumSize(new Dimension(1000, 150));
 
-		JButton jb = new JButton("sadad");
-		jb.addActionListener(new ActionListener() {
+		areainfo.setBorder(BorderFactory.createLineBorder(Color.cyan));
+		areaopcoes.setBorder(BorderFactory.createLineBorder(Color.cyan));
+		areamapa.setBorder(BorderFactory.createLineBorder(Color.cyan));
 
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				Jogo jog = new Jogo();
-				areamapa.atualizaMapa(jog);
-
-			}
-		});
-
-		jb.setVisible(true);
-
-		this.areainfo.add(jb);
-
-		this.add(areainfo);
-		this.add(areamapa);
-		this.add(areaopcoes);
+		this.add(areainfo, BorderLayout.WEST);
+		this.add(areamapa, BorderLayout.CENTER);
+		this.add(areaopcoes, BorderLayout.PAGE_END);
 
 		setVisible(true);
 
@@ -159,9 +151,8 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		Jogo j = (Jogo) arg0;
 		areamapa.atualizaMapa(j);
-		
 
-		//JOptionPane.showMessageDialog(null, "mvc rules");
+		// JOptionPane.showMessageDialog(null, "mvc rules");
 
 	}
 

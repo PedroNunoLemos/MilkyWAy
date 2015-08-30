@@ -1,14 +1,10 @@
 package ui.grafico;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import logicajogo.Jogo;
@@ -20,7 +16,7 @@ import logicajogo.cartas.galaxia.planetas.*;
 public class GuiTabuleiro extends JPanel implements MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image;
+
 
 	public GuiTabuleiro() {
 
