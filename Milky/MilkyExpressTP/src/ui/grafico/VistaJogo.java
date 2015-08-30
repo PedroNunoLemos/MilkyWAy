@@ -28,7 +28,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	Jogo jogo;
 
 	private BufferedImage image;
-	PainelUiJogador areainfo = new PainelUiJogador();
+	PainelUiJogador areainfo;
 	PainelTabuleiro areamapa = new PainelTabuleiro();
 	JPanel areaopcoes = new JPanel();
 
@@ -48,6 +48,8 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		jogo = j;
 
+		areainfo = new PainelUiJogador(j);
+
 		j.addObserver(this);
 
 		// listeners
@@ -63,21 +65,21 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		// 1000-700
 
-		areainfo.setLayout(new GridLayout(3, 1));
-		areainfo.setPreferredSize(new Dimension(250, 600));
-		areainfo.setMaximumSize(new Dimension(250, 600));
+		areainfo.setLayout(new GridLayout(3, 1,0,0));
+		areainfo.setPreferredSize(new Dimension(200, 700));
+		areainfo.setMaximumSize(new Dimension(200, 700));
 
 		areamapa.setLayout(new GridLayout(3, 1));
-		areamapa.setPreferredSize(new Dimension(750, 600));
-		areamapa.setMaximumSize(new Dimension(750, 600));
+		areamapa.setPreferredSize(new Dimension(750, 700));
+		areamapa.setMaximumSize(new Dimension(750, 700));
 
 		areaopcoes.setLayout(new GridLayout(1, 3));
-		areaopcoes.setPreferredSize(new Dimension(1000, 150));
-		areaopcoes.setMaximumSize(new Dimension(1000, 150));
+		areaopcoes.setPreferredSize(new Dimension(1000, 100));
+		areaopcoes.setMaximumSize(new Dimension(1000, 100));
 
-		areainfo.setBorder(BorderFactory.createLineBorder(Color.cyan));
-		areaopcoes.setBorder(BorderFactory.createLineBorder(Color.cyan));
-		areamapa.setBorder(BorderFactory.createLineBorder(Color.cyan));
+//		areainfo.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+//		areaopcoes.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+//		areamapa.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 
 		this.add(areainfo, BorderLayout.WEST);
 		this.add(areamapa, BorderLayout.CENTER);

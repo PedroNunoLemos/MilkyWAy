@@ -16,7 +16,7 @@ public class PainelInfoPlaneta extends JPanel implements MouseMotionListener, Se
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-	private int sx = 200, sy = 150;
+	private int sx = 200, sy = 173;
 
 	public PainelInfoPlaneta() {
 
