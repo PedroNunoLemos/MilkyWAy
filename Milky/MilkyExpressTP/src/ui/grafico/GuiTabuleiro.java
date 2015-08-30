@@ -99,8 +99,11 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 				GuiCarta guiCarta = new GuiCarta(card, 1);
 
-				if (jx == pos.obterX() && jy == pos.obterY())
-					guiCarta.naveNaArea(true);
+				if (jx == x && jy == y)
+					guiCarta.naveNaArea(true, false);
+
+				if (aix == x && aiy == y && pos.foiExplorada())
+					guiCarta.naveNaArea(true, true);
 
 				this.add(guiCarta);
 			}
@@ -126,8 +129,11 @@ public class GuiTabuleiro extends JPanel implements MouseMotionListener, Seriali
 
 				}
 
-				if (jx == pos.obterX() && jy == pos.obterY())
-					guiCarta.naveNaArea(true);
+				if (jx == x && jy == y)
+					guiCarta.naveNaArea(true, false);
+
+				if (aix == x && aiy == y && pos.foiExplorada())
+					guiCarta.naveNaArea(true, true);
 
 				this.add(guiCarta);
 

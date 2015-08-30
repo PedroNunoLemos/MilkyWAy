@@ -163,7 +163,7 @@ public class Tui {
 					int jx = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 					int jy = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-					if (aix == x && aiy == y) {
+					if (aix == x && aiy == y && pos.foiExplorada()) {
 						posc = '«';
 					}
 

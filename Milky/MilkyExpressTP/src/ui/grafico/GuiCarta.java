@@ -55,21 +55,15 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 
 	}
 
-	public void naveNaArea(boolean nave) {
+	public void naveNaArea(boolean nave, boolean ai) {
 
-		BufferedImage img;
-		try {
-			img = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nv.png"));
+		if (nave) {
 
-			
-
-			if (nave)
-				add(new GuiNaveOverlay());
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			GuiNaveOverlay naveov = new GuiNaveOverlay(ai);
+			naveov.setLocation(10, 10);
+			add(naveov);
 		}
+
 	}
 
 	@Override

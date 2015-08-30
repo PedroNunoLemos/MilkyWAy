@@ -5,31 +5,27 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.OverlayLayout;
-
-import logicajogo.cartas.Carta;
 
 public class GuiNaveOverlay extends JPanel implements MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
-	private int sx = 30, sy = 26;
+	private int sx = 40, sy = 39;
 
-	public GuiNaveOverlay() {
+	public GuiNaveOverlay(boolean ai) {
 
 		try {
 
 			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nv.png"));
+
+			if (ai)
+				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nvai.png"));
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
