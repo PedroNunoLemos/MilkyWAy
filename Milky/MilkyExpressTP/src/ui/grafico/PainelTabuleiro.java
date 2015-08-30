@@ -13,12 +13,12 @@ import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.*;
 import logicajogo.cartas.galaxia.planetas.*;
 
-public class GuiTabuleiro extends JPanel implements MouseMotionListener, Serializable {
+public class PainelTabuleiro extends JPanel implements MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 
-	public GuiTabuleiro() {
+	public PainelTabuleiro() {
 
 		setOpaque(false);
 		setVisible(true);

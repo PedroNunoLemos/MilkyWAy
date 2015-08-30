@@ -28,8 +28,8 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	Jogo jogo;
 
 	private BufferedImage image;
-	JPanel areainfo = new JPanel();
-	GuiTabuleiro areamapa = new GuiTabuleiro();
+	PainelUiJogador areainfo = new PainelUiJogador();
+	PainelTabuleiro areamapa = new PainelTabuleiro();
 	JPanel areaopcoes = new JPanel();
 
 	private void addFundo() {
@@ -60,8 +60,8 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		areainfo.setOpaque(false);
 		areaopcoes.setOpaque(false);
-		
-		//1000-700
+
+		// 1000-700
 
 		areainfo.setLayout(new GridLayout(3, 1));
 		areainfo.setPreferredSize(new Dimension(250, 600));

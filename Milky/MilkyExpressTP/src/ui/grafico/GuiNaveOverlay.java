@@ -35,7 +35,6 @@ public class GuiNaveOverlay extends JPanel implements MouseMotionListener, Seria
 
 		setPreferredSize(new Dimension(sx, sy));
 		setMaximumSize(new Dimension(sx, sy));
-		setLocation(-5, 0);
 		setOpaque(false);
 		setVisible(true);
 
