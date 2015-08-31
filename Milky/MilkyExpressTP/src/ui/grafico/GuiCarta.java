@@ -12,10 +12,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
-import logicajogo.estados.Movimentar;
 
 public class GuiCarta extends JPanel implements MouseMotionListener, MouseListener, Serializable {
 
@@ -24,11 +22,10 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 
 	private int sx = 75, sy = 65;
 	private Posicao pos;
-	private Posicao pressedpos;
 	private Carta carta;
 
-	public Posicao devolvePosicaoPressionada() {
-		return pressedpos;
+	public Posicao devolvePosicao() {
+		return pos;
 	}
 
 	public GuiCarta(Posicao ps, int inx) {
@@ -99,12 +96,7 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-		if (e.getButton() == MouseEvent.BUTTON1) {
-
-			pressedpos = pos;
-
-		}
-
+		
 	}
 
 	@Override

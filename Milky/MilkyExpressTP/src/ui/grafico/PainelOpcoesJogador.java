@@ -33,7 +33,70 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 	private int sx = 100, sy = 100;
 
 	private Jogo jogo;
+	
 
+	private JPanel adicionarMovimentar() {
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+		if (carta != null) {
+
+			JPanel guardar = new JPanel();
+			guardar.setBorder(BorderFactory.createTitledBorder("Subornar"));
+
+			Cubo[] carga = nave.obterCarga();
+
+			if (nave.obterTotalCargaOcupada() > 0 && !this.jogo.consultaJogador().ativouSuborno()) {
+
+				for (int i = 0; i < nave.obterTotalCargaOcupada(); i++) {
+
+					final int idx = i;
+
+					if (carga[i] != null) {
+
+						JButton guardar1 = new JButton("Guardar " + carga[i].obtemNome());
+
+						guardar1.setAlignmentX(BOTTOM_ALIGNMENT);
+						guardar1.setAlignmentY(CENTER_ALIGNMENT);
+
+						guardar1.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+									if (idx >= 1 && idx <= 3)
+										if (carga[idx] != null) {
+											jogo.ativarSuborno((carga[idx]));
+
+										}
+
+								}
+							}
+						});
+
+						guardar.add(guardar1);
+					}
+
+				}
+
+			} // fim vl carga
+
+			return guardar;
+
+		} // fim vld pl
+
+		return null;
+
+	}
+
+	
 	private JPanel adicionarComprar() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
