@@ -1,9 +1,6 @@
 package ui.grafico;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -30,10 +27,15 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 		jogo = j;
 
 		j.addObserver(this);
+		
+		setPreferredSize(new Dimension(sx, sy));
+		setMaximumSize(new Dimension(sx, sy));
 
 		JButton continuar = new JButton("Continuar");
 		
-
+		continuar.setAlignmentX(BOTTOM_ALIGNMENT);
+		continuar.setAlignmentY(CENTER_ALIGNMENT);
+		
 		continuar.addActionListener(new ActionListener() {
 
 			@Override
@@ -45,8 +47,7 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 
 		add(continuar);
 		
-		setPreferredSize(new Dimension(sx, sy));
-		setMaximumSize(new Dimension(sx, sy));
+
 		
 		this.setAlignmentX(BOTTOM_ALIGNMENT);
 		this.setAlignmentY(CENTER_ALIGNMENT);
