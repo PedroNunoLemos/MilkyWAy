@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 import logicajogo.Jogo;
 import logicajogo.cartas.naves.Nave;
-import logicajogo.cubos.Cubo;
+import logicajogo.cubos.*;
 
 public class PainelInfoJogador extends JPanel implements Observer, MouseMotionListener, Serializable {
 
@@ -63,6 +63,27 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 
 	}
 
+	private BufferedImage devolveCuboImg(Cubo cubo) {
+
+		if (cubo == null)
+			return cinzento;
+
+		if (cubo.obtemCor() == Color.yellow)
+			return amarelo;
+
+		if (cubo.obtemCor() == Color.red)
+			return vermelho;
+
+		if (cubo.obtemCor() == Color.black)
+			return preto;
+
+		if (cubo.obtemCor() == Color.blue)
+			return azul;
+
+		return cinzento;
+
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -77,7 +98,7 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 		g.setColor(Color.getHSBColor(170, 15, 100));
 
 		g.drawString(moedas, 90, 65);
-		
+
 		Nave nave = this.jogo.consultaJogador().obterNave();
 
 		if (nave.obterForca() == 4)
@@ -88,15 +109,25 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 			g.drawImage(forca, 141, 92, 15, 16, this);
 
 		}
-		
+
 		if (nave.naveCargaMaxima())
 			g.drawImage(cinzento, 131, 135, 15, 16, this);
-			
-		
-		Cubo[] carga = this.jogo.consultaJogador().obterNave().obterCarga();
-		
-		
 
+		Cubo[] carga = this.jogo.consultaJogador().obterNave().obterCarga();
+
+		if (nave.obterTotalCargaOcupada() > 0) {
+			if (carga[0] != null)
+				g.drawImage(devolveCuboImg(carga[0]), 88, 135, 15, 16, this);
+
+			if (nave.obterTotalCargaOcupada() > 1)
+				if (carga[1] != null)
+					g.drawImage(devolveCuboImg(carga[1]), 110, 135, 15, 16, this);
+
+			if (nave.obterTotalCargaOcupada() > 2 && nave.naveCargaMaxima())
+				if (carga[2] != null)
+					g.drawImage(devolveCuboImg(carga[2]), 131, 135, 15, 16, this);
+		}
+		
 	}
 
 	@Override

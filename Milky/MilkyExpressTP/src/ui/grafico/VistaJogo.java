@@ -1,7 +1,6 @@
 package ui.grafico;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -14,7 +13,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import logicajogo.Jogo;
@@ -121,6 +119,8 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+
+
 	}
 
 	@Override
