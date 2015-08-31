@@ -1,6 +1,10 @@
 package ui.grafico;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -9,6 +13,7 @@ import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -29,14 +34,15 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 		jogo = j;
 
 		jogo.addObserver(this);
+		setLayout(new GridLayout());
 
-		setPreferredSize(new Dimension(sx, sy));
-		setMaximumSize(new Dimension(sx, sy));
+		this.setBorder(BorderFactory.createLineBorder(Color.red));
 
 		JButton continuar = new JButton("Continuar");
-
-		continuar.setAlignmentX(BOTTOM_ALIGNMENT);
-		continuar.setAlignmentY(CENTER_ALIGNMENT);
+		
+		continuar.setOpaque(false);
+		continuar.setPreferredSize(new Dimension(sx, sy));
+		continuar.setMaximumSize(new Dimension(sx, sy));
 
 		continuar.addActionListener(new ActionListener() {
 
@@ -48,40 +54,41 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 
 					Posicao newpos = jogo.devolveMapa().consultaPosicaoSelecionada();
 
-					if (newpos.obterCarta() != null) {
+					if (newpos != null) {
 
-						switch (jogo.obterTipomov()) {
+						if (newpos.obterCarta() != null) {
+							switch (jogo.obterTipomov()) {
 
-						case 1:
+							case 1:
 
-							jogo.moverNave(newpos.obterX(), newpos.obterY());
-							break;
+								jogo.moverNave(newpos.obterX(), newpos.obterY());
+								break;
 
-						case 2:
+							case 2:
 
-							jogo.viajarBuracoNegro(newpos.obterX(), newpos.obterY());
-							break;
+								jogo.viajarBuracoNegro(newpos.obterX(), newpos.obterY());
+								break;
 
-						case 3:
+							case 3:
 
-							jogo.viajarModoWarp(newpos.obterX(), newpos.obterY());
-							break;
+								jogo.viajarModoWarp(newpos.obterX(), newpos.obterY());
+								break;
 
+							}
 						}
-
 					} // fim valida carta
 
 				} // fim movimentar
 
 				j.continuarJogo();
-				
+
 			}
 		});
 
-		add(continuar);
+		this.add(continuar, BorderLayout.CENTER);
 
-		this.setAlignmentX(BOTTOM_ALIGNMENT);
-		this.setAlignmentY(CENTER_ALIGNMENT);
+		setPreferredSize(new Dimension(sx, sy));
+		setMaximumSize(new Dimension(sx, sy));
 
 		setOpaque(false);
 		setVisible(true);
@@ -105,7 +112,7 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 		// TODO Auto-generated method stub
 
 		jogo = (Jogo) arg0;
-		
+
 		repaint();
 		revalidate();
 

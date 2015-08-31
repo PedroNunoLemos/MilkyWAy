@@ -36,6 +36,8 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 		this.pos = ps;
 		this.carta = ps.obterCarta();
 
+		registaListeners();
+
 		try {
 
 			if (inx == 0) {
@@ -66,6 +68,13 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 
 	}
 
+
+	private void registaListeners() {
+		addMouseListener(this);
+		addMouseMotionListener(this);
+	}
+
+	
 	public void naveNaArea(boolean nave, boolean ai) {
 
 		if (nave) {
@@ -100,6 +109,9 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 		// TODO Auto-generated method stub
 
 		jogo.devolveMapa().definePosicaoSelecionada(pos);
+		
+		JOptionPane.showMessageDialog(null,pos.obterX());
+
 
 	}
 

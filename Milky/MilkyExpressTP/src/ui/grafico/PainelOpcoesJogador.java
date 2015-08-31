@@ -3,12 +3,15 @@ package ui.grafico;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
@@ -17,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import logicajogo.Jogo;
 import logicajogo.Posicao;
@@ -34,7 +38,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 	private static final long serialVersionUID = 1L;
 
-	private int sx = 100, sy = 100;
+	private int sx = 400, sy = 100;
 
 	private Jogo jogo;
 
@@ -50,7 +54,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		if (carta != null) {
 
 			JPanel movimentar = new JPanel();
-			movimentar.setBorder(BorderFactory.createTitledBorder("Movimentar"));
+			movimentar.setOpaque(false);
 
 			if ((carta instanceof BuracoNegro && !nave.viajandoBuracoNegro()) || !(carta instanceof BuracoNegro)) {
 				// mover
@@ -147,7 +151,13 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			Cubo[] stock = pl.obterStock();
 
 			JPanel comprar = new JPanel();
-			comprar.setBorder(BorderFactory.createTitledBorder("Comprar"));
+			comprar.setOpaque(false);
+
+			TitledBorder bordacentro = BorderFactory.createTitledBorder("Comprar");
+			bordacentro.setTitleJustification(TitledBorder.CENTER);
+			bordacentro.setTitleColor(Color.white);
+
+			comprar.setBorder(bordacentro);
 
 			if (stock[0] != null) {
 
@@ -222,7 +232,13 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
 			JPanel vender = new JPanel();
-			vender.setBorder(BorderFactory.createTitledBorder("Comprar"));
+			vender.setOpaque(false);
+
+			TitledBorder bordacentro = BorderFactory.createTitledBorder("Vender");
+			bordacentro.setTitleJustification(TitledBorder.CENTER);
+			bordacentro.setTitleColor(Color.white);
+
+			vender.setBorder(bordacentro);
 
 			Cubo[] carga = nave.obterCarga();
 
@@ -277,7 +293,13 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
 			JPanel guardar = new JPanel();
-			guardar.setBorder(BorderFactory.createTitledBorder("Subornar"));
+			guardar.setOpaque(false);
+
+			TitledBorder bordacentro = BorderFactory.createTitledBorder("Movimentar");
+			bordacentro.setTitleJustification(TitledBorder.CENTER);
+			bordacentro.setTitleColor(Color.white);
+
+			guardar.setBorder(bordacentro);
 
 			Cubo[] carga = nave.obterCarga();
 
@@ -338,13 +360,19 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
 			JPanel atualizar = new JPanel();
-			atualizar.setBorder(BorderFactory.createTitledBorder("Atualizar Nave"));
+			atualizar.setOpaque(false);
+
+			TitledBorder bordacentro = BorderFactory.createTitledBorder("Atualizar Nave");
+			bordacentro.setTitleJustification(TitledBorder.CENTER);
+			bordacentro.setTitleColor(Color.white);
+
+			atualizar.setBorder(bordacentro);
 
 			if (!nave.maxForca()) {
 
 				String pr = String.valueOf(nave.obterProximoCustoUpgradeForca());
 
-				JButton atualizar1 = new JButton("Atualizar Força (" + pr + ") Moedas");
+				JButton atualizar1 = new JButton("Força (" + pr + ") Moedas");
 
 				atualizar1.setAlignmentX(BOTTOM_ALIGNMENT);
 				atualizar1.setAlignmentY(CENTER_ALIGNMENT);
@@ -356,7 +384,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 						// TODO Auto-generated method stub
 						if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
-							jogo.atualizarNave(0);
+							jogo.atualizarNave(1);
 
 						}
 					}
@@ -370,7 +398,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 				String pr = String.valueOf(nave.obterProximoCustoUpgradeForca());
 
-				JButton atualizar2 = new JButton("Atualizar Carga (" + pr + ") Moedas");
+				JButton atualizar2 = new JButton("Carga (" + pr + ") Moedas");
 
 				atualizar2.setAlignmentX(BOTTOM_ALIGNMENT);
 				atualizar2.setAlignmentY(CENTER_ALIGNMENT);
@@ -382,7 +410,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 						// TODO Auto-generated method stub
 						if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
-							jogo.atualizarNave(1);
+							jogo.atualizarNave(2);
 
 						}
 					}
@@ -410,6 +438,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 		setPreferredSize(new Dimension(sx, sy));
 		setMaximumSize(new Dimension(sx, sy));
+
 		setOpaque(false);
 		setVisible(true);
 
@@ -433,9 +462,18 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			if (carta != null && !(carta instanceof Planeta || carta instanceof PlanetaPirata)
 
 			) {
+				String estado = "Não esta posicionado num planeta";
 				g.setFont(new Font("Arial", Font.BOLD, 14));
-				g.drawString("Só pode comprar vender subornar ", 90, 65);
-				g.drawString(" e atualizar nave num planeta ", 90, 75);
+
+				Graphics2D g2d = (Graphics2D) g;
+				FontMetrics fm = g2d.getFontMetrics();
+				Rectangle2D r = fm.getStringBounds(estado, g2d);
+
+				int sx = (this.getWidth() - (int) r.getWidth()) / 2;
+				int sy = (this.getHeight() - (int) r.getHeight()) / 2 + fm.getAscent();
+
+				g.drawString(estado, sx, sy);
+
 			}
 		}
 
@@ -461,6 +499,8 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 		this.jogo = (Jogo) arg0;
 
+		this.removeAll();
+
 		if (this.jogo.devolveEstado() instanceof Movimentar) {
 
 			this.removeAll();
@@ -473,8 +513,6 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		}
 
 		if (this.jogo.devolveEstado() instanceof Negociar) {
-
-			this.removeAll();
 
 			JPanel comprar = adicionarComprar();
 			JPanel vender = adicionarVender();

@@ -1,5 +1,6 @@
 package ui.grafico;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -20,6 +21,8 @@ public class PainelUiOpcoes extends JPanel implements MouseMotionListener, Seria
 
 	public PainelUiOpcoes(Jogo j) {
 
+		setLayout(new BorderLayout());
+
 		estinfo = new PainelOpcoesEstado(j);
 		opcoes = new PainelOpcoesJogador(j);
 		continuar = new PainelOpcoesContinuar(j);
@@ -27,9 +30,9 @@ public class PainelUiOpcoes extends JPanel implements MouseMotionListener, Seria
 		this.setAlignmentX(BOTTOM_ALIGNMENT);
 		this.setAlignmentY(CENTER_ALIGNMENT);
 
-		add(estinfo);
-		add(opcoes);
-		add(continuar);
+		add(estinfo, BorderLayout.WEST);
+		add(opcoes, BorderLayout.CENTER);
+		add(continuar, BorderLayout.EAST);
 
 		estinfo.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		opcoes.setBorder(BorderFactory.createLineBorder(Color.lightGray));

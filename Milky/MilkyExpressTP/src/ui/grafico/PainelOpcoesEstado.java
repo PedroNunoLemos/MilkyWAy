@@ -3,9 +3,12 @@ package ui.grafico;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
@@ -18,7 +21,7 @@ public class PainelOpcoesEstado extends JPanel implements Observer, MouseMotionL
 
 	private static final long serialVersionUID = 1L;
 
-	private int sx = 100, sy = 100;
+	private int sx = 200, sy = 100;
 
 	private Jogo jogo;
 
@@ -45,7 +48,14 @@ public class PainelOpcoesEstado extends JPanel implements Observer, MouseMotionL
 
 		g.setColor(Color.getHSBColor(170, 15, 100));
 
-		g.drawString(estado, 90, 65);
+		Graphics2D g2d = (Graphics2D) g;
+		FontMetrics fm = g2d.getFontMetrics();
+		Rectangle2D r = fm.getStringBounds(estado, g2d);
+		
+		int x = (this.getWidth() - (int) r.getWidth()) / 2;		
+		int y = (this.getHeight() - (int) r.getHeight()) / 2 + fm.getAscent();
+		
+		g.drawString(estado, x, y);
 
 	}
 

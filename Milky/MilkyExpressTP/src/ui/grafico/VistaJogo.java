@@ -74,7 +74,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		areamapa.setPreferredSize(new Dimension(750, 700));
 		areamapa.setMaximumSize(new Dimension(750, 700));
 
-		areaopcoes.setLayout(new GridLayout(1, 3));
+
 		areaopcoes.setPreferredSize(new Dimension(1000, 100));
 		areaopcoes.setMaximumSize(new Dimension(1000, 100));
 

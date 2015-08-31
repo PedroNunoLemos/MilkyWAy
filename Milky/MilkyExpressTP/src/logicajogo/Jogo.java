@@ -204,11 +204,10 @@ public class Jogo extends Observable implements Serializable {
 
 		if (this.banco >= 30)
 			this.banco = 30;
-		
-        
-        setChanged();
-        notifyObservers(); 
-        
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void preparaJogo() {
@@ -222,17 +221,15 @@ public class Jogo extends Observable implements Serializable {
 		tabuleiro = new Tabuleiro();
 		tabuleiro.geraGalaxia();
 
-        
-        setChanged();
-        notifyObservers(); 
-		
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void defineMensagem(String erro) {
 
 		this.ultimaMsg = erro;
-	
-        
+
 	}
 
 	public boolean temJogadores() {
