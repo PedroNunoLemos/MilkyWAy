@@ -32,7 +32,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 	private Jogo jogo;
 
-	private JPanel adiconaComprar() {
+	private JPanel adicionarComprar() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
@@ -164,7 +164,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 	}
 
-	private JPanel adicionaSuborno() {
+	private JPanel adicionarSuborno() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
@@ -225,6 +225,80 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 	}
 
+	private JPanel adicionarUpgradeNave() {
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			JPanel atualizar = new JPanel();
+			atualizar.setBorder(BorderFactory.createTitledBorder("Atualizar Nave"));
+
+			if (!nave.maxForca()) {
+
+				String pr = String.valueOf(nave.obterProximoCustoUpgradeForca());
+
+				JButton atualizar1 = new JButton("Atualizar Força (" + pr + ") Moedas");
+
+				atualizar1.setAlignmentX(BOTTOM_ALIGNMENT);
+				atualizar1.setAlignmentY(CENTER_ALIGNMENT);
+
+				atualizar1.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+							jogo.atualizarNave(0);
+
+						}
+					}
+				});
+
+				atualizar.add(atualizar1);
+
+			} // fim atualizar forca
+
+			if (!nave.naveCargaMaxima()) {
+
+				String pr = String.valueOf(nave.obterProximoCustoUpgradeForca());
+
+				JButton atualizar2 = new JButton("Atualizar Carga (" + pr + ") Moedas");
+
+				atualizar2.setAlignmentX(BOTTOM_ALIGNMENT);
+				atualizar2.setAlignmentY(CENTER_ALIGNMENT);
+
+				atualizar2.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+							jogo.atualizarNave(1);
+
+						}
+					}
+				});
+
+				atualizar.add(atualizar2);
+
+			} // fim atualizar carga
+
+			return atualizar;
+
+		} // fim vld pl
+
+		return null;
+
+	}
+
 	public PainelOpcoesJogador(Jogo j) {
 
 		jogo = j;
@@ -263,15 +337,16 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		// TODO Auto-generated method stub
 
 		this.jogo = (Jogo) arg0;
-		
+
 		this.removeAll();
 
 		if (this.jogo.devolveEstado() instanceof Negociar) {
 
-			JPanel comprar = adiconaComprar();
+			JPanel comprar = adicionarComprar();
 			JPanel vender = adicionarVender();
-			JPanel subornar = adicionaSuborno();
-
+			JPanel subornar = adicionarSuborno();
+			JPanel atualizar = adicionarUpgradeNave();
+			
 			if (comprar != null)
 				this.add(comprar);
 
@@ -280,6 +355,10 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 			if (subornar != null)
 				this.add(subornar);
+			
+			if (atualizar != null)
+				this.add(atualizar);
+
 
 		}
 
