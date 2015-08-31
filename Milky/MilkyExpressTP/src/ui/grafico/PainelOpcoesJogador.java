@@ -1,6 +1,8 @@
 package ui.grafico;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -318,6 +320,28 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 
+		g.setFont(new Font("Arial", Font.BOLD, 15));
+
+		g.setColor(Color.getHSBColor(170, 15, 100));
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+		if (this.jogo.devolveEstado() instanceof Negociar) {
+			
+			if (carta != null && !(carta instanceof Planeta || carta instanceof PlanetaPirata)
+
+			) {
+				g.setFont(new Font("Arial", Font.BOLD, 12));
+				g.drawString("Só pode comprar vender subornar ", 90, 65);
+				g.drawString(" e atualizar nave num planeta ", 90, 75);
+			}
+		}
+		
+		g.setFont(new Font("Arial", Font.BOLD, 15));
+		g.drawString("", 90, 65);
 	}
 
 	@Override
@@ -338,15 +362,15 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 		this.jogo = (Jogo) arg0;
 
-		this.removeAll();
-
 		if (this.jogo.devolveEstado() instanceof Negociar) {
+
+			this.removeAll();
 
 			JPanel comprar = adicionarComprar();
 			JPanel vender = adicionarVender();
 			JPanel subornar = adicionarSuborno();
 			JPanel atualizar = adicionarUpgradeNave();
-			
+
 			if (comprar != null)
 				this.add(comprar);
 
@@ -355,10 +379,9 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 			if (subornar != null)
 				this.add(subornar);
-			
+
 			if (atualizar != null)
 				this.add(atualizar);
-
 
 		}
 
