@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
 
@@ -23,13 +24,15 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 	private int sx = 75, sy = 65;
 	private Posicao pos;
 	private Carta carta;
+	private Jogo jogo;
 
 	public Posicao devolvePosicao() {
 		return pos;
 	}
 
-	public GuiCarta(Posicao ps, int inx) {
+	public GuiCarta(Jogo j, Posicao ps, int inx) {
 
+		this.jogo = j;
 		this.pos = ps;
 		this.carta = ps.obterCarta();
 
@@ -96,7 +99,8 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-		
+		jogo.devolveMapa().definePosicaoSelecionada(pos);
+
 	}
 
 	@Override

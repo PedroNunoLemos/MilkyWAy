@@ -34,8 +34,6 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 	public void mouseMoved(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-		JOptionPane.showMessageDialog(null, "My Goodness, this is so concise");
-
 	}
 
 	private Posicao[] geraMapaSeq(Jogo j) {
@@ -84,7 +82,7 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 			if (card == null) {
 
-				GuiCarta guiCarta = new GuiCarta(pos, 0);
+				GuiCarta guiCarta = new GuiCarta(j, pos, 0);
 
 				this.add(guiCarta);
 
@@ -92,7 +90,7 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 			if (!pos.foiExplorada() && card != null) {
 
-				GuiCarta guiCarta = new GuiCarta(pos, 1);
+				GuiCarta guiCarta = new GuiCarta(j, pos, 1);
 
 				if (jx == x && jy == y)
 					guiCarta.naveNaArea(true, false);
@@ -109,18 +107,18 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 				if (card instanceof BuracoNegro) {
 
-					guiCarta = new GuiCarta(pos, 3);
+					guiCarta = new GuiCarta(j, pos, 3);
 
 				} else if (card instanceof PlanetaPirata) {
-					guiCarta = new GuiCarta(pos, 3);
+					guiCarta = new GuiCarta(j, pos, 3);
 
 				} else if (card instanceof Planeta) {
 
-					guiCarta = new GuiCarta(pos, 3);
+					guiCarta = new GuiCarta(j, pos, 3);
 
 				} else {
 
-					guiCarta = new GuiCarta(pos, 3);
+					guiCarta = new GuiCarta(j, pos, 3);
 
 				}
 

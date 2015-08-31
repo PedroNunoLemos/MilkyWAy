@@ -18,8 +18,11 @@ public class Tabuleiro implements Serializable {
 
 	private Baralho baralhojogo;
 	private ArrayList<Posicao> galaxia;
+	private Posicao posicalselecionada;
 
 	public Tabuleiro() {
+
+		posicalselecionada = null;
 
 		galaxia = new ArrayList<Posicao>();
 
@@ -28,6 +31,18 @@ public class Tabuleiro implements Serializable {
 				galaxia.add(new Posicao(i, j, null));
 			}
 		}
+	}
+
+	public Posicao consultaPosicaoSelecionada() {
+
+		return this.posicalselecionada;
+
+	}
+
+	public void definePosicaoSelecionada(Posicao pos) {
+
+		this.posicalselecionada = pos;
+
 	}
 
 	public Posicao consultaPosicao(int x, int y) {

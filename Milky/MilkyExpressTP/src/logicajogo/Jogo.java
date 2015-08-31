@@ -23,6 +23,7 @@ public class Jogo extends Observable implements Serializable {
 	private Jogador jogador;
 	private MotorIA iajogo;
 	private int banco = 30;
+	private int tipomov;
 
 	private ArrayList<Cubo> reserva;
 
@@ -244,5 +245,13 @@ public class Jogo extends Observable implements Serializable {
 
 		return this.jogador;
 
+	}
+
+	public int obterTipomov() {
+		return tipomov;
+	}
+
+	public void defineTipomov(int tipomov) {
+		this.tipomov = tipomov;
 	}
 }

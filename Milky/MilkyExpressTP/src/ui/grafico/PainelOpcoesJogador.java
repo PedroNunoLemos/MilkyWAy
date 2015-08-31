@@ -15,15 +15,19 @@ import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logicajogo.Jogo;
+import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
+import logicajogo.cartas.galaxia.BuracoNegro;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaBase;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.Cubo;
+import logicajogo.estados.Movimentar;
 import logicajogo.estados.Negociar;
 
 public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotionListener, Serializable {
@@ -33,7 +37,6 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 	private int sx = 100, sy = 100;
 
 	private Jogo jogo;
-	
 
 	private JPanel adicionarMovimentar() {
 
@@ -46,57 +49,90 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 		if (carta != null) {
 
-			JPanel guardar = new JPanel();
-			guardar.setBorder(BorderFactory.createTitledBorder("Subornar"));
+			JPanel movimentar = new JPanel();
+			movimentar.setBorder(BorderFactory.createTitledBorder("Movimentar"));
 
-			Cubo[] carga = nave.obterCarga();
+			if ((carta instanceof BuracoNegro && !nave.viajandoBuracoNegro()) || !(carta instanceof BuracoNegro)) {
+				// mover
+				JButton movimentar1 = new JButton("Mover Nave ");
 
-			if (nave.obterTotalCargaOcupada() > 0 && !this.jogo.consultaJogador().ativouSuborno()) {
+				movimentar1.setAlignmentX(BOTTOM_ALIGNMENT);
+				movimentar1.setAlignmentY(CENTER_ALIGNMENT);
 
-				for (int i = 0; i < nave.obterTotalCargaOcupada(); i++) {
+				movimentar1.addActionListener(new ActionListener() {
 
-					final int idx = i;
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
 
-					if (carga[i] != null) {
+						JOptionPane.showMessageDialog(null, "Clique na celula de destino e depois em continuar");
 
-						JButton guardar1 = new JButton("Guardar " + carga[i].obtemNome());
-
-						guardar1.setAlignmentX(BOTTOM_ALIGNMENT);
-						guardar1.setAlignmentY(CENTER_ALIGNMENT);
-
-						guardar1.addActionListener(new ActionListener() {
-
-							@Override
-							public void actionPerformed(ActionEvent arg0) {
-								// TODO Auto-generated method stub
-								if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
-
-									if (idx >= 1 && idx <= 3)
-										if (carga[idx] != null) {
-											jogo.ativarSuborno((carga[idx]));
-
-										}
-
-								}
-							}
-						});
-
-						guardar.add(guardar1);
+						jogo.defineTipomov(1);
 					}
+				});
 
-				}
+				movimentar.add(movimentar1);
 
-			} // fim vl carga
+			}
 
-			return guardar;
+			if (carta != null && carta instanceof BuracoNegro) {
+				// buraco negro
 
-		} // fim vld pl
+				JButton movimentar2 = new JButton("Mover Buraco Negro");
+
+				movimentar2.setAlignmentX(BOTTOM_ALIGNMENT);
+				movimentar2.setAlignmentY(CENTER_ALIGNMENT);
+
+				movimentar2.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+
+						JOptionPane.showMessageDialog(null, "Clique na celula de destino e depois em continuar");
+
+						jogo.defineTipomov(2);
+
+					}
+				});
+
+				movimentar.add(movimentar2);
+
+			}
+
+			if (!(carta instanceof BuracoNegro)) {
+				// warp
+
+				JButton movimentar3 = new JButton("Mover Modo Warp");
+
+				movimentar3.setAlignmentX(BOTTOM_ALIGNMENT);
+				movimentar3.setAlignmentY(CENTER_ALIGNMENT);
+
+				movimentar3.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+
+						JOptionPane.showMessageDialog(null, "Clique na celula de destino e depois em continuar");
+
+						jogo.defineTipomov(3);
+
+					}
+				});
+
+				movimentar.add(movimentar3);
+
+			}
+
+			return movimentar;
+
+		} // fim
 
 		return null;
 
 	}
 
-	
 	private JPanel adicionarComprar() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
@@ -393,7 +429,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
 		if (this.jogo.devolveEstado() instanceof Negociar) {
-			
+
 			if (carta != null && !(carta instanceof Planeta || carta instanceof PlanetaPirata)
 
 			) {
@@ -402,7 +438,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 				g.drawString(" e atualizar nave num planeta ", 90, 75);
 			}
 		}
-		
+
 		g.setFont(new Font("Arial", Font.BOLD, 15));
 		g.drawString("", 90, 65);
 	}
@@ -424,6 +460,17 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		// TODO Auto-generated method stub
 
 		this.jogo = (Jogo) arg0;
+
+		if (this.jogo.devolveEstado() instanceof Movimentar) {
+
+			this.removeAll();
+
+			JPanel movimentar = adicionarMovimentar();
+
+			if (movimentar != null)
+				this.add(movimentar);
+
+		}
 
 		if (this.jogo.devolveEstado() instanceof Negociar) {
 
