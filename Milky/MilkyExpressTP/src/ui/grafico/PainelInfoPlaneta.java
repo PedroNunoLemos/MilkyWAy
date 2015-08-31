@@ -20,9 +20,7 @@ import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaBase;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
-import logicajogo.cubos.Comida;
 import logicajogo.cubos.Cubo;
-import logicajogo.cubos.Ilegal;
 
 public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionListener, Serializable {
 
