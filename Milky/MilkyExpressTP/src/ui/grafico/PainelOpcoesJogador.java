@@ -1,21 +1,18 @@
 package ui.grafico;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logicajogo.Jogo;
@@ -35,7 +32,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 	private Jogo jogo;
 
-	private void adiconaComprar() {
+	private JPanel adiconaComprar() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
@@ -47,6 +44,9 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			PlanetaBase pl = (PlanetaBase) carta;
 
 			Cubo[] stock = pl.obterStock();
+
+			JPanel comprar = new JPanel();
+			comprar.setBorder(BorderFactory.createTitledBorder("Comprar"));
 
 			if (stock[0] != null) {
 
@@ -71,7 +71,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 					}
 				});
 
-				add(comprar1);
+				comprar.add(comprar1);
 
 			}
 
@@ -99,14 +99,17 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 						}
 					});
 
-					add(comprar2);
+					comprar.add(comprar2);
 				}
+
+			return comprar;
 
 		} // fim ver pl
 
+		return null;
 	}
 
-	private void adicionarVender() {
+	private JPanel adicionarVender() {
 
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
@@ -117,6 +120,9 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
+			JPanel vender = new JPanel();
+			vender.setBorder(BorderFactory.createTitledBorder("Comprar"));
+
 			Cubo[] carga = nave.obterCarga();
 
 			if (nave.obterTotalCargaOcupada() > 0) {
@@ -125,30 +131,98 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 					final int idx = i;
 
-					JButton vender = new JButton("Vender " + carga[i].obtemNome());
+					if (carga[i] != null) {
 
-					vender.setAlignmentX(BOTTOM_ALIGNMENT);
-					vender.setAlignmentY(CENTER_ALIGNMENT);
+						JButton vender1 = new JButton("Vender " + carga[i].obtemNome());
 
-					vender.addActionListener(new ActionListener() {
+						vender1.setAlignmentX(BOTTOM_ALIGNMENT);
+						vender1.setAlignmentY(CENTER_ALIGNMENT);
 
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							// TODO Auto-generated method stub
-							if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+						vender1.addActionListener(new ActionListener() {
 
-								if (carga[idx] != null) {
-									jogo.venderBens(carga[idx]);
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+									if (carga[idx] != null) {
+										jogo.venderBens(carga[idx]);
+									}
 								}
 							}
-						}
-					});
+						});
 
-					add(vender);
-
+						vender.add(vender1);
+					}
 				}
 			}
-		}
+
+			return vender;
+		} // fim vld pl
+
+		return null;
+
+	}
+
+	private JPanel adicionaSuborno() {
+
+		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
+		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
+
+		Nave nave = this.jogo.consultaJogador().obterNave();
+
+		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			JPanel guardar = new JPanel();
+			guardar.setBorder(BorderFactory.createTitledBorder("Subornar"));
+
+			Cubo[] carga = nave.obterCarga();
+
+			if (nave.obterTotalCargaOcupada() > 0 && !this.jogo.consultaJogador().ativouSuborno()) {
+
+				for (int i = 0; i < nave.obterTotalCargaOcupada(); i++) {
+
+					final int idx = i;
+
+					if (carga[i] != null) {
+
+						JButton guardar1 = new JButton("Guardar " + carga[i].obtemNome());
+
+						guardar1.setAlignmentX(BOTTOM_ALIGNMENT);
+						guardar1.setAlignmentY(CENTER_ALIGNMENT);
+
+						guardar1.addActionListener(new ActionListener() {
+
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+									if (idx >= 1 && idx <= 3)
+										if (carga[idx] != null) {
+											jogo.ativarSuborno((carga[idx]));
+
+										}
+
+								}
+							}
+						});
+
+						guardar.add(guardar1);
+					}
+
+				}
+
+			} // fim vl carga
+
+			return guardar;
+
+		} // fim vld pl
+
+		return null;
+
 	}
 
 	public PainelOpcoesJogador(Jogo j) {
@@ -156,6 +230,8 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		jogo = j;
 
 		j.addObserver(this);
+
+		this.setLayout(new GridLayout(1, 4));
 
 		setPreferredSize(new Dimension(sx, sy));
 		setMaximumSize(new Dimension(sx, sy));
@@ -187,11 +263,23 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		// TODO Auto-generated method stub
 
 		this.jogo = (Jogo) arg0;
+		
+		this.removeAll();
 
 		if (this.jogo.devolveEstado() instanceof Negociar) {
 
-			this.adiconaComprar();
-			this.adicionarVender();
+			JPanel comprar = adiconaComprar();
+			JPanel vender = adicionarVender();
+			JPanel subornar = adicionaSuborno();
+
+			if (comprar != null)
+				this.add(comprar);
+
+			if (vender != null)
+				this.add(vender);
+
+			if (subornar != null)
+				this.add(subornar);
 
 		}
 

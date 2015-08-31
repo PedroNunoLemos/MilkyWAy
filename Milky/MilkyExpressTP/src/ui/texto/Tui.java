@@ -666,7 +666,8 @@ public class Tui {
 				break;
 			}
 
-			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+			if (carta != null && (carta instanceof Planeta 
+					|| carta instanceof PlanetaPirata)) {
 				Cubo[] carga = nave.obterCarga();
 
 				if (res >= 1 && res <= 3)
