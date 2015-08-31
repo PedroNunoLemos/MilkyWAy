@@ -334,7 +334,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			if (carta != null && !(carta instanceof Planeta || carta instanceof PlanetaPirata)
 
 			) {
-				g.setFont(new Font("Arial", Font.BOLD, 12));
+				g.setFont(new Font("Arial", Font.BOLD, 14));
 				g.drawString("Só pode comprar vender subornar ", 90, 65);
 				g.drawString(" e atualizar nave num planeta ", 90, 75);
 			}

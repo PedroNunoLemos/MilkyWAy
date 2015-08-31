@@ -3,6 +3,7 @@ package ui.grafico;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -11,16 +12,29 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import logicajogo.Jogo;
+import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
+import logicajogo.estados.Movimentar;
 
-public class GuiCarta extends JPanel implements MouseMotionListener, Serializable {
+public class GuiCarta extends JPanel implements MouseMotionListener, MouseListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private BufferedImage image;
 
 	private int sx = 75, sy = 65;
+	private Posicao pos;
+	private Posicao pressedpos;
+	private Carta carta;
 
-	public GuiCarta(Carta carta, int inx) {
+	public Posicao devolvePosicaoPressionada() {
+		return pressedpos;
+	}
+
+	public GuiCarta(Posicao ps, int inx) {
+
+		this.pos = ps;
+		this.carta = ps.obterCarta();
 
 		try {
 
@@ -35,8 +49,9 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 
 			} else {
 
-				image = ImageIO
-						.read(getClass().getClassLoader().getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
+				if (carta != null)
+					image = ImageIO.read(
+							getClass().getClassLoader().getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
 			}
 		} catch (Exception e) {
 			/* handled in paintComponent() */
@@ -76,6 +91,42 @@ public class GuiCarta extends JPanel implements MouseMotionListener, Serializabl
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+		if (e.getButton() == MouseEvent.BUTTON1) {
+
+			pressedpos = pos;
+
+		}
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}

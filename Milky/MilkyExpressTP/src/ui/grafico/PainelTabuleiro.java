@@ -17,7 +17,6 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 	private static final long serialVersionUID = 1L;
 
-
 	public PainelTabuleiro() {
 
 		setOpaque(false);
@@ -85,7 +84,7 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 			if (card == null) {
 
-				GuiCarta guiCarta = new GuiCarta(card, 0);
+				GuiCarta guiCarta = new GuiCarta(pos, 0);
 
 				this.add(guiCarta);
 
@@ -93,7 +92,7 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 			if (!pos.foiExplorada() && card != null) {
 
-				GuiCarta guiCarta = new GuiCarta(card, 1);
+				GuiCarta guiCarta = new GuiCarta(pos, 1);
 
 				if (jx == x && jy == y)
 					guiCarta.naveNaArea(true, false);
@@ -110,18 +109,18 @@ public class PainelTabuleiro extends JPanel implements MouseMotionListener, Seri
 
 				if (card instanceof BuracoNegro) {
 
-					guiCarta = new GuiCarta(card, 3);
+					guiCarta = new GuiCarta(pos, 3);
 
 				} else if (card instanceof PlanetaPirata) {
-					guiCarta = new GuiCarta(new Striterax(), 3);
+					guiCarta = new GuiCarta(pos, 3);
 
 				} else if (card instanceof Planeta) {
 
-					guiCarta = new GuiCarta(card, 3);
+					guiCarta = new GuiCarta(pos, 3);
 
 				} else {
 
-					guiCarta = new GuiCarta(card, 3);
+					guiCarta = new GuiCarta(pos, 3);
 
 				}
 
