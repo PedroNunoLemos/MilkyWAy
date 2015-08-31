@@ -16,6 +16,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import logicajogo.Jogo;
+import logicajogo.cartas.galaxia.planetas.Arrakis;
+import logicajogo.cartas.galaxia.planetas.Whirl;
 
 public class VistaJogo extends JPanel implements Observer, MouseListener, MouseMotionListener, Serializable {
 
@@ -63,7 +65,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		// 1000-700
 
-		areainfo.setLayout(new GridLayout(3, 1,0,0));
+		areainfo.setLayout(new GridLayout(3, 1, 0, 0));
 		areainfo.setPreferredSize(new Dimension(200, 700));
 		areainfo.setMaximumSize(new Dimension(200, 700));
 
@@ -75,9 +77,9 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		areaopcoes.setPreferredSize(new Dimension(1000, 100));
 		areaopcoes.setMaximumSize(new Dimension(1000, 100));
 
-//		areainfo.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-//		areaopcoes.setBorder(BorderFactory.createLineBorder(Color.lightGray));
-//		areamapa.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+		// areainfo.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+		// areaopcoes.setBorder(BorderFactory.createLineBorder(Color.lightGray));
+		// areamapa.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 
 		this.add(areainfo, BorderLayout.WEST);
 		this.add(areamapa, BorderLayout.CENTER);
@@ -120,7 +122,6 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-
 	}
 
 	@Override
@@ -153,9 +154,14 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		Jogo j = (Jogo) arg0;
 		areamapa.atualizaMapa(j);
+		areainfo.mostraCarta(new Whirl());
+/*
+		String estado = this.jogo.devolveEstado().toString();
+		JOptionPane.showMessageDialog(null, estado);
 
-		// JOptionPane.showMessageDialog(null, "mvc rules");
-
+		if (this.jogo.devolveMensagem() != null && !this.jogo.devolveMensagem().isEmpty())
+			JOptionPane.showMessageDialog(null, this.jogo.devolveMensagem());
+*/
 	}
 
 }
