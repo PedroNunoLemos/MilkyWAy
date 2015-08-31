@@ -30,7 +30,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 	private BufferedImage image;
 	PainelUiJogador areainfo;
 	PainelTabuleiro areamapa = new PainelTabuleiro();
-	JPanel areaopcoes = new JPanel();
+	PainelUiOpcoes areaopcoes;
 
 	private void addFundo() {
 		try {
@@ -49,6 +49,7 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		jogo = j;
 
 		areainfo = new PainelUiJogador(j);
+		areaopcoes = new PainelUiOpcoes(j);
 
 		j.addObserver(this);
 
@@ -154,14 +155,12 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 		Jogo j = (Jogo) arg0;
 		areamapa.atualizaMapa(j);
-		areainfo.mostraCarta(new Whirl());
-/*
-		String estado = this.jogo.devolveEstado().toString();
-		JOptionPane.showMessageDialog(null, estado);
 
-		if (this.jogo.devolveMensagem() != null && !this.jogo.devolveMensagem().isEmpty())
+		if (j.devolveMensagem() != null && !j.devolveMensagem().isEmpty())
 			JOptionPane.showMessageDialog(null, this.jogo.devolveMensagem());
-*/
+
+		j.defineMensagem("");
+
 	}
 
 }

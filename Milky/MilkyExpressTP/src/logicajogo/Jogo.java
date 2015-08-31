@@ -230,10 +230,7 @@ public class Jogo extends Observable implements Serializable {
 	public void defineMensagem(String erro) {
 
 		this.ultimaMsg = erro;
-		
-        
-        setChanged();
-        notifyObservers(); 
+	
         
 	}
 
