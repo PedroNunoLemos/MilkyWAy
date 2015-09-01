@@ -64,9 +64,9 @@ public class Nave implements Serializable {
 	public Cubo[] obterCarga() {
 
 		if (this.obterTotalCargaOcupada() > 0) {
-			Cubo[] cubos = new Cubo[this.obterTotalCargaOcupada()];
+			Cubo[] cubos = new Cubo[3];
 
-			for (int i = 0; i < this.obterTotalCargaOcupada(); i++)
+			for (int i = 0; i < 3; i++)
 				cubos[i] = carga[i];
 
 			return cubos;

@@ -65,15 +65,14 @@ public class Jogo extends Observable implements Serializable {
 
 	public void salvarJogo() {
 
-		String fich = System.getProperty("user.dir") + "/" + "jogo";
+		String fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
 		this.salvarJogo(fich);
 
 	}
 
 	public void salvarJogo(String fich) {
 
-		fich += ".mwe";
-
+	
 		GestorFicheiros fichs = new GestorFicheiros(fich);
 		try {
 			fichs.Salvar(this);
@@ -88,7 +87,7 @@ public class Jogo extends Observable implements Serializable {
 
 	public Jogo lerJogo() {
 
-		String fich = System.getProperty("user.dir") + "/" + "jogo";
+		String fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
 		return this.lerJogo(fich);
 
 	}

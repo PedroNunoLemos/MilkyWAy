@@ -99,7 +99,7 @@ public class Tui {
 			Jogo j = this.jogo.lerJogo();
 
 			if (j != null) {
-				
+
 				this.jogo = j;
 				this.processaMenuPrincipal(1);
 
@@ -290,13 +290,11 @@ public class Tui {
 				if (carga[0] != null)
 					this.menu.add("1 -> Vender " + carga[0].obtemNome());
 
-				if (carga.length > 1)
-					if (carga[1] != null)
-						this.menu.add("2 -> Vender " + carga[1].obtemNome());
+				if (carga[1] != null)
+					this.menu.add("2 -> Vender " + carga[1].obtemNome());
 
-				if (carga.length > 2)
-					if (carga[2] != null)
-						this.menu.add("3 -> Vender " + carga[2].obtemNome());
+				if (carga[2] != null)
+					this.menu.add("3 -> Vender " + carga[2].obtemNome());
 			}
 
 			this.menu.add("-------------------------");

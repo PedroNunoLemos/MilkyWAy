@@ -126,7 +126,7 @@ public class Negociar implements Estado, Serializable {
 
 		j.consultaJogador().atualizaMoedas(preco);
 		j.atualizaBanco(-preco);
-		nave.retiraCarga(cubo.obtemNome());
+		nave.retiraCarga(cubo);
 
 		j.defineMensagem("Vendeu " + cubo.obtemNome() + " por " + preco + " moedas ");
 		return this;

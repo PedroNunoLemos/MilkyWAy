@@ -107,7 +107,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 				chooser.showSaveDialog(Gui.this);
 
-				jogo.salvarJogo(chooser.getSelectedFile().getPath());
+				jogo.salvarJogo(chooser.getSelectedFile().getPath() + ".mwe");
 
 			}
 		});
@@ -125,6 +125,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 				chooser.showOpenDialog(Gui.this);
 
 				try {
+					
 					Jogo j = jogo.lerJogo(chooser.getSelectedFile().getPath());
 
 					if (j != null) {
@@ -143,9 +144,10 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 						repaint();
 
 					}
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, e.getStackTrace().toString());
+					JOptionPane.showMessageDialog(null, "Nao consegui abrir o ficheiro.");
 				}
 
 			}
