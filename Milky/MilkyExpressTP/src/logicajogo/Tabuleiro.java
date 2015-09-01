@@ -41,6 +41,11 @@ public class Tabuleiro implements Serializable {
 
 	public void definePosicaoSelecionada(Posicao pos) {
 
+		if (this.posicalselecionada != null)
+			atualizaPosicao(this.posicalselecionada.obterX(), this.posicalselecionada.obterY(), false);
+
+		atualizaPosicao(pos.obterX(), pos.obterY(), true);
+
 		this.posicalselecionada = pos;
 
 	}
@@ -221,6 +226,30 @@ public class Tabuleiro implements Serializable {
 
 		return posicoes.get(ranint);
 
+	}
+
+	private void atualizaPosicao(int x, int y, boolean sel) {
+
+		for (Posicao tmpg : galaxia) {
+
+			if (tmpg.obterX() == x && tmpg.obterY() == y) {
+				tmpg.defineSelecionado(sel);
+			}
+		}
+	}
+
+	public boolean todasViradas() {
+
+		int cnt = 0;
+
+		for (Posicao tmpg : galaxia) {
+
+			if (tmpg.foiExplorada())
+				cnt++;
+
+		}
+
+		return (cnt == 25);
 	}
 
 	public boolean validaMovimentoAdjacentes(int x, int y, int fx, int fy) {

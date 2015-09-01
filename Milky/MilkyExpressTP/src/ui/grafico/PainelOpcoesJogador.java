@@ -23,7 +23,6 @@ import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
 import logicajogo.Jogo;
-import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.BuracoNegro;
 import logicajogo.cartas.galaxia.planetas.Planeta;
@@ -31,6 +30,7 @@ import logicajogo.cartas.galaxia.planetas.PlanetaBase;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
 import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.Cubo;
+import logicajogo.estados.AtaquePirata;
 import logicajogo.estados.Movimentar;
 import logicajogo.estados.Negociar;
 
@@ -47,8 +47,6 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		int x = this.jogo.consultaJogador().obterNave().posicaoAtual()[0];
 		int y = this.jogo.consultaJogador().obterNave().posicaoAtual()[1];
 
-		Nave nave = this.jogo.consultaJogador().obterNave();
-
 		Carta carta = this.jogo.devolveMapa().obtemCarta(x, y);
 
 		if (carta != null) {
@@ -56,9 +54,11 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			JPanel movimentar = new JPanel();
 			movimentar.setOpaque(false);
 
-			if ((carta instanceof BuracoNegro && !nave.viajandoBuracoNegro()) || !(carta instanceof BuracoNegro)) {
+			if ((carta instanceof BuracoNegro && !this.jogo.consultaJogador().obterNave().viajandoBuracoNegro()
+					|| !(carta instanceof BuracoNegro))) {
+
 				// mover
-				JButton movimentar1 = new JButton("Mover Nave ");
+				JButton movimentar1 = new JButton("Mover 1 Posicao ");
 
 				movimentar1.setAlignmentX(BOTTOM_ALIGNMENT);
 				movimentar1.setAlignmentY(CENTER_ALIGNMENT);
@@ -82,7 +82,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			if (carta != null && carta instanceof BuracoNegro) {
 				// buraco negro
 
-				JButton movimentar2 = new JButton("Mover Buraco Negro");
+				JButton movimentar2 = new JButton("Viajar Buraco Negro");
 
 				movimentar2.setAlignmentX(BOTTOM_ALIGNMENT);
 				movimentar2.setAlignmentY(CENTER_ALIGNMENT);
@@ -107,7 +107,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			if (!(carta instanceof BuracoNegro)) {
 				// warp
 
-				JButton movimentar3 = new JButton("Mover Modo Warp");
+				JButton movimentar3 = new JButton("Viajar Modo Warp");
 
 				movimentar3.setAlignmentX(BOTTOM_ALIGNMENT);
 				movimentar3.setAlignmentY(CENTER_ALIGNMENT);
@@ -208,6 +208,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 								}
 							}
 						}
+
 					});
 
 					comprar.add(comprar2);
@@ -414,6 +415,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 						}
 					}
+
 				});
 
 				atualizar.add(atualizar2);
@@ -425,6 +427,42 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 		} // fim vld pl
 
 		return null;
+
+	}
+
+	private JPanel adicionarAtaquePirata() {
+
+		JPanel ataque = new JPanel();
+		ataque.setOpaque(false);
+
+		TitledBorder bordacentro = BorderFactory.createTitledBorder("Ataque Pirata");
+		bordacentro.setTitleJustification(TitledBorder.CENTER);
+		bordacentro.setTitleColor(Color.white);
+
+		ataque.setBorder(bordacentro);
+
+		JButton ataque1 = new JButton("Combater");
+
+		ataque1.setAlignmentX(BOTTOM_ALIGNMENT);
+		ataque1.setAlignmentY(CENTER_ALIGNMENT);
+
+		ataque1.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				jogo.combaterPiratas();
+				
+				removeAll();
+				repaint();
+				validate();
+
+			}
+		});
+
+		ataque.add(ataque1);
+
+		return ataque;
 
 	}
 
@@ -530,6 +568,16 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 			if (atualizar != null)
 				this.add(atualizar);
+
+		}
+
+		if (this.jogo.devolveEstado() instanceof AtaquePirata) {
+
+			this.removeAll();
+
+			JPanel ataque = adicionarAtaquePirata();
+
+			this.add(ataque);
 
 		}
 

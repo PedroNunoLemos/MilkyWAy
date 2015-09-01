@@ -24,6 +24,7 @@ public class Jogo extends Observable implements Serializable {
 	private MotorIA iajogo;
 	private int banco = 30;
 	private int tipomov;
+	private int estadojogo;
 
 	private ArrayList<Cubo> reserva;
 
@@ -39,6 +40,8 @@ public class Jogo extends Observable implements Serializable {
 		this.estado = this.estado.iniciarJogo(this);
 		this.reserva = new ArrayList<Cubo>();
 		this.iajogo = new MotorIA(this);
+
+		this.estadojogo = 0;
 
 		for (int i = 0; i < 10; i++)
 			this.reserva.add(new Comida());
@@ -72,6 +75,15 @@ public class Jogo extends Observable implements Serializable {
 
 	public MotorIA obterIAJogo() {
 		return this.iajogo;
+	}
+
+	public void definePosicaoSelecionada(Posicao pos) {
+
+		this.devolveMapa().definePosicaoSelecionada(pos);
+
+		setChanged();
+		notifyObservers();
+
 	}
 
 	public void moverNave(int x, int y) {
@@ -250,5 +262,13 @@ public class Jogo extends Observable implements Serializable {
 
 	public void defineTipomov(int tipomov) {
 		this.tipomov = tipomov;
+	}
+
+	public int obtemEstadojogo() {
+		return estadojogo;
+	}
+
+	public void defineEstadojogo(int estadojogo) {
+		this.estadojogo = estadojogo;
 	}
 }

@@ -81,7 +81,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 				// TODO Auto-generated method stub
 
 				jogo = new Jogo();
-
+				
 				VistaJogo vst = new VistaJogo(jogo);
 
 				getContentPane().add(vst, BorderLayout.LINE_START);

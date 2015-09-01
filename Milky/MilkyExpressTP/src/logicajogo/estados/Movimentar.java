@@ -68,7 +68,7 @@ public class Movimentar implements Estado, Serializable {
 				j.consultaJogador().obterNave().viagemBuracoNegro(true);
 
 			j.consultaJogador().atualizaMoedas(val);
-			j.defineMensagem(" ");
+			j.defineMensagem("");
 
 		}
 

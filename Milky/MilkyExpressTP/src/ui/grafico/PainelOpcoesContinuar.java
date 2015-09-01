@@ -1,9 +1,7 @@
 package ui.grafico;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +11,6 @@ import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -36,10 +33,8 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 		jogo.addObserver(this);
 		setLayout(new GridLayout());
 
-		this.setBorder(BorderFactory.createLineBorder(Color.red));
-
 		JButton continuar = new JButton("Continuar");
-		
+
 		continuar.setOpaque(false);
 		continuar.setPreferredSize(new Dimension(sx, sy));
 		continuar.setMaximumSize(new Dimension(sx, sy));
@@ -80,6 +75,7 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 
 				} // fim movimentar
 
+				jogo.defineTipomov(0);
 				j.continuarJogo();
 
 			}

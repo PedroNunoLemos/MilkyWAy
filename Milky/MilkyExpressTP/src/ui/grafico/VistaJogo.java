@@ -16,8 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import logicajogo.Jogo;
-import logicajogo.cartas.galaxia.planetas.Arrakis;
-import logicajogo.cartas.galaxia.planetas.Whirl;
+import logicajogo.estados.FimdeJogo;
 
 public class VistaJogo extends JPanel implements Observer, MouseListener, MouseMotionListener, Serializable {
 
@@ -73,7 +72,6 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		areamapa.setLayout(new GridLayout(3, 1));
 		areamapa.setPreferredSize(new Dimension(750, 700));
 		areamapa.setMaximumSize(new Dimension(750, 700));
-
 
 		areaopcoes.setPreferredSize(new Dimension(1000, 100));
 		areaopcoes.setMaximumSize(new Dimension(1000, 100));
@@ -157,7 +155,16 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		areamapa.atualizaMapa(j);
 
 		if (j.devolveMensagem() != null && !j.devolveMensagem().isEmpty())
-			JOptionPane.showMessageDialog(null, this.jogo.devolveMensagem());
+			JOptionPane.showMessageDialog(null, j.devolveMensagem());
+
+		if (j.devolveEstado() instanceof FimdeJogo) {
+			
+			this.removeAll();
+			
+			repaint();
+			validate();
+
+		}
 
 		j.defineMensagem("");
 

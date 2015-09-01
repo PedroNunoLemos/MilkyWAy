@@ -187,10 +187,27 @@ public class Negociar implements Estado, Serializable {
 	@Override
 	public Estado continuarJogo(Jogo j) {
 
-		if (j.consultaJogador().devolveMoedas() == 0)
+		int moedas = j.consultaJogador().devolveMoedas();
+
+		if (moedas == 0) {
+			j.defineMensagem("Perdeu ficou sem moedas");
+			j.defineEstadojogo(1);
 			return new FimdeJogo();
-		else
-			return new Movimentar(j);
+		}
+
+		if (j.devolveMapa().todasViradas() && moedas <= 10) {
+			j.defineMensagem("Perdeu nao conseguiu pagar a divida");
+			j.defineEstadojogo(1);
+			return new FimdeJogo();
+		}
+
+		if (j.devolveMapa().todasViradas() && moedas > 10) {
+			j.defineMensagem("Ganhou conseguiu pagar a divida e esta a caminho do sucesso");
+			j.defineEstadojogo(2);
+			return new FimdeJogo();
+		}
+
+		return new Movimentar(j);
 	}
 
 	@Override

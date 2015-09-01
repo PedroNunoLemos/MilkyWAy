@@ -7,6 +7,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -15,11 +17,12 @@ import javax.swing.JPanel;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
+import logicajogo.estados.Movimentar;
 
-public class GuiCarta extends JPanel implements MouseMotionListener, MouseListener, Serializable {
+public class GuiCarta extends JPanel implements Observer, MouseMotionListener, MouseListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image;
+	private BufferedImage image, imagesel;
 
 	private int sx = 75, sy = 65;
 	private Posicao pos;
@@ -36,9 +39,13 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 		this.pos = ps;
 		this.carta = ps.obterCarta();
 
+		j.addObserver(this);
+
 		registaListeners();
 
 		try {
+
+			imagesel = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/select.png"));
 
 			if (inx == 0) {
 
@@ -68,13 +75,11 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 
 	}
 
-
 	private void registaListeners() {
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
 
-	
 	public void naveNaArea(boolean nave, boolean ai) {
 
 		if (nave) {
@@ -90,6 +95,10 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 		super.paintComponent(g);
 		if (image != null)
 			g.drawImage(image, 0, 0, sx, sy, this);
+
+		if (pos.estaSelecionado() && imagesel != null)
+			g.drawImage(imagesel, 0, 0, sx, sy, this);
+
 	}
 
 	@Override
@@ -108,10 +117,11 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 
-		jogo.devolveMapa().definePosicaoSelecionada(pos);
-		
-		JOptionPane.showMessageDialog(null,pos.obterX());
+		if (jogo.devolveEstado() instanceof Movimentar) {
 
+			if (carta != null && jogo.obterTipomov()>0)
+				jogo.definePosicaoSelecionada(pos);
+		}
 
 	}
 
@@ -136,6 +146,24 @@ public class GuiCarta extends JPanel implements MouseMotionListener, MouseListen
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+
+		this.jogo = (Jogo) arg0;
+
+		int x = pos.obterX();
+		int y = pos.obterY();
+
+		this.pos = this.jogo.devolveMapa().consultaPosicao(x, y);
+
+		this.carta = pos.obterCarta();
+
+		repaint();
+		validate();
 
 	}
 

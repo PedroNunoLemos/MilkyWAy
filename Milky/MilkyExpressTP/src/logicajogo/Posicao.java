@@ -16,6 +16,17 @@ public class Posicao implements Serializable {
 	private Carta carta;
 	private boolean explorada;
 
+	private boolean selected;
+
+	public void defineSelecionado(boolean sel) {
+
+		this.selected = sel;
+	}
+
+	public boolean estaSelecionado() {
+		return this.selected;
+	}
+
 	public Posicao(int _x, int _y, Carta card) {
 
 		this.x = _x;
