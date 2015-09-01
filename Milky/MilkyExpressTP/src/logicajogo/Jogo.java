@@ -72,7 +72,6 @@ public class Jogo extends Observable implements Serializable {
 
 	public void salvarJogo(String fich) {
 
-	
 		GestorFicheiros fichs = new GestorFicheiros(fich);
 		try {
 			fichs.Salvar(this);
@@ -82,36 +81,6 @@ public class Jogo extends Observable implements Serializable {
 
 		setChanged();
 		notifyObservers();
-
-	}
-
-	public Jogo lerJogo() {
-
-		String fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
-		return this.lerJogo(fich);
-
-	}
-
-	public Jogo lerJogo(String fich) {
-
-		GestorFicheiros fichs = new GestorFicheiros(fich);
-		try {
-
-			Jogo j = fichs.Carregar();
-
-			if (j == null)
-				this.defineMensagem("Nao consegui carregar o jogo");
-			else
-				return j;
-
-		} catch (IOException e) {
-			this.defineMensagem(e.getMessage());
-		}
-
-		setChanged();
-		notifyObservers();
-
-		return null;
 
 	}
 
@@ -129,6 +98,12 @@ public class Jogo extends Observable implements Serializable {
 	public MotorIA obterIAJogo() {
 		return this.iajogo;
 	}
+
+	public void defineModeloAlterado() {
+		setChanged();
+		notifyObservers();
+
+	};
 
 	public void definePosicaoSelecionada(Posicao pos) {
 

@@ -21,6 +21,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import logicajogo.GestorFicheiros;
 import logicajogo.Jogo;
 
 public class Gui extends JFrame implements MouseListener, MouseMotionListener, Serializable {
@@ -81,11 +82,10 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 				jogo = new Jogo();
 
-				vst = new VistaJogo(jogo);
+				if (vst != null)
+					getContentPane().remove(vst);
 
-				getContentPane().remove(vst);
-				revalidate();
-				repaint();
+				vst = new VistaJogo(jogo);
 
 				getContentPane().add(vst, BorderLayout.LINE_START);
 
@@ -124,30 +124,26 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 				chooser.showOpenDialog(Gui.this);
 
-				try {
+				String path = chooser.getSelectedFile().getPath();
 
-					Jogo j = jogo.lerJogo(chooser.getSelectedFile().getPath());
+				GestorFicheiros jf = new GestorFicheiros(path);
 
-					if (j != null) {
+				Jogo j = jf.lerJogo(path);
 
-						jogo = j;
+				if (j != null) {
 
-						vst = new VistaJogo(jogo);
+					jogo = j;
 
+					if (vst != null)
 						getContentPane().remove(vst);
-						revalidate();
-						repaint();
 
-						getContentPane().add(vst, BorderLayout.LINE_START);
+					vst = new VistaJogo(jogo);
 
-						revalidate();
-						repaint();
+					getContentPane().add(vst, BorderLayout.LINE_START);
 
-					}
+					revalidate();
+					repaint();
 
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					JOptionPane.showMessageDialog(null, "Nao consegui abrir o ficheiro.");
 				}
 
 			}

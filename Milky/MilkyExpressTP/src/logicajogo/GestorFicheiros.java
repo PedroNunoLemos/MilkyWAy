@@ -15,7 +15,38 @@ public class GestorFicheiros {
 		this.fich = ficheiro;
 	}
 
-	public Jogo Carregar() throws IOException {
+	public GestorFicheiros() {
+		this.fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
+	}
+
+	public Jogo lerJogo() {
+
+		String fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
+		return this.lerJogo(fich);
+
+	}
+
+	public Jogo lerJogo(String fich) {
+
+		GestorFicheiros fichs = new GestorFicheiros(fich);
+		try {
+
+			Jogo j = fichs.Carregar();
+
+			if (j != null) {
+				j.defineModeloAlterado();
+			}
+
+			return j;
+
+		} catch (IOException e) {
+		}
+
+		return null;
+
+	}
+
+	private Jogo Carregar() throws IOException {
 
 		File f = new File(fich);
 
@@ -30,6 +61,7 @@ public class GestorFicheiros {
 			ois.close();
 
 		} catch (IOException | ClassNotFoundException ex) {
+			game.defineMensagem(ex.getMessage());
 		}
 
 		if (game != null)

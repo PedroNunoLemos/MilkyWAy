@@ -3,6 +3,7 @@ package ui.texto;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import logicajogo.GestorFicheiros;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.*;
@@ -96,7 +97,9 @@ public class Tui {
 			break;
 		case 2:
 
-			Jogo j = this.jogo.lerJogo();
+			GestorFicheiros jf = new GestorFicheiros();
+
+			Jogo j = jf.lerJogo();
 
 			if (j != null) {
 
@@ -885,7 +888,15 @@ public class Tui {
 
 		if (res == 100) {
 
-			jogo.lerJogo();
+			GestorFicheiros jf = new GestorFicheiros();
+
+			Jogo j = jf.lerJogo();
+
+			if (j != null) {
+
+				this.jogo = j;
+
+			}
 		}
 
 	}

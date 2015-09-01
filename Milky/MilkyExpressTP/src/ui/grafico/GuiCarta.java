@@ -1,5 +1,6 @@
 package ui.grafico;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -17,6 +18,10 @@ import javax.swing.JPanel;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
+import logicajogo.cartas.galaxia.planetas.Planeta;
+import logicajogo.cartas.galaxia.planetas.PlanetaBase;
+import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
+import logicajogo.cubos.Cubo;
 import logicajogo.estados.Movimentar;
 
 public class GuiCarta extends JPanel implements Observer, MouseMotionListener, MouseListener, Serializable {
@@ -90,11 +95,98 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 
 	}
 
+	private BufferedImage devolveCuboImg(Cubo cubo) {
+
+		BufferedImage amarelo, vermelho, azul, preto, cinzento;
+
+		try {
+
+			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/uijog.png"));
+
+			amarelo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboam.png"));
+
+			vermelho = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubovm.png"));
+
+			azul = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboaz.png"));
+
+			preto = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubopt.png"));
+
+			cinzento = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubogr.png"));
+
+			if (cubo == null)
+				return cinzento;
+
+			if (cubo.obtemCor() == Color.yellow)
+				return amarelo;
+
+			if (cubo.obtemCor() == Color.red)
+				return vermelho;
+
+			if (cubo.obtemCor() == Color.black)
+				return preto;
+
+			if (cubo.obtemCor() == Color.blue)
+				return azul;
+
+		} catch (Exception e) {
+			/* handled in paintComponent() */
+			JOptionPane.showMessageDialog(null, e.getMessage());
+
+		}
+
+		return null;
+
+	}
+
+	private BufferedImage devolveStockImagem(int idx) {
+
+		PlanetaBase pl = (PlanetaBase) carta;
+
+		if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
+
+			Cubo[] stock = pl.obterStock();
+
+			if (stock[idx] != null)
+				return devolveCuboImg(stock[idx]);
+
+		}
+
+		return null;
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (image != null)
 			g.drawImage(image, 0, 0, sx, sy, this);
+
+		BufferedImage imgcb;
+
+		if (this.pos.foiExplorada()) {
+
+			if (this.carta instanceof Planeta) {
+
+				imgcb = devolveStockImagem(0);
+
+				if (imgcb != null)
+					g.drawImage(imgcb, 25, 48, 9, 9, this);
+
+				imgcb = devolveStockImagem(1);
+
+				if (imgcb != null)
+					g.drawImage(imgcb, 39, 48, 9, 9, this);
+			}
+
+			if (this.carta instanceof PlanetaPirata) {
+
+				imgcb = devolveStockImagem(0);
+
+				if (imgcb != null)
+					g.drawImage(imgcb, 30, 46, 10, 10, this);
+
+			}
+
+		}
 
 		if (pos.estaSelecionado() && imagesel != null)
 			g.drawImage(imagesel, 0, 0, sx, sy, this);
@@ -119,7 +211,7 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 
 		if (jogo.devolveEstado() instanceof Movimentar) {
 
-			if (carta != null && jogo.obterTipomov()>0)
+			if (carta != null && jogo.obterTipomov() > 0)
 				jogo.definePosicaoSelecionada(pos);
 		}
 
