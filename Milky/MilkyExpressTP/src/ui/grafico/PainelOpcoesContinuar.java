@@ -22,7 +22,7 @@ public class PainelOpcoesContinuar extends JPanel implements Observer, MouseMoti
 
 	private static final long serialVersionUID = 1L;
 
-	private int sx = 200, sy = 200;
+	private int sx = 100, sy = 200;
 
 	private Jogo jogo;
 

@@ -161,6 +161,9 @@ public class Negociar implements Estado, Serializable {
 		for (int i = 0; i < nave.obterCarga().length; i++)
 			if (!nave.obterCarga()[i].equals(cubo))
 				nave.retiraCarga(nave.obterCarga()[i]);
+		
+		j.defineMensagem("Conseguiu subornar as entidades planetarias.");
+
 
 		return this;
 

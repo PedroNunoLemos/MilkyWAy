@@ -1,6 +1,7 @@
 package logicajogo;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -59,6 +60,59 @@ public class Jogo extends Observable implements Serializable {
 
 		setChanged();
 		notifyObservers();
+
+	}
+
+	public void salvarJogo() {
+
+		String fich = System.getProperty("user.dir") + "/" + "jogo";
+		this.salvarJogo(fich);
+
+	}
+
+	public void salvarJogo(String fich) {
+
+		fich += ".mwe";
+
+		GestorFicheiros fichs = new GestorFicheiros(fich);
+		try {
+			fichs.Salvar(this);
+		} catch (IOException e) {
+			this.defineMensagem(e.getMessage());
+		}
+
+		setChanged();
+		notifyObservers();
+
+	}
+
+	public Jogo lerJogo() {
+
+		String fich = System.getProperty("user.dir") + "/" + "jogo";
+		return this.lerJogo(fich);
+
+	}
+
+	public Jogo lerJogo(String fich) {
+
+		GestorFicheiros fichs = new GestorFicheiros(fich);
+		try {
+
+			Jogo j = fichs.Carregar();
+
+			if (j == null)
+				this.defineMensagem("Nao consegui carregar o jogo");
+			else
+				return j;
+
+		} catch (IOException e) {
+			this.defineMensagem(e.getMessage());
+		}
+
+		setChanged();
+		notifyObservers();
+
+		return null;
 
 	}
 

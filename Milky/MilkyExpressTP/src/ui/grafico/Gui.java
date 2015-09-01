@@ -12,12 +12,14 @@ import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import logicajogo.Jogo;
 
@@ -30,25 +32,22 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 	private Jogo jogo;
 	private BufferedImage image;
-	
+	private VistaJogo vst;
 
 	public Gui() {
 		try {
 			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/planets.jpg"));
 
-			JLabel background=new JLabel(new ImageIcon(image));
+			JLabel background = new JLabel(new ImageIcon(image));
 			add(background);
 			background.setLayout(new FlowLayout());
-			
+
 		} catch (Exception e) {
 			/* handled in paintComponent() */
 			JOptionPane.showMessageDialog(null, e.getMessage());
 
 		}
 	}
-
-
-
 
 	public void mostrarInterface() {
 
@@ -81,13 +80,73 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 				// TODO Auto-generated method stub
 
 				jogo = new Jogo();
-				
-				VistaJogo vst = new VistaJogo(jogo);
+
+				vst = new VistaJogo(jogo);
+
+				getContentPane().removeAll();
+				revalidate();
+				repaint();
 
 				getContentPane().add(vst, BorderLayout.LINE_START);
 
 				revalidate();
 				repaint();
+
+			}
+		});
+
+		main_salvar.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros Milky Way Express", "mwe");
+				chooser.setFileFilter(filter);
+
+				chooser.showSaveDialog(Gui.this);
+
+				jogo.salvarJogo(chooser.getSelectedFile().getPath());
+
+			}
+		});
+
+		main_ler.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+				JFileChooser chooser = new JFileChooser();
+				FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros Milky Way Express", "mwe");
+				chooser.setFileFilter(filter);
+
+				chooser.showOpenDialog(Gui.this);
+
+				try {
+					Jogo j = jogo.lerJogo(chooser.getSelectedFile().getPath());
+
+					if (j != null) {
+
+						jogo = j;
+
+						vst = new VistaJogo(jogo);
+
+						getContentPane().removeAll();
+						revalidate();
+						repaint();
+
+						getContentPane().add(vst, BorderLayout.LINE_START);
+
+						revalidate();
+						repaint();
+
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, e.getStackTrace().toString());
+				}
 
 			}
 		});

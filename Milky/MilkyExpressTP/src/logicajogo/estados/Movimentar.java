@@ -110,7 +110,7 @@ public class Movimentar implements Estado, Serializable {
 			j.consultaJogador().obterNave().mover(x, y);
 			j.consultaJogador().obterNave().viagemBuracoNegro(false);
 			j.consultaJogador().atualizaMoedas(-1);
-			j.defineMensagem(" ");
+			j.defineMensagem("");
 
 			return this;
 
@@ -150,7 +150,7 @@ public class Movimentar implements Estado, Serializable {
 		pos.defExplorada(true);
 		j.consultaJogador().obterNave().mover(x, y);
 		j.consultaJogador().atualizaMoedas(-1);
-		j.defineMensagem(" ");
+		j.defineMensagem("");
 
 		return new Explorar(j);
 	}

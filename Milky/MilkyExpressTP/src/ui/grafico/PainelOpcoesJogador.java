@@ -296,7 +296,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			JPanel guardar = new JPanel();
 			guardar.setOpaque(false);
 
-			TitledBorder bordacentro = BorderFactory.createTitledBorder("Movimentar");
+			TitledBorder bordacentro = BorderFactory.createTitledBorder("Subornar");
 			bordacentro.setTitleJustification(TitledBorder.CENTER);
 			bordacentro.setTitleColor(Color.white);
 
@@ -324,12 +324,11 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 								// TODO Auto-generated method stub
 								if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 
-									if (idx >= 1 && idx <= 3)
-										if (carga[idx] != null) {
-											jogo.ativarSuborno((carga[idx]));
+									if (carga[idx] != null) {
 
-										}
+										jogo.ativarSuborno((carga[idx]));
 
+									}
 								}
 							}
 						});
@@ -452,7 +451,7 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				jogo.combaterPiratas();
-				
+
 				removeAll();
 				repaint();
 				validate();

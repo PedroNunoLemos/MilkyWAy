@@ -13,8 +13,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import logicajogo.Jogo;
 import logicajogo.estados.FimdeJogo;
 
@@ -158,12 +161,13 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 			JOptionPane.showMessageDialog(null, j.devolveMensagem());
 
 		if (j.devolveEstado() instanceof FimdeJogo) {
-			
-			this.removeAll();
-			
-			repaint();
-			validate();
 
+			JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
+			if (topFrame != null) {
+				topFrame.remove(this);
+				topFrame.repaint();
+				topFrame.validate();
+			}
 		}
 
 		j.defineMensagem("");

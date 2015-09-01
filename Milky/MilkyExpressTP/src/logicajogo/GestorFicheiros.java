@@ -9,9 +9,10 @@ import java.io.ObjectOutputStream;
 
 public class GestorFicheiros {
 
-	final String fich = System.getProperty("user.dir") + "/" + "jogo.mwe";
+	String fich;
 
-	public GestorFicheiros() {
+	public GestorFicheiros(String ficheiro) {
+		this.fich = ficheiro;
 	}
 
 	public Jogo Carregar() throws IOException {

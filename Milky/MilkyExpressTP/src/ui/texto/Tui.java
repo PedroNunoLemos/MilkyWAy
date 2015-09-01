@@ -1,10 +1,8 @@
 package ui.texto;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import logicajogo.GestorFicheiros;
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.*;
@@ -98,23 +96,13 @@ public class Tui {
 			break;
 		case 2:
 
-			GestorFicheiros fichs = new GestorFicheiros();
-			try {
+			Jogo j = this.jogo.lerJogo();
 
-				Jogo j = fichs.Carregar();
+			if (j != null) {
+				
+				this.jogo = j;
+				this.processaMenuPrincipal(1);
 
-				if (j == null)
-					System.out.println("Nao consegui carregar o jogo");
-
-				else {
-
-					this.jogo = j;
-					this.processaMenuPrincipal(1);
-
-				}
-
-			} catch (IOException e) {
-				this.jogo.defineMensagem(e.getMessage());
 			}
 
 			break;
@@ -666,8 +654,7 @@ public class Tui {
 				break;
 			}
 
-			if (carta != null && (carta instanceof Planeta 
-					|| carta instanceof PlanetaPirata)) {
+			if (carta != null && (carta instanceof Planeta || carta instanceof PlanetaPirata)) {
 				Cubo[] carga = nave.obterCarga();
 
 				if (res >= 1 && res <= 3)
@@ -894,28 +881,13 @@ public class Tui {
 
 		if (res == 99) {
 
-			GestorFicheiros fichs = new GestorFicheiros();
-			try {
-				fichs.Salvar(this.jogo);
-			} catch (IOException e) {
-				this.jogo.defineMensagem(e.getMessage());
-			}
+			jogo.salvarJogo();
+
 		}
 
 		if (res == 100) {
 
-			GestorFicheiros fichs = new GestorFicheiros();
-			try {
-				Jogo j = fichs.Carregar();
-
-				if (j == null)
-					this.jogo.defineMensagem("Nao consegui carregar o jogo");
-				else
-					this.jogo = j;
-
-			} catch (IOException e) {
-				this.jogo.defineMensagem(e.getMessage());
-			}
+			jogo.lerJogo();
 		}
 
 	}
