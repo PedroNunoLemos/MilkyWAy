@@ -33,9 +33,8 @@ public class MotorIA implements Serializable {
 
 		Posicao pos = new Posicao(-1, -1, null);
 
-		do {
-			pos = jog.devolveMapa().escolheAdjacentAleatorio(x, y);
-		} while (pos.obterCarta() == null);
+		
+		pos = jog.devolveMapa().escolheAdjacentAleatorio(x, y);
 
 		this.jogdr.obterNave().mover(pos.obterX(), pos.obterY());
 

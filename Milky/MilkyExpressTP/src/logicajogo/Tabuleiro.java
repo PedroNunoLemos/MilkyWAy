@@ -222,7 +222,19 @@ public class Tabuleiro implements Serializable {
 		Random rand = new Random();
 		rand.setSeed(System.currentTimeMillis());
 
-		int ranint = rand.nextInt(8 - 1) + 1;
+		Carta tmpc;
+
+		int ranint = 1;
+
+		do {
+			Posicao tmp;
+
+			ranint = rand.nextInt(8 - 1) + 1;
+			tmp = posicoes.get(ranint);
+
+			tmpc = tmp.obterCarta();
+
+		} while (tmpc == null);
 
 		return posicoes.get(ranint);
 

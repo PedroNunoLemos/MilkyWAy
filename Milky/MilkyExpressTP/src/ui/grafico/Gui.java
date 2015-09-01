@@ -83,7 +83,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 				vst = new VistaJogo(jogo);
 
-				getContentPane().removeAll();
+				getContentPane().remove(vst);
 				revalidate();
 				repaint();
 
@@ -125,7 +125,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 				chooser.showOpenDialog(Gui.this);
 
 				try {
-					
+
 					Jogo j = jogo.lerJogo(chooser.getSelectedFile().getPath());
 
 					if (j != null) {
@@ -134,7 +134,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 						vst = new VistaJogo(jogo);
 
-						getContentPane().removeAll();
+						getContentPane().remove(vst);
 						revalidate();
 						repaint();
 
@@ -144,7 +144,7 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 						repaint();
 
 					}
-					
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					JOptionPane.showMessageDialog(null, "Nao consegui abrir o ficheiro.");
