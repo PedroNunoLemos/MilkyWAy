@@ -27,6 +27,8 @@ public class AtualizarMercados implements Estado, Serializable {
 			if (carta.mercadoEspacosDisponiveis() > 0)
 				carta.mercadoReabastecer(new Ilegal());
 
+			carta.RetiraComprador();
+
 		}
 	}
 
@@ -59,9 +61,10 @@ public class AtualizarMercados implements Estado, Serializable {
 				if (cor == Color.blue)
 					carta.mercadoReabastecer(new Agua());
 
-				carta.RetiraComprador();
-
 			}
+
+			carta.RetiraComprador();
+
 		}
 
 	}
