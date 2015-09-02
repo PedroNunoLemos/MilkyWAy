@@ -232,7 +232,10 @@ public class Tabuleiro implements Serializable {
 			ranint = rand.nextInt(8 - 1) + 1;
 			tmp = posicoes.get(ranint);
 
-			tmpc = tmp.obterCarta();
+			if (tmp != null) {
+				tmpc = tmp.obterCarta();
+			} else
+				tmpc = null;
 
 		} while (tmpc == null);
 

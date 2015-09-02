@@ -2,6 +2,7 @@ package logicajogo.cartas.galaxia.planetas;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -103,14 +104,17 @@ public abstract class PlanetaBase extends Carta implements Serializable {
 
 	public int obtemPreco(String cubo) {
 
-		for (Entry<Cubo, Integer> entrada : precario.entrySet()) {
-			Cubo cubom = entrada.getKey();
-			Integer preco = entrada.getValue();
+		Iterator<Map.Entry<Cubo, Integer>> entries = precario.entrySet().iterator();
 
-			if (cubom.obtemNome() == cubo)
-				return preco;
+		while (entries.hasNext()) {
+
+			Entry<Cubo, Integer> entry = entries.next();
+
+			if (entry.getKey().obtemNome().contains(cubo))
+				return entry.getValue();
+
 		}
-
+		
 		return 0;
 	}
 

@@ -245,11 +245,13 @@ public class PainelOpcoesJogador extends JPanel implements Observer, MouseMotion
 
 			if (nave.obterTotalCargaOcupada() > 0) {
 
-				for (int i = 0; i < nave.obterTotalCargaOcupada(); i++) {
+				for (int i = 0; i < 3; i++) {
 
-					final int idx = i;
+				
 
 					if (carga[i] != null) {
+						
+						final int idx = i;
 
 						JButton vender1 = new JButton("Vender " + carga[i].obtemNome());
 

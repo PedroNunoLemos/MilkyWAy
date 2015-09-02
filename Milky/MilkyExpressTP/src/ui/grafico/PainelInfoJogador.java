@@ -116,14 +116,14 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 		Cubo[] carga = this.jogo.consultaJogador().obterNave().obterCarga();
 
 		if (nave.obterTotalCargaOcupada() > 0) {
+			
 			if (carga[0] != null)
 				g.drawImage(devolveCuboImg(carga[0]), 88, 135, 15, 16, this);
 
-			if (nave.obterTotalCargaOcupada() > 1)
 				if (carga[1] != null)
 					g.drawImage(devolveCuboImg(carga[1]), 110, 135, 15, 16, this);
 
-			if (nave.obterTotalCargaOcupada() > 2 && nave.naveCargaMaxima())
+			if (nave.naveCargaMaxima())
 				if (carga[2] != null)
 					g.drawImage(devolveCuboImg(carga[2]), 131, 135, 15, 16, this);
 		}

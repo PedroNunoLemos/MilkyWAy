@@ -69,15 +69,15 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 		// 1000-700
 
 		areainfo.setLayout(new GridLayout(3, 1, 0, 0));
-		areainfo.setPreferredSize(new Dimension(200, 700));
-		areainfo.setMaximumSize(new Dimension(200, 700));
+		areainfo.setPreferredSize(new Dimension(200, 670));
+		areainfo.setMaximumSize(new Dimension(200, 670));
 
 		areamapa.setLayout(new GridLayout(3, 1));
-		areamapa.setPreferredSize(new Dimension(750, 700));
-		areamapa.setMaximumSize(new Dimension(750, 700));
+		areamapa.setPreferredSize(new Dimension(750, 670));
+		areamapa.setMaximumSize(new Dimension(750, 70));
 
-		areaopcoes.setPreferredSize(new Dimension(1000, 100));
-		areaopcoes.setMaximumSize(new Dimension(1000, 100));
+		areaopcoes.setPreferredSize(new Dimension(1000, 130));
+		areaopcoes.setMaximumSize(new Dimension(1000, 130));
 
 		// areainfo.setBorder(BorderFactory.createLineBorder(Color.lightGray));
 		// areaopcoes.setBorder(BorderFactory.createLineBorder(Color.lightGray));

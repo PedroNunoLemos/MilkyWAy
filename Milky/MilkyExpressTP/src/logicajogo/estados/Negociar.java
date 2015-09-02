@@ -71,7 +71,7 @@ public class Negociar implements Estado, Serializable {
 
 		int podecomp = (j.consultaJogador().devolveMoedas() - preco);
 
-		if (podecomp <= 0) {
+		if (podecomp < 0) {
 			j.defineMensagem("Nao tem dinheiro suficiente");
 			return this;
 		}
@@ -130,6 +130,7 @@ public class Negociar implements Estado, Serializable {
 
 		j.consultaJogador().atualizaMoedas(preco);
 		j.atualizaBanco(-preco);
+		
 		nave.retiraCarga(cubo);
 
 		j.defineMensagem("Vendeu " + cubo.obtemNome() + " por " + preco + " moedas ");
