@@ -65,14 +65,18 @@ public class Negociar implements Estado, Serializable {
 			return this;
 		}
 
-		if (j.consultaJogador().devolveMoedas() < preco) {
+		if (j.obterIAJogo().noRadar(j, x, y))
+			preco += 1;
+
+
+		int podecomp = (j.consultaJogador().devolveMoedas() - preco);
+
+		if (podecomp <= 0) {
 			j.defineMensagem("Nao tem dinheiro suficiente");
 			return this;
 		}
 
-		if (j.obterIAJogo().noRadar(j, x, y))
-			preco += 1;
-
+		
 		j.consultaJogador().atualizaMoedas(-preco);
 		j.atualizaBanco(preco);
 		pl.mercadoRetirarCubo(cubo);
@@ -150,20 +154,34 @@ public class Negociar implements Estado, Serializable {
 		if (j.consultaJogador().ativouSuborno()) {
 			j.defineMensagem("Suborno previamente ativado");
 			return this;
+
 		}
 
 		int moeda = (j.consultaJogador().devolveMoedas() - 1);
 
-		j.consultaJogador().atualizaMoedas(-moeda);
-		j.atualizaBanco(moeda);
-		j.consultaJogador().ativaSuborno();
+		if (moeda <= 0) {
+			j.defineMensagem("Nao tem dinheiro para o suborno");
+			return this;
 
-		for (int i = 0; i < nave.obterCarga().length; i++)
-			if (!nave.obterCarga()[i].equals(cubo))
-				nave.retiraCarga(nave.obterCarga()[i]);
-		
-		j.defineMensagem("Conseguiu subornar as entidades planetarias.");
+		}
 
+		if (nave.obterTotalCargaOcupada() >= 2) {
+			for (int i = 0; i < nave.obterCarga().length; i++)
+				if (nave.obterCarga()[i] != null)
+					if (!nave.obterCarga()[i].equals(cubo)) {
+						nave.retiraCarga(nave.obterCarga()[i]);
+
+						j.consultaJogador().atualizaMoedas(-moeda);
+						j.atualizaBanco(moeda);
+						j.consultaJogador().ativaSuborno();
+
+						j.defineMensagem("Conseguiu subornar as entidades planetarias.");
+					}
+		} else {
+
+			j.defineMensagem("Precisa de ter pelo menos duas cargas");
+
+		}
 
 		return this;
 

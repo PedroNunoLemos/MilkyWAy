@@ -66,18 +66,18 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 	private BufferedImage devolveCuboImg(Cubo cubo) {
 
 		if (cubo == null)
-			return cinzento;
+			return null;
 
-		if (cubo.obtemCor() == Color.yellow)
+		if (cubo instanceof Comida)
 			return amarelo;
 
-		if (cubo.obtemCor() == Color.red)
+		if (cubo instanceof Medicamento)
 			return vermelho;
 
-		if (cubo.obtemCor() == Color.black)
+		if (cubo instanceof Ilegal)
 			return preto;
 
-		if (cubo.obtemCor() == Color.blue)
+		if (cubo instanceof Agua)
 			return azul;
 
 		return cinzento;
@@ -127,7 +127,7 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 				if (carga[2] != null)
 					g.drawImage(devolveCuboImg(carga[2]), 131, 135, 15, 16, this);
 		}
-		
+
 	}
 
 	@Override

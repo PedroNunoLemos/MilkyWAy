@@ -1,6 +1,5 @@
 package ui.grafico;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -20,7 +19,11 @@ import logicajogo.cartas.Carta;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaBase;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
+import logicajogo.cubos.Agua;
+import logicajogo.cubos.Comida;
 import logicajogo.cubos.Cubo;
+import logicajogo.cubos.Ilegal;
+import logicajogo.cubos.Medicamento;
 
 public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionListener, Serializable {
 
@@ -86,20 +89,23 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 
 			cinzento = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubogr.png"));
 
-			if (cubo == null)
-				return cinzento;
 
-			if (cubo.obtemCor() == Color.yellow)
+			if (cubo == null)
+				return null;
+
+			if (cubo instanceof Comida)
 				return amarelo;
 
-			if (cubo.obtemCor() == Color.red)
+			if (cubo instanceof Medicamento)
 				return vermelho;
 
-			if (cubo.obtemCor() == Color.black)
+			if (cubo instanceof Ilegal)
 				return preto;
 
-			if (cubo.obtemCor() == Color.blue)
+			if (cubo instanceof Agua)
 				return azul;
+
+			return cinzento;
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */

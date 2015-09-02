@@ -101,13 +101,21 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 
-				JFileChooser chooser = new JFileChooser();
-				FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros Milky Way Express", "mwe");
-				chooser.setFileFilter(filter);
+				if (jogo != null) {
+					JFileChooser chooser = new JFileChooser();
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("Ficheiros Milky Way Express", "mwe");
+					chooser.setFileFilter(filter);
 
-				chooser.showSaveDialog(Gui.this);
+					chooser.showSaveDialog(Gui.this);
+					if (chooser.getSelectedFile() != null) {
 
-				jogo.salvarJogo(chooser.getSelectedFile().getPath() + ".mwe");
+						jogo.salvarJogo(chooser.getSelectedFile().getPath() + ".mwe");
+					}
+
+				} else {
+					JOptionPane.showMessageDialog(null, "Não há nenhum jogo a correr.");
+
+				}
 
 			}
 		});
@@ -124,26 +132,29 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 
 				chooser.showOpenDialog(Gui.this);
 
-				String path = chooser.getSelectedFile().getPath();
+				if (chooser.getSelectedFile() != null) {
 
-				GestorFicheiros jf = new GestorFicheiros(path);
+					String path = chooser.getSelectedFile().getPath();
 
-				Jogo j = jf.lerJogo(path);
+					GestorFicheiros jf = new GestorFicheiros(path);
 
-				if (j != null) {
+					Jogo j = jf.lerJogo(path);
 
-					jogo = j;
+					if (j != null) {
 
-					if (vst != null)
-						getContentPane().remove(vst);
+						jogo = j;
 
-					vst = new VistaJogo(jogo);
+						if (vst != null)
+							getContentPane().remove(vst);
 
-					getContentPane().add(vst, BorderLayout.LINE_START);
+						vst = new VistaJogo(jogo);
 
-					revalidate();
-					repaint();
+						getContentPane().add(vst, BorderLayout.LINE_START);
 
+						revalidate();
+						repaint();
+
+					}
 				}
 
 			}

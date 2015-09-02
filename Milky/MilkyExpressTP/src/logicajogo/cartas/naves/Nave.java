@@ -2,8 +2,7 @@ package logicajogo.cartas.naves;
 
 import java.io.Serializable;
 
-import logicajogo.cubos.Cinzento;
-import logicajogo.cubos.Cubo;
+import logicajogo.cubos.*;
 
 public class Nave implements Serializable {
 
@@ -144,7 +143,9 @@ public class Nave implements Serializable {
 
 		for (int i = 0; i < cargamaxcap; i++) {
 			if (carga[i] == null) {
+
 				carga[i] = cargacap;
+
 				return true;
 			}
 		}

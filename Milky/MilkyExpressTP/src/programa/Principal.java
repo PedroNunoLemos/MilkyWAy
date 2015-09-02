@@ -3,7 +3,8 @@ package programa;
 import ui.grafico.Gui;
 import ui.texto.Tui;
 
-@SuppressWarnings("unused")
+
+
 public class Principal {
 
 	public static void main(String[] args) {

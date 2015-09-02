@@ -61,7 +61,10 @@ public class GestorFicheiros {
 			ois.close();
 
 		} catch (IOException | ClassNotFoundException ex) {
-			game.defineMensagem(ex.getMessage());
+			if (game != null)
+				game.defineMensagem(ex.getMessage());
+			else
+				ex.printStackTrace();
 		}
 
 		if (game != null)
