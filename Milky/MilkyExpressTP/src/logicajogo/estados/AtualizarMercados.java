@@ -59,6 +59,8 @@ public class AtualizarMercados implements Estado, Serializable {
 				if (cor == Color.blue)
 					carta.mercadoReabastecer(new Agua());
 
+				carta.RetiraComprador();
+
 			}
 		}
 

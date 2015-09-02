@@ -14,7 +14,7 @@ public abstract class PlanetaBase extends Carta implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private int qtdespacosmercados;
 	Map<Cubo, Integer> precario = new HashMap<>();
 
@@ -53,8 +53,6 @@ public abstract class PlanetaBase extends Carta implements Serializable {
 
 	public void mercadoReabastecer(Cubo cubo) {
 
-		this.comprador = false;
-
 		for (int i = 0; i < qtdespacosmercados; i++) {
 
 			if (mercado[i] == null) {
@@ -86,6 +84,11 @@ public abstract class PlanetaBase extends Carta implements Serializable {
 
 		return false;
 
+	}
+
+	public void RetiraComprador() {
+
+		this.comprador = false;
 	}
 
 	public Cubo[] obterStock() {

@@ -562,9 +562,12 @@ public class Tui {
 
 	void processaEstado() {
 
+		
+		
 		System.out.println("Menu Jogo | 99 -> Salva o Jogo Atual | 100 -> Carrega o ultimo Jogo |");
 
 		char car1 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(0).toUpperCase().charAt(0);
+		
 		char car2 = this.jogo.consultaJogador().obterNave().consultaCuboCarga(1).toUpperCase().charAt(0);
 		char car3 = 'x';
 
