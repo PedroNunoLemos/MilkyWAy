@@ -4,15 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,6 +19,7 @@ import javax.swing.SwingUtilities;
 
 import logicajogo.Jogo;
 import logicajogo.estados.FimdeJogo;
+import resources.ResourceLoader;
 
 public class VistaJogo extends JPanel implements Observer, MouseListener, MouseMotionListener, Serializable {
 
@@ -29,18 +29,19 @@ public class VistaJogo extends JPanel implements Observer, MouseListener, MouseM
 
 	Jogo jogo;
 
-	private BufferedImage image;
+	private Image image;
 	PainelUiJogador areainfo;
 	PainelTabuleiro areamapa = new PainelTabuleiro();
 	PainelUiOpcoes areaopcoes;
 
 	private void addFundo() {
 		try {
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/stars.jpg"));
+			image =  ResourceLoader.loadImage("stars.jpg");
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getStackTrace()[1].toString());
+
 
 		}
 

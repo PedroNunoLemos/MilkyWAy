@@ -4,25 +4,26 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logicajogo.Jogo;
 import logicajogo.cartas.naves.Nave;
 import logicajogo.cubos.*;
+import resources.ResourceLoader;
 
 public class PainelInfoJogador extends JPanel implements Observer, MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image, amarelo, vermelho, azul, preto, forca, cinzento;
+	Image image;
+	private Image amarelo, vermelho, azul, preto, forca, cinzento;
 
 	private int sx = 200, sy = 173;
 
@@ -36,23 +37,23 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 
 		try {
 
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/uijog.png"));
+			image = ResourceLoader.loadImage("uijog.png");
 
-			amarelo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboam.png"));
+			amarelo = ResourceLoader.loadImage("icuboam.png");
 
-			vermelho = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubovm.png"));
+			vermelho = ResourceLoader.loadImage("icubovm.png");
 
-			azul = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboaz.png"));
+			azul = ResourceLoader.loadImage("icuboaz.png");
 
-			preto = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubopt.png"));
+			preto = ResourceLoader.loadImage("icubopt.png");
 
-			forca = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubopr.png"));
+			forca = ResourceLoader.loadImage("icubopr.png");
 
-			cinzento = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubogr.png"));
+			cinzento = ResourceLoader.loadImage("icubogr.png");
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getStackTrace()[1].toString());
 
 		}
 
@@ -63,7 +64,7 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 
 	}
 
-	private BufferedImage devolveCuboImg(Cubo cubo) {
+	private Image devolveCuboImg(Cubo cubo) {
 
 		if (cubo == null)
 			return null;
@@ -116,12 +117,12 @@ public class PainelInfoJogador extends JPanel implements Observer, MouseMotionLi
 		Cubo[] carga = this.jogo.consultaJogador().obterNave().obterCarga();
 
 		if (nave.obterTotalCargaOcupada() > 0) {
-			
+
 			if (carga[0] != null)
 				g.drawImage(devolveCuboImg(carga[0]), 88, 135, 15, 16, this);
 
-				if (carga[1] != null)
-					g.drawImage(devolveCuboImg(carga[1]), 110, 135, 15, 16, this);
+			if (carga[1] != null)
+				g.drawImage(devolveCuboImg(carga[1]), 110, 135, 15, 16, this);
 
 			if (nave.naveCargaMaxima())
 				if (carga[2] != null)

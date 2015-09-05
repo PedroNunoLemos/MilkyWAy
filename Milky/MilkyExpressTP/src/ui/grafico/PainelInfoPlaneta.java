@@ -2,15 +2,13 @@ package ui.grafico;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,11 +22,12 @@ import logicajogo.cubos.Comida;
 import logicajogo.cubos.Cubo;
 import logicajogo.cubos.Ilegal;
 import logicajogo.cubos.Medicamento;
+import resources.ResourceLoader;
 
 public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image;
+	private Image image;
 	private Jogo jogo;
 
 	private boolean customCarta;
@@ -46,11 +45,11 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 
 		try {
 
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/vazioinex_bg.png"));
+			image = ResourceLoader.loadImage("vazioinex_bg.png");
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getStackTrace()[1].toString());
 
 		}
 
@@ -71,24 +70,23 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 		validate();
 	}
 
-	private BufferedImage devolveCuboImg(Cubo cubo) {
+	private Image devolveCuboImg(Cubo cubo) {
 
-		BufferedImage amarelo, vermelho, azul, preto, cinzento;
+		Image amarelo, vermelho, azul, preto, cinzento;
 
 		try {
 
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/uijog.png"));
+			image = ResourceLoader.loadImage("uijog.png");
 
-			amarelo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboam.png"));
+			amarelo = ResourceLoader.loadImage("icuboam.png");
 
-			vermelho = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubovm.png"));
+			vermelho = ResourceLoader.loadImage("icubovm.png");
 
-			azul = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboaz.png"));
+			azul = ResourceLoader.loadImage("icuboaz.png");
 
-			preto = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubopt.png"));
+			preto = ResourceLoader.loadImage("icubopt.png");
 
-			cinzento = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubogr.png"));
-
+			cinzento = ResourceLoader.loadImage("icubogr.png");
 
 			if (cubo == null)
 				return null;
@@ -122,15 +120,12 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 		if (carta != null) {
 
 			this.carta = carta;
+			
 
-			String cartanm = carta.getNome() + "_bg";
+			final String nomecrt = carta.getNome().toLowerCase();
 
-			try {
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/" + cartanm + ".png"));
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+
+			image = ResourceLoader.loadImage("" + nomecrt + "_bg.png");
 
 		} else
 			carta = null;
@@ -148,7 +143,7 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 
 	}
 
-	private BufferedImage devolveStockImagem(int idx) {
+	private Image devolveStockImagem(int idx) {
 
 		PlanetaBase pl = (PlanetaBase) carta;
 
@@ -174,7 +169,7 @@ public class PainelInfoPlaneta extends JPanel implements Observer, MouseMotionLi
 		if (image != null)
 			g.drawImage(image, 0, 0, sx, sy, this);
 
-		BufferedImage img;
+		Image img;
 
 		if (this.carta instanceof Planeta) {
 

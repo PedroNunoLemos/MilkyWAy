@@ -2,19 +2,20 @@ package ui.grafico;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import resources.ResourceLoader;
 
 public class GuiNaveOverlay extends JPanel implements MouseMotionListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image;
+	private Image image;
 
 	private int sx = 40, sy = 39;
 
@@ -22,10 +23,10 @@ public class GuiNaveOverlay extends JPanel implements MouseMotionListener, Seria
 
 		try {
 
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nv.png"));
+			image = ResourceLoader.loadImage("nv.png");
 
 			if (ai)
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/nvai.png"));
+				image = ResourceLoader.loadImage("nvai.png");
 
 		} catch (Exception e) {
 			/* handled in paintComponent() */

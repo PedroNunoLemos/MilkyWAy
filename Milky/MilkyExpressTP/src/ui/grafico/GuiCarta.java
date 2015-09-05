@@ -2,21 +2,23 @@ package ui.grafico;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import logicajogo.Jogo;
 import logicajogo.Posicao;
 import logicajogo.cartas.Carta;
+import logicajogo.cartas.galaxia.BuracoNegro;
+import logicajogo.cartas.galaxia.Vazio;
+import logicajogo.cartas.galaxia.planetas.Arrakis;
 import logicajogo.cartas.galaxia.planetas.Planeta;
 import logicajogo.cartas.galaxia.planetas.PlanetaBase;
 import logicajogo.cartas.galaxia.planetas.PlanetaPirata;
@@ -26,11 +28,12 @@ import logicajogo.cubos.Cubo;
 import logicajogo.cubos.Ilegal;
 import logicajogo.cubos.Medicamento;
 import logicajogo.estados.Movimentar;
+import resources.ResourceLoader;
 
 public class GuiCarta extends JPanel implements Observer, MouseMotionListener, MouseListener, Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private BufferedImage image, imagesel;
+	private Image image, imagesel;
 
 	private int sx = 75, sy = 65;
 	private Posicao pos;
@@ -50,25 +53,29 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 		j.addObserver(this);
 
 		registaListeners();
-
 		try {
 
-			imagesel = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/select.png"));
+			imagesel = ResourceLoader.loadImage("select.png");
 
 			if (inx == 0) {
 
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/outer.png"));
+				image = ResourceLoader.loadImage("outer.png");
 			}
 
 			else if (inx == 1) {
 
-				image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/vazioinex.png"));
+				image = ResourceLoader.loadImage("vazioinex.png");
 
 			} else {
 
-				if (carta != null)
-					image = ImageIO.read(
-							getClass().getClassLoader().getResourceAsStream("Imagens/" + carta.getNome() + ".png"));
+				final String nomecrt = carta.getNome().toLowerCase();
+
+				if (carta != null) {
+					
+					image = ResourceLoader.loadImage(nomecrt + ".png");
+					
+								
+				}
 			}
 		} catch (Exception e) {
 			/* handled in paintComponent() */
@@ -98,24 +105,25 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 
 	}
 
-	private BufferedImage devolveCuboImg(Cubo cubo) {
+	private Image devolveCuboImg(Cubo cubo) {
 
-		BufferedImage amarelo, vermelho, azul, preto, cinzento;
+		Image amarelo;
+		Image vermelho;
+		Image azul;
+		Image preto;
+		Image cinzento;
 
 		try {
 
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/uijog.png"));
+			amarelo = ResourceLoader.loadImage("icuboam.png");
 
-			amarelo = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboam.png"));
+			vermelho = ResourceLoader.loadImage("icubovm.png");
 
-			vermelho = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubovm.png"));
+			azul = ResourceLoader.loadImage("icuboaz.png");
 
-			azul = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icuboaz.png"));
+			preto = ResourceLoader.loadImage("icubopt.png");
 
-			preto = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubopt.png"));
-
-			cinzento = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/icubogr.png"));
-
+			cinzento = ResourceLoader.loadImage("icubogr.png");
 
 			if (cubo == null)
 				return cinzento;
@@ -132,7 +140,6 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 			if (cubo instanceof Agua)
 				return azul;
 
-
 		} catch (Exception e) {
 			/* handled in paintComponent() */
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -143,7 +150,7 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 
 	}
 
-	private BufferedImage devolveStockImagem(int idx) {
+	private Image devolveStockImagem(int idx) {
 
 		PlanetaBase pl = (PlanetaBase) carta;
 
@@ -165,7 +172,7 @@ public class GuiCarta extends JPanel implements Observer, MouseMotionListener, M
 		if (image != null)
 			g.drawImage(image, 0, 0, sx, sy, this);
 
-		BufferedImage imgcb;
+		Image imgcb;
 
 		if (this.pos.foiExplorada()) {
 

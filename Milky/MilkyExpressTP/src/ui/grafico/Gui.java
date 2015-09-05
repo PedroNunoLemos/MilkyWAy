@@ -2,15 +2,14 @@ package ui.grafico;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -23,6 +22,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import logicajogo.GestorFicheiros;
 import logicajogo.Jogo;
+import resources.ResourceLoader;
 
 public class Gui extends JFrame implements MouseListener, MouseMotionListener, Serializable {
 
@@ -32,12 +32,13 @@ public class Gui extends JFrame implements MouseListener, MouseMotionListener, S
 	private static final long serialVersionUID = 1L;
 
 	private Jogo jogo;
-	private BufferedImage image;
+	private Image image;
 	private VistaJogo vst;
 
 	public Gui() {
 		try {
-			image = ImageIO.read(getClass().getClassLoader().getResourceAsStream("Imagens/planets.jpg"));
+			
+			image =  ResourceLoader.loadImage("planets.jpg");
 
 			JLabel background = new JLabel(new ImageIcon(image));
 			add(background);
